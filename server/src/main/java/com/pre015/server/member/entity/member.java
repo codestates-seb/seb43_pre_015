@@ -1,19 +1,24 @@
 package com.pre015.server.member.entity;
 
 
+
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "member")
+@Entity
+@Table(name = "members")
+@Builder
 
 
 public class member {
@@ -23,7 +28,7 @@ public class member {
     private Long Id;
 
     @Column(nullable = false, unique = true)
-    private String display_name;
+    private String displayName;
 
     @Column(nullable = false, updatable = false, unique = true)
     private String email;
@@ -39,17 +44,21 @@ public class member {
     @LastModifiedDate
     private LocalDate last_modified_at;
 
-    //@Enumerated(value = EnumType.STRING)
-    //Column(length = 20, nullable = false)
-    // private MemberStatus memberStatus = = MemberStatus.USER_ACTIVE;
 
 
 
-    //@Column(length = 20, nullable = false)
-    //private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MemberStatus memberStatus = MemberStatus.ACTIVE;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
+}
 
 
 
-    }
+
+
 
 
