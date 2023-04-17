@@ -1,18 +1,17 @@
 package com.pre015.server.comment.entity;
 
+import com.pre015.server.audit.BaseTimeEntity;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@NoArgsConstructor
-public class Comment {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Comment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,15 +21,7 @@ public class Comment {
     @Column(nullable = false, length = 1000)
     private String content;
 
-    @CreatedDate
-    @Column(nullable = false)
-    private LocalDateTime created_at;
-
-    @LastModifiedDate
-    @Column(nullable = false)
-    private LocalDateTime modified_at;
-
-    @ManyToOne
+/*    @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -54,5 +45,5 @@ public class Comment {
         if (!this.answer.getComment().contains(this)) {
             this.answer.getComment().add(this);
         }
-    }
+    }*/
 }
