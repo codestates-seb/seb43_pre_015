@@ -60,6 +60,12 @@ export const SidebarContainer = styled.div`
         height: 26px;
     }
 
+    .sidebar-home:hover {
+        cursor: pointer;
+        color: hsl(210,8%,5%);
+    }
+
+
     .sidebar-main-list {
         width: 100%;
         margin: 0px 0px 8px;
@@ -78,8 +84,12 @@ export const SidebarContainer = styled.div`
     .sidebar-questions {
         display: flex;
         align-items: center;
-        padding: 8px 6px 8px 8px;
-        
+        padding: 8px 6px 8px 8px;   
+    }
+
+    .sidebar-questions:hover {
+        cursor: pointer;
+        color: hsl(210,8%,5%);
     }
 
     .material-symbols-outlined {
@@ -92,6 +102,11 @@ export const SidebarContainer = styled.div`
         padding: 4px 4px 4px 30px;
         height: 26px;
         align-items: center;
+    }
+
+    .sidebar-user:hover {
+        cursor: pointer;
+        color: hsl(210,8%,5%);
     }
 
     .sidebar-sub-list {
