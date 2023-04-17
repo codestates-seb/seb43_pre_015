@@ -1,5 +1,7 @@
-package com.pre_015.stackoverflow.question.entity;
+package com.pre015.server.question.entity;
 
+import com.pre015.server.audit.BaseTimeEntity;
+import com.pre015.server.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-public class Question {
+public class Question extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +25,6 @@ public class Question {
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20, nullable = false)
     private QuestionStatus questionStatus = QuestionStatus.QUESTION_UNSOLVED;
-    @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-    @Column(nullable = false)
-    private LocalDateTime lastModifiedAt = LocalDateTime.now();
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;

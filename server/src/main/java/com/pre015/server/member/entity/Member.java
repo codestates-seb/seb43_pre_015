@@ -1,6 +1,9 @@
 package com.pre015.server.member.entity;
 
 
+import com.pre015.server.answer.entity.Answer;
+import com.pre015.server.comment.entity.Comment;
+import com.pre015.server.question.entity.Question;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -42,9 +45,6 @@ public class Member {
     @LastModifiedDate
     private LocalDate last_modified_at;
 
-
-
-
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -52,6 +52,25 @@ public class Member {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Question> questions = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<Answer> answers = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<Comment> comments = new ArrayList<>();
+
+    public List<Question> getQuestion() {
+        return questions;
+    }
+
+    public List<Answer> getAnswer() {
+        return answers;
+    }
+
+    public List<Comment> getComment() {
+        return comments;
+    }
 }
 
 

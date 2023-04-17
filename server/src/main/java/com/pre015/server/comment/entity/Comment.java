@@ -1,6 +1,8 @@
 package com.pre015.server.comment.entity;
 
+import com.pre015.server.answer.entity.Answer;
 import com.pre015.server.audit.BaseTimeEntity;
+import com.pre015.server.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +23,7 @@ public class Comment extends BaseTimeEntity {
     @Column(nullable = false, length = 1000)
     private String content;
 
-/*    @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -45,5 +47,5 @@ public class Comment extends BaseTimeEntity {
         if (!this.answer.getComment().contains(this)) {
             this.answer.getComment().add(this);
         }
-    }*/
+    }
 }
