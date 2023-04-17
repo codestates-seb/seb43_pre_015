@@ -1,5 +1,9 @@
 package com.pre015.server.answer.entity;
 
+import com.pre015.server.audit.BaseTimeEntity;
+import com.pre015.server.comment.entity.Comment;
+import com.pre015.server.member.entity.Member;
+import com.pre015.server.question.entity.Question;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,6 +12,8 @@ import org.springframework.data.annotation.LastModifiedBy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -16,14 +22,18 @@ import java.util.Objects;
         @Index(columnList = "content")
 })
 @Entity
-public class Answer {
+public class Answer extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter @ManyToOne(optional = false) private Member member;
-    @Setter @ManyToOne(optional = false) private Question question;
+    @Setter @ManyToOne(optional = false)
+    @JoinColumn(name = "member_id")
+    private Member member;
+    @Setter @ManyToOne(optional = false)
+    @JoinColumn(name = "question_id")
+    private Question question;
     @Setter @Column(nullable = false, length = 5000) private String content;
 
     @Setter
@@ -31,8 +41,12 @@ public class Answer {
     @Column(nullable = false, length = 20)
     private AnswerStatus answerStatus;
 
-    @CreatedDate private LocalDateTime createdAt;
-    @LastModifiedBy private LocalDateTime lastModifiedAt;
+    @OneToMany(mappedBy = "answer")
+    private List<Comment> comments = new ArrayList<>();
+
+    public List<Comment> getComment() {
+        return comments;
+    }
 
     protected Answer() {
     }

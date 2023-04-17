@@ -14,8 +14,8 @@ import javax.validation.Valid;
 public class CommentController {
 
 
-    @PostMapping("/new")
-    public ResponseEntity postComment(@RequestBody @Valid CommentDto.Post postDto) {
-
-    }
+//    @PostMapping("/new")
+//    public ResponseEntity postComment(@RequestBody @Valid CommentDto.Post postDto) {
+//
+//    }
 }
