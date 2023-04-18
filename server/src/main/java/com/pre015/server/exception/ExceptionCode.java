@@ -1,9 +1,8 @@
-package com.pre015.server.member.exception;
+package com.pre015.server.exception;
 
 import lombok.Getter;
 
 @Getter
-
 public enum ExceptionCode {
     MEMBER_NOT_FOUND(404, "Member not found"),
     MEMBER_EXISTS(409, "Member exists"),

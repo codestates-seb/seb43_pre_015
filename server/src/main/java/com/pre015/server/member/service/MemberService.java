@@ -2,8 +2,8 @@ package com.pre015.server.member.service;
 
 import com.pre015.server.member.entity.Member;
 import com.pre015.server.member.entity.MemberStatus;
-import com.pre015.server.member.exception.BusinessLogicException;
-import com.pre015.server.member.exception.ExceptionCode;
+import com.pre015.server.exception.BusinessLogicException;
+import com.pre015.server.exception.ExceptionCode;
 import com.pre015.server.member.repository.MemberRepositoty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,11 +15,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 @Service
-
 public class MemberService {
     private final MemberRepositoty memberRepositoty;
     private final PasswordEncoder passwordEncoder;
-
 
     public Member saveMember(Member member){
         verifyExistEmail(member.getEmail());
@@ -27,12 +25,8 @@ public class MemberService {
         String encryptedPassword = passwordEncoder.encode(member.getPassword());
         member.setPassword(encryptedPassword);
 
-
-
         return memberRepositoty.save(member);
     }
-
-
 
     private void verifyExistEmail(String email){
         Optional<Member> member = memberRepositoty.findByEmail(email);
