@@ -2,23 +2,24 @@ import React from 'react';
 import styled from 'styled-components';
 import '../App.css';
 import SignUpBox from './SignUpBox';
-import Navbar from './Navbar'
 
 const SignUp = () => {
   return (
     <>
-      <Navbar />
       <SignUpContainer>        
         <SignUpText>
             <h2>Join the Stackoverflow Community</h2>
             <p>Get Unstuck - Ask a Question</p>                
             <p>Unlock new privileges like voting and commenting</p>
             <p>Save your favorite questions, answers, watch tags, and more</p>
-            <p>Earn reputation and badges</p>            
+            <p>Earn reputation and badges</p>
         </SignUpText>
 
         <SignUpArea>
           <SignUpBox />
+          <SignUpToLogin>
+            <p>Already have an account? <a href="#">Log in</a></p>
+          </SignUpToLogin>
         </SignUpArea>
 
       </SignUpContainer>
@@ -53,9 +54,21 @@ const SignUpText = styled.div`
   }
 
 `;
-
 const SignUpArea = styled.div`
   
+  
+`;
+
+const SignUpToLogin = styled.div`
+
+  margin-top: 20px;
+
+  p {
+    width: 400px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: center;    
+  }
   
 `;
 
