@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import '../App.css';
-import SignUpBox from './components/SignUpBox';
+import SignUpBox from './SignUpBox';
+import Navbar from './Navbar'
 
 const SignUp = () => {
   return (
     <>
-      <SignUpContainer>
+      <Navbar />
+      <SignUpContainer>        
         <SignUpText>
             <h2>Join the Stackoverflow Community</h2>
             <p>Get Unstuck - Ask a Question</p>                
