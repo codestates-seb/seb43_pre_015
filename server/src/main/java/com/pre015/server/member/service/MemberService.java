@@ -57,13 +57,13 @@ public class MemberService {
     }
 
 
-
     // 회원탈퇴
     public void DeleteMember(long memberId) {
 
         Member member = findVerifiedMember(memberId);
         memberRepositoty.delete(member);
     }
+
 
 
     //회원 정보 수정

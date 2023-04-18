@@ -49,9 +49,9 @@ public class MemberController {
     }
 
 
-    @DeleteMapping("/{memberId}")   // 회원탈퇴
+    @DeleteMapping("/{userId}")   // 회원탈퇴
     public ResponseEntity deleteMember(
-            @PathVariable("memberId") @Positive Long memberId){
+            @PathVariable("memberId") @Positive long memberId){
 
         memberService.DeleteMember(memberId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
