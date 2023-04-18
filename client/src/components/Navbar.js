@@ -49,7 +49,7 @@ function Navbar() {
 
 const NavBox = styled.div`
   display: flex;
-  height: 10vh;
+  height: 50px;
   justify-content: center;
   align-items: center;
   border-top: 3px solid #f48225;
@@ -109,7 +109,7 @@ const MenuListEl = styled.li`
 
 const MenuListElLink = styled.a`
   text-decoration: none;
-  color: #000;
+  color: #6b7277;
   font-size: 14px;
   
 `
