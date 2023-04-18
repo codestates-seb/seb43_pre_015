@@ -1,22 +1,16 @@
 package com.pre015.server.member.service;
 
+import com.pre015.server.exception.BusinessLogicException;
+import com.pre015.server.exception.ExceptionCode;
+
 import com.pre015.server.member.entity.Member;
 import com.pre015.server.member.entity.MemberStatus;
-import com.pre015.server.member.exception.BusinessLogicException;
-import com.pre015.server.member.exception.ExceptionCode;
 import com.pre015.server.member.repository.MemberRepositoty;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.validation.constraints.Positive;
 import java.util.Optional;
 
 @RequiredArgsConstructor
