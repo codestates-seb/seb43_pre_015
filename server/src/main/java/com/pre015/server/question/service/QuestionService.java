@@ -68,8 +68,7 @@ public class QuestionService {
 
     public Question findVerifiedQuestion(long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
-        Question question = optionalQuestion.orElseThrow(() -> new RuntimeException("question not found"));
 
-        return question;
+        return optionalQuestion.orElseThrow(() -> new RuntimeException("question not found"));
     }
 }

@@ -2,6 +2,7 @@ package com.pre015.server.question.entity;
 
 import com.pre015.server.audit.BaseTimeEntity;
 import com.pre015.server.member.entity.Member;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -16,7 +18,7 @@ public class Question extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long questionId;
     @Column(length = 100, nullable = false)
     private String title;
     @Column(length = 5000, nullable = false)
