@@ -119,7 +119,7 @@ const SearchContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 40%;
-  height: 27px;
+  height: 30px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   z-index: 1;
@@ -132,6 +132,7 @@ const SearchIcon = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #838c95;
 `
 
 const SearchInput = styled.input`
@@ -152,7 +153,8 @@ const LoginBtn = styled.div`
   padding: 10px;
   border: 1px solid #80abca;
   border-radius: 5px;
-  width: 50px;
+  width: 70px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -169,7 +171,11 @@ const RegistBtn = styled.div`
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #279afe;
-  width: 60px;
+  width: 80px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 const RegistLink = styled.a`

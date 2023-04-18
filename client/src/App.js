@@ -15,6 +15,7 @@ function App() {
 const AppBox = styled.div`
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 `
 
 export default App;
