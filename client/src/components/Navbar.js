@@ -87,13 +87,20 @@ const LogoImg = styled.img`
 const MenuList = styled.ul`
   display: flex;
   list-style: none;
-  padding: 0 20px;
+  padding: 0;
   margin-right: 20px;
 `
 
 const MenuListEl = styled.li`
-  margin-right: 10px;
-  width: 75px;
+  margin-right: 20px;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:first-of-type {
+    margin-left: 20px;
+  }
 
   &:last-of-type {
     margin-right: 0;
@@ -104,6 +111,7 @@ const MenuListElLink = styled.a`
   text-decoration: none;
   color: #000;
   font-size: 14px;
+  
 `
 
 const SearchContainer = styled.div`
