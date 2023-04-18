@@ -5,6 +5,7 @@ import com.pre015.server.answer.entity.Answer;
 import com.pre015.server.answer.mapper.AnswerMapper;
 import com.pre015.server.answer.repository.AnswerRepository;
 import com.pre015.server.member.entity.Member;
+import com.pre015.server.member.service.MemberService;
 import com.pre015.server.question.entity.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,25 +16,23 @@ import java.util.List;
 @Service
 public class AnswerServiceImpl implements AnswerService {
     private final AnswerRepository answerRepository;
-    private final MemberRepository memberRepository;
-    private final QuestionRepository questionRepository;
+    private final MemberService memberService;
+    private final QuestionService questionService;
     private final AnswerMapper answerMapper;
 
     @Autowired
-    public AnswerServiceImpl(AnswerRepository answerRepository, MemberRepository memberRepository,
-                             QuestionRepository questionRepository, AnswerMapper answerMapper) {
+    public AnswerServiceImpl(AnswerRepository answerRepository, MemberService memberService,
+                             QuestionService questionService, AnswerMapper answerMapper) {
         this.answerRepository = answerRepository;
-        this.memberRepository = memberRepository;
-        this.questionRepository = questionRepository;
+        this.memberService = memberService;
+        this.questionService = questionService;
         this.answerMapper = answerMapper;
     }
 
     @Override
     public AnswerDTO createAnswer(AnswerDTO answerDTO) {
-        Member member = memberRepository.findById(answerDTO.getMemberId())
-                .orElseThrow(() -> new RuntimeException("Member not found"));
-        Question question = questionRepository.findById(answerDTO.getQuestionId())
-                .orElseThrow(() -> new RuntimeException("Question not found"));
+        Member member = memberService.findMemberById(answerDTO.getMemberId());
+        Question question = questionService.findQuestionById(answerDTO.getQuestionId());
         Answer answer = answerMapper.toEntity(answerDTO, member, question);
         return answerMapper.toDTO(answerRepository.save(answer));
     }
@@ -76,10 +75,11 @@ public class AnswerServiceImpl implements AnswerService {
     @Transactional
     @Override
     public void acceptAnswer(Long questionId, Long answerId) {
-        Question question = questionRepository.findById(questionId)
-                .orElseThrow(() -> new RuntimeException("Question not found"));
-        Answer answer = answerRepository.findById(answerId)
-                .orElseThrow(() -> new RuntimeException("Answer not found"));
+        Question question = questionService.findQuestionById(questionId);
+        AnswerDTO answerDTO = findAnswerById(answerId);
+        Member memberForMember = memberService.findMemberById(answerDTO.getMemberId());
+        Question questionForAnswer = questionService.findQuestionById(answerDTO.getQuestionId());
+        Answer answer = answerMapper.toEntity(answerDTO, memberForMember, questionForAnswer);
 
         if (question.getQuestionStatus() == Question.QuestionStatus.QUESTION_SOLVED) {
             throw new RuntimeException("The question already has an accepted answer");
@@ -89,6 +89,6 @@ public class AnswerServiceImpl implements AnswerService {
         question.setQuestionStatus(Question.QuestionStatus.QUESTION_SOLVED);
 
         answerRepository.save(answer);
-        questionRepository.save(question);
+        questionService.updateQuestion(question);
     }
 }
