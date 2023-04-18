@@ -1,0 +1,13 @@
+package com.pre015.server.member.repository;
+
+import com.pre015.server.member.entity.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface MemberRepositoty extends JpaRepository<Member, Long> {
+
+    Optional<Member> findByEmail(String email);
+}
+
+

@@ -1,18 +1,15 @@
 package com.pre015.server.member.entity;
 
-
 import com.pre015.server.answer.entity.Answer;
 import com.pre015.server.audit.BaseTimeEntity;
 import com.pre015.server.comment.entity.Comment;
 import com.pre015.server.question.entity.Question;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @NoArgsConstructor
 @Getter
@@ -21,9 +18,9 @@ import java.util.List;
 @Table(name = "members")
 public class Member extends BaseTimeEntity {
 
-    @javax.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long memberId;
 
     @Column(nullable = false, unique = true)
     private String displayName;
@@ -47,6 +44,8 @@ public class Member extends BaseTimeEntity {
     private List<Answer> answers = new ArrayList<>();
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
+
+
 }
 
 
