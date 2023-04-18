@@ -10,4 +10,10 @@ public interface MemberMapper {
     Member postDtoToEntity(MemberDto.Post postDto);
 
     MemberDto.Response EntityToResPonseDto(Member member);
+
+
+    Member memberPatchToMember(MemberDto.Patch requestBody);
+    MemberDto.MyPageResponse memberToMemberInfoResponse(Member member);
+
+
 }

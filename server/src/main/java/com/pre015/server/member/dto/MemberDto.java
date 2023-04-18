@@ -1,15 +1,13 @@
 package com.pre015.server.member.dto;
 
 import com.pre015.server.member.entity.MemberStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class MemberDto {
     @Builder
@@ -36,6 +34,30 @@ public class MemberDto {
 
         @NotBlank
         private String displayName;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor // 테스트
+    public static class Patch {
+
+        private Long memberId;
+        private String img;
+        private String about;
+
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class MyPageResponse {
+        private Long memberId;
+        private String email;
+
+        private String about;
+        private String img;
+
+        @Setter
+        private Integer answerCount;
     }
 
 }

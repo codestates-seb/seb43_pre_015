@@ -36,6 +36,12 @@ public class Member {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = true)
+    private String about;
+
+    @Column(nullable = true)
+    private String img;
+
     @Column(name = "created_at")
     @CreatedDate
     private LocalDate createdDate;

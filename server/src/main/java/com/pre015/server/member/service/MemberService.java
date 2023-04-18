@@ -6,10 +6,17 @@ import com.pre015.server.member.exception.BusinessLogicException;
 import com.pre015.server.member.exception.ExceptionCode;
 import com.pre015.server.member.repository.MemberRepositoty;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.validation.constraints.Positive;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -33,7 +40,6 @@ public class MemberService {
     }
 
 
-
     private void verifyExistEmail(String email){
         Optional<Member> member = memberRepositoty.findByEmail(email);
         if(member.isPresent())
@@ -48,6 +54,31 @@ public class MemberService {
             throw new BusinessLogicException(ExceptionCode.MEMBER_RESIGNED);
         }
         return findUser;
+    }
+
+
+
+    // 회원탈퇴
+    public void DeleteMember(long memberId) {
+
+        Member member = findVerifiedMember(memberId);
+        memberRepositoty.delete(member);
+    }
+
+
+    //회원 정보 수정
+    @Transactional
+    public Member updateMember(Member member) {
+        Member findMember = findVerifiedMember(member.getId());
+
+        Optional.ofNullable(member.getImg())
+                .ifPresent(img -> findMember.setImg(img));
+        Optional.ofNullable(member.getAbout())
+                .ifPresent(about -> findMember.setAbout(about));
+        Optional.ofNullable(member.getRoles())
+                .ifPresent(roles -> findMember.setRoles(roles));
+
+        return memberRepositoty.save(findMember);
     }
 }
 
