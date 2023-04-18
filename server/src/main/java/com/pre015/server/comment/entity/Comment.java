@@ -12,10 +12,11 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Comment extends BaseTimeEntity {
 
     @Id
+    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
@@ -23,29 +24,31 @@ public class Comment extends BaseTimeEntity {
     @Column(nullable = false, length = 1000)
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "answer_id")
     private Answer answer;
 
-    public Comment(String content) {
+    public Comment(String content,Member member, Answer answer) {
         this.content = content;
+        this.member = member;
+        this.answer = answer;
     }
 
     public void setMember(Member member) {
         this.member = member;
-        if(!this.member.getComment().contains(this)) {
-            this.member.getComment().add(this);
+        if(!this.member.getComments().contains(this)) {
+            this.member.getComments().add(this);
         }
     }
 
     public void setAnswer(Answer answer) {
         this.answer = answer;
-        if (!this.answer.getComment().contains(this)) {
-            this.answer.getComment().add(this);
+        if (!this.answer.getComments().contains(this)) {
+            this.answer.getComments().add(this);
         }
     }
 }

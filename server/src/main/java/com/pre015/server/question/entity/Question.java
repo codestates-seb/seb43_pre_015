@@ -31,8 +31,8 @@ public class Question extends BaseTimeEntity {
 
     public void setMember(Member member) {
         this.member = member;
-        if (!this.member.getQuestion().contains(this)) {
-            this.member.getQuestion().add(this);
+        if (!this.member.getQuestions().contains(this)) {
+            this.member.getQuestions().add(this);
         }
     }
 

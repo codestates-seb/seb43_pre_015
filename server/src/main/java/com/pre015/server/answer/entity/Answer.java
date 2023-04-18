@@ -5,6 +5,7 @@ import com.pre015.server.comment.entity.Comment;
 import com.pre015.server.member.entity.Member;
 import com.pre015.server.question.entity.Question;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
@@ -17,11 +18,11 @@ import java.util.List;
 import java.util.Objects;
 
 @Getter
-@ToString
 @Table(indexes = {
         @Index(columnList = "content")
 })
 @Entity
+@NoArgsConstructor
 public class Answer extends BaseTimeEntity {
 
     @Id
@@ -43,13 +44,6 @@ public class Answer extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "answer")
     private List<Comment> comments = new ArrayList<>();
-
-    public List<Comment> getComment() {
-        return comments;
-    }
-
-    protected Answer() {
-    }
 
     private Answer(Member member, Question question, String content, AnswerStatus answerStatus) {
         this.member = member;
