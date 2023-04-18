@@ -51,7 +51,15 @@ public class CommentDto {
         private String content;
         private Member member;
         private Answer answer;
+    }
 
-
+    @Setter
+    @AllArgsConstructor
+    public static class ResponseAll<T> {
+        private T data;
+        private int page;
+        private int size;
+        private int getTotalElements;
+        private int getTotalPages;
     }
 }

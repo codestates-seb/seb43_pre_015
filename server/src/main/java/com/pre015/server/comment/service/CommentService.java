@@ -4,9 +4,13 @@ import com.pre015.server.comment.entity.Comment;
 import com.pre015.server.comment.repository.CommentRepository;
 import com.pre015.server.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,6 +54,9 @@ public class CommentService {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
         Comment comment = optionalComment.orElseThrow(() -> null);
         commentRepository.delete(comment);
+    }
 
+    public Page<Comment> findComments(int page, int size) {
+        return commentRepository.findAll(PageRequest.of(page,size, Sort.by("commentId").descending()));
     }
 }

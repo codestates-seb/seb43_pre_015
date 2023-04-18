@@ -6,12 +6,14 @@ import com.pre015.server.comment.mapper.CommentMapper;
 import com.pre015.server.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -57,11 +59,16 @@ public class CommentController {
     }
 
     @GetMapping()
-    public ResponseEntity getComments() {
+    public ResponseEntity getComments(
+            @Positive @RequestParam int page,
+            @Positive @RequestParam int size) {
+        Page<Comment> pageComments = commentService.findComments(page-1, size);
+        List<Comment> comments = pageComments.getContent();
+
+        mapper.commentsToResponseAll(comments,page,size,(int)pageComments.getTotalElements(), pageComments.getTotalPages());
 
         return null;
     }
-
 
     @DeleteMapping("/{comment_id}")
     public void deleteComment(@PathVariable("comment_id") Long commentId) {
