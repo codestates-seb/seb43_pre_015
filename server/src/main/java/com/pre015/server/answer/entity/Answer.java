@@ -25,8 +25,9 @@ import java.util.Objects;
 public class Answer extends BaseTimeEntity {
 
     @Id
+    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long answerId;
 
     @Setter
     @Column(nullable = false, length = 5000)
@@ -74,11 +75,11 @@ public class Answer extends BaseTimeEntity {
         if (this == o) return true;
         if (!(o instanceof Answer)) return false;
         Answer answer = (Answer) o;
-        return id != null && id.equals(answer.id);
+        return answerId != null && answerId.equals(answer.answerId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(answerId);
     }
 }

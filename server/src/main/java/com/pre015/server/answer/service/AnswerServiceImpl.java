@@ -7,6 +7,7 @@ import com.pre015.server.answer.repository.AnswerRepository;
 import com.pre015.server.member.entity.Member;
 import com.pre015.server.member.service.MemberService;
 import com.pre015.server.question.entity.Question;
+import com.pre015.server.question.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +32,8 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public AnswerDTO createAnswer(AnswerDTO answerDTO) {
-        Member member = memberService.findMemberById(answerDTO.getMemberId());
-        Question question = questionService.findQuestionById(answerDTO.getQuestionId());
+        Member member = memberService.findVerifiedMember(answerDTO.getMemberId());
+        Question question = questionService.findVerifiedQuestion(answerDTO.getQuestionId());
         Answer answer = answerMapper.toEntity(answerDTO, member, question);
         return answerMapper.toDTO(answerRepository.save(answer));
     }
@@ -75,10 +76,10 @@ public class AnswerServiceImpl implements AnswerService {
     @Transactional
     @Override
     public void acceptAnswer(Long questionId, Long answerId) {
-        Question question = questionService.findQuestionById(questionId);
+        Question question = questionService.findVerifiedQuestion(questionId);
         AnswerDTO answerDTO = findAnswerById(answerId);
-        Member memberForMember = memberService.findMemberById(answerDTO.getMemberId());
-        Question questionForAnswer = questionService.findQuestionById(answerDTO.getQuestionId());
+        Member memberForMember = memberService.findVerifiedMember(answerDTO.getMemberId());
+        Question questionForAnswer = questionService.findVerifiedQuestion(answerDTO.getQuestionId());
         Answer answer = answerMapper.toEntity(answerDTO, memberForMember, questionForAnswer);
 
         if (question.getQuestionStatus() == Question.QuestionStatus.QUESTION_SOLVED) {
@@ -89,6 +90,6 @@ public class AnswerServiceImpl implements AnswerService {
         question.setQuestionStatus(Question.QuestionStatus.QUESTION_SOLVED);
 
         answerRepository.save(answer);
-        questionService.updateQuestion(question);
+        questionService.updateQuestion(question.getQuestionId(),);
     }
 }
