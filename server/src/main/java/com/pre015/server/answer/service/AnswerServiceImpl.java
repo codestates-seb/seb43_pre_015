@@ -6,7 +6,6 @@ import com.pre015.server.answer.mapper.AnswerMapper;
 import com.pre015.server.answer.repository.AnswerRepository;
 import com.pre015.server.member.entity.Member;
 import com.pre015.server.member.service.MemberService;
-import com.pre015.server.question.dto.QuestionDto;
 import com.pre015.server.question.entity.Question;
 import com.pre015.server.question.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,15 +63,15 @@ public class AnswerServiceImpl implements AnswerService {
         return answerMapper.toDTO(answer);
     }
 
-//    @Override
-//    public List<AnswerDTO> findAnswersByMemberId(Long memberId) {
-//        return answerMapper.toDTOList(answerRepository.findByMemberId(memberId));
-//    }
-//
-//    @Override
-//    public List<AnswerDTO> findAnswersByQuestionId(Long questionId) {
-//        return answerMapper.toDTOList(answerRepository.findByQuestionId(questionId));
-//    }
+    @Override
+    public List<AnswerDTO> findAnswersByMemberId(Long memberId) {
+        return answerMapper.toDTOList(answerRepository.findByMember(memberId));
+    }
+
+    @Override
+    public List<AnswerDTO> findAnswersByQuestionId(Long questionId) {
+        return answerMapper.toDTOList(answerRepository.findByQuestion(questionId));
+    }
 
     @Transactional
     @Override

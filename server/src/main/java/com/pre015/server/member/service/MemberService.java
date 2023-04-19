@@ -6,7 +6,6 @@ import com.pre015.server.exception.BusinessLogicException;
 import com.pre015.server.exception.ExceptionCode;
 import com.pre015.server.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

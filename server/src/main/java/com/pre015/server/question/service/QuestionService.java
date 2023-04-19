@@ -72,10 +72,6 @@ public class QuestionService {
         return optionalQuestion.orElseThrow(() -> new RuntimeException("question not found"));
     }
 
-    public Question findQuestionById(long questionId) {
-        return questionRepository.findById(questionId).orElseThrow(() -> new RuntimeException("question not found"));
-    }
-
     public void updateQuestion(Question question) {
         questionRepository.save(question);
     }

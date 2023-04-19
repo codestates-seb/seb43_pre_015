@@ -11,7 +11,7 @@ public interface AnswerService {
     void deleteAnswer(Long id);
     List<AnswerDTO> findAllAnswers();
     AnswerDTO findAnswerById(Long answerId);
-//    List<AnswerDTO> findAnswersByMemberId(Long memberId);
-//    List<AnswerDTO> findAnswersByQuestionId(Long questionId);
+    List<AnswerDTO> findAnswersByMemberId(Long memberId);
+    List<AnswerDTO> findAnswersByQuestionId(Long questionId);
     void acceptAnswer(Long questionId, Long answerId);
 }
