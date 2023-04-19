@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,5 +25,31 @@ public class AnswerDTO {
         this.selectionStatus = answer.isSelectionStatus();
         this.memberId = answer.getMember().getMemberId();
         this.questionId = answer.getQuestion().getQuestionId();
+    }
+
+    @Getter
+    public static class POST {
+        private String content;
+        private Long memberId;
+        private Long questionId;
+
+        public POST(String content, Long memberId, Long questionId) {
+            this.content = content;
+            this.memberId = memberId;
+            this.questionId = questionId;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AnswerDTO)) return false;
+        AnswerDTO answerDTO = (AnswerDTO) o;
+        return answerId != null && Objects.equals(answerId, answerDTO.answerId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(answerId);
     }
 }
