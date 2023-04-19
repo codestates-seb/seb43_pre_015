@@ -59,9 +59,9 @@ const NavBox = styled.div`
 
 const ContentBox = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  width: 90%;
+  width: 1264px;
   height: 100%;
 `
 
@@ -70,13 +70,17 @@ const MenuBtn = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 1.75rem;
-  margin-right: 20px;
+  width: 48px;
+  height: 47px;
+  padding: 0 16px;
 `
 
 const Logo = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+ 
+  padding: 0 8px;
 `
 
 const LogoLink = styled.a``
@@ -88,25 +92,33 @@ const LogoImg = styled.img`
 
 const MenuList = styled.ul`
   display: flex;
+  justify-content: space-between;
   list-style: none;
-  padding: 0;
-  margin-right: 20px;
+  width: 223px;
+  height: 33px;
+  padding-left: 0;
+  padding-right: 20px;
 `
 
 const MenuListEl = styled.li`
-  margin-right: 20px;
   
   display: flex;
   justify-content: center;
   align-items: center;
+  
+  &: first-of-type {
+    width: 59px;
+  }
 
-  &:first-of-type {
-    margin-left: 20px;
+  &: nth-of-type(2) {
+    width: 74px;
   }
 
   &:last-of-type {
     margin-right: 0;
+    width: 81px;
   }
+  
 `
 
 const MenuListElLink = styled.a`
@@ -118,9 +130,8 @@ const MenuListElLink = styled.a`
 
 const SearchContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  width: 40%;
   height: 30px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
@@ -128,6 +139,7 @@ const SearchContainer = styled.div`
   opacity: 1;
   padding-left: 5px;
   margin-right: 20px;
+  flex-grow: 1;
 `
 
 const SearchIcon = styled.div`
