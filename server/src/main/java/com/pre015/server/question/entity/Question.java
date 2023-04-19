@@ -35,14 +35,14 @@ public class Question extends BaseTimeEntity {
         }
     }
     public void setTitle(String setTitle){
-        if(title.length() <= 100) {
+        if(setTitle.length() <= 100) {
             this.title = setTitle;
         } else{
             throw new IllegalArgumentException("title length must be less than 100");
         }
     }
     public void setContent(String setContent){
-        if(content.length() <= 5000) {
+        if(setContent.length() <= 5000) {
             this.content = setContent;
         } else{
             throw new IllegalArgumentException("content length must be less than 5,000");
