@@ -20,8 +20,8 @@ public class AnswerController {
     }
 
     @PostMapping
-    public ResponseEntity<AnswerDTO> createAnswer(@RequestBody AnswerDTO answerDTO) {
-        return new ResponseEntity<>(answerService.createAnswer(answerDTO), HttpStatus.CREATED);
+    public ResponseEntity<AnswerDTO> createAnswer(@RequestBody AnswerDTO.POST answerPostDTO) {
+        return new ResponseEntity<>(answerService.createAnswer(answerPostDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

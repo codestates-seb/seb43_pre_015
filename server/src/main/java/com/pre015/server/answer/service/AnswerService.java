@@ -5,7 +5,7 @@ import com.pre015.server.answer.dto.AnswerDTO;
 import java.util.List;
 
 public interface AnswerService {
-    AnswerDTO createAnswer(AnswerDTO answerDTO);
+    AnswerDTO createAnswer(AnswerDTO.POST answerDTO);
     AnswerDTO updateAnswer(Long id, AnswerDTO answerDTO);
     AnswerDTO findAnswer(Long answerId);
     void deleteAnswer(Long id);

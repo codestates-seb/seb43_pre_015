@@ -31,10 +31,10 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public AnswerDTO createAnswer(AnswerDTO answerDTO) {
+    public AnswerDTO createAnswer(AnswerDTO.POST answerDTO) {
         Member member = memberService.findVerifiedMember(answerDTO.getMemberId());
         Question question = questionService.findVerifiedQuestion(answerDTO.getQuestionId());
-        Answer answer = answerMapper.toEntity(answerDTO, member, question);
+        Answer answer = answerMapper.PostDTOtoEntity(answerDTO, member, question);
         return answerMapper.toDTO(answerRepository.save(answer));
     }
 
