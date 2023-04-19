@@ -5,17 +5,15 @@ import LoginPage from './components/LoginPage.js';
 
 function App() {
   return (
-    <AppBox>
-      <Navbar></Navbar>
-      <LoginPage></LoginPage>
-    </AppBox>
+    <div>
+      <main>
+        <Navbar />
+        <section className='features'>
+          <LoginPage />
+        </section>
+      </main>
+    </div>
   );
 }
-
-const AppBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-`
 
 export default App;
