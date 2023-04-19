@@ -10,7 +10,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+
+
 import java.util.Optional;
 
 @Service
@@ -60,3 +61,4 @@ public class CommentService {
         return commentRepository.findAll(PageRequest.of(page,size, Sort.by("commentId").descending()));
     }
 }
+

@@ -4,7 +4,6 @@ import com.pre015.server.answer.entity.Answer;
 import com.pre015.server.comment.dto.CommentDto;
 import com.pre015.server.comment.entity.Comment;
 import com.pre015.server.member.entity.Member;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -72,7 +71,6 @@ public class CommentMapper {
                 comment.setContent(sb.toString());
             }
         }
-
         return new CommentDto.ResponseAll(
                 comments,page,size,totalElements,totalPages);
     }

@@ -51,6 +51,7 @@ public class CommentDto {
         private String content;
         private Member member;
         private Answer answer;
+<<<<<<< HEAD
     }
 
     @Setter
@@ -61,5 +62,9 @@ public class CommentDto {
         private int size;
         private int getTotalElements;
         private int getTotalPages;
+=======
+
+
+>>>>>>> BE_dev
     }
 }
