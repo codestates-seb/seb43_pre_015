@@ -26,7 +26,7 @@ public class CommentService {
 
     public Comment createComment(Comment comment){
         memberService.findVerifiedMember(comment.getMember().getMemberId());
-        answerService.findAnswerById(comment.getAnswer().getAnswerId());
+        answerService.findAnswer(comment.getAnswer().getAnswerId());
         Comment savedComment = commentRepository.save(comment);
         return savedComment;
     }
@@ -34,7 +34,7 @@ public class CommentService {
     // 예외처리 필요
     public Comment updateComment(Comment comment) {
         memberService.findVerifiedMember(comment.getMember().getMemberId());
-        answerService.findAnswerById(comment.getAnswer().getAnswerId());
+        answerService.findAnswer(comment.getAnswer().getAnswerId());
         Optional<Comment> optionalComment = commentRepository.findById(comment.getCommentId());
         Comment findComment = optionalComment.orElseThrow(() -> null);
 

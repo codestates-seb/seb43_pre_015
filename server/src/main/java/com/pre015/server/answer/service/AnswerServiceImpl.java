@@ -81,7 +81,7 @@ public class AnswerServiceImpl implements AnswerService {
         Question question = questionService.findVerifiedQuestion(questionId);
         AnswerDTO answerDTO = findAnswer(answerId);
         Member memberForMember = memberService.findVerifiedMember(answerDTO.getMemberId());
-        Question questionForAnswer = questionService.findQuestionById(answerDTO.getQuestionId());
+        Question questionForAnswer = questionService.findVerifiedQuestion(answerDTO.getQuestionId());
         Answer answer = answerMapper.toEntity(answerDTO, memberForMember, questionForAnswer);
 
         if (question.getQuestionStatus() == Question.QuestionStatus.QUESTION_SOLVED) {
