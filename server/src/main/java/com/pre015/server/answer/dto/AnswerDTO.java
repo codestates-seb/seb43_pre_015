@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AnswerDTO {
-    private Long id;
+    private Long answerId;
     private String content;
     private int like;
     private boolean selectionStatus;
@@ -17,11 +17,11 @@ public class AnswerDTO {
     private Long questionId;
 
     public AnswerDTO(Answer answer) {
-        this.id = answer.getId();
+        this.answerId = answer.getAnswerId();
         this.content = answer.getContent();
-        this.like = answer.getLike();
+        this.like = answer.getLikes();
         this.selectionStatus = answer.isSelectionStatus();
         this.memberId = answer.getMember().getMemberId();
-        this.questionId = answer.getQuestion().getId();
+        this.questionId = answer.getQuestion().getQuestionId();
     }
 }
