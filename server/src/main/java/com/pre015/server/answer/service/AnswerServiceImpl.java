@@ -7,6 +7,7 @@ import com.pre015.server.answer.repository.AnswerRepository;
 import com.pre015.server.member.entity.Member;
 import com.pre015.server.member.service.MemberService;
 import com.pre015.server.question.entity.Question;
+import com.pre015.server.question.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
