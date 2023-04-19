@@ -1,18 +1,21 @@
 import './App.css';
-import styled from 'styled-components';
 import Navbar from './components/Navbar.js';
 import LoginPage from './components/LoginPage.js';
+import Activity from './pages/Activity';
+import Sidebar from './components/Sidebar';
+import Profile from './pages/Profile';
+
 
 function App() {
   return (
-    <div>
+    <>
       <main>
         <Navbar />
         <section className='features'>
-          <LoginPage />
+          <Profile />
         </section>
       </main>
-    </div>
+    </>
   );
 }
 

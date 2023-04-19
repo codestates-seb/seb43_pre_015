@@ -1,8 +1,12 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function Sidebar() {
   const [selectedItem, setSelectedItem] = useState(null);
+
+  useEffect(() => {
+    setSelectedItem('user'); // set default selected item as 'user' when the component mounts
+  }, []);
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
@@ -49,7 +53,7 @@ export default Sidebar
 export const SidebarContainer = styled.div`
   position: relative;
   height: 100vh;
-  margin-top: 50px; /* for the header */
+  // margin-top: 50px; // for the header
   width: 164px;
   font-size: 13px;
   border-right: 1px solid hsl(210, 8%, 85%);
