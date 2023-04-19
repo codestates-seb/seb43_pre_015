@@ -5,10 +5,11 @@ import LoginPage from './components/LoginPage.js';
 
 function App() {
   return (
-    <AppBox>
+    <div>
       <Navbar></Navbar>
       <LoginPage></LoginPage>
-    </AppBox>
+    </div>
+
   );
 }
 
