@@ -67,7 +67,7 @@ export const SidebarContainer = styled.div`
     display: flex;
     align-items: center;
     padding: 4px 4px 4px 8px;
-    height: 26px;
+    height: 34px;
   }
 
   .sidebar-home:hover {
@@ -94,6 +94,7 @@ export const SidebarContainer = styled.div`
     display: flex;
     align-items: center;
     padding: 8px 6px 8px 8px;
+    height: 34px;
   }
 
   .sidebar-questions:hover {
@@ -109,7 +110,7 @@ export const SidebarContainer = styled.div`
   .sidebar-user {
     display: flex;
     padding: 4px 4px 4px 30px;
-    height: 26px;
+    height: 34px;
     align-items: center;
   }
 
