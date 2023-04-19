@@ -1,16 +1,18 @@
 import './App.css';
-import Sidebar from './components/Sidebar';
-
+import Navbar from './components/Navbar.js';
+import LoginPage from './components/LoginPage.js';
 
 function App() {
   return (
-    <div>
+    <>
       <main>
-      <Sidebar />
+        <Navbar />
+        <section className='features'>
+          <LoginPage />
+        </section>
       </main>
-    </div>
+    </>
   );
 }
 
 export default App;
-
