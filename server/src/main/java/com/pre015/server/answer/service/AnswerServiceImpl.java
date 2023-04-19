@@ -32,7 +32,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public AnswerDTO createAnswer(AnswerDTO answerDTO) {
-        Member member = memberService.findMemberById(answerDTO.getMemberId());
+        Member member = memberService.findVerifiedMember(answerDTO.getMemberId());
         Question question = questionService.findQuestionById(answerDTO.getQuestionId());
         Answer answer = answerMapper.toEntity(answerDTO, member, question);
         return answerMapper.toDTO(answerRepository.save(answer));
@@ -57,28 +57,30 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public AnswerDTO findAnswerById(Long id) {
+    public AnswerDTO findAnswer(Long id) {
         Answer answer = answerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Answer not found"));
         return answerMapper.toDTO(answer);
     }
 
     @Override
-    public List<AnswerDTO> findAnswersByMemberId(Long memberId) {
-        return answerMapper.toDTOList(answerRepository.findByMemberId(memberId));
+    public List<AnswerDTO> findAnswersByMember(Long memberId) {
+        Member member = memberService.findVerifiedMember(memberId);
+        return answerMapper.toDTOList(answerRepository.findByMember(member));
     }
 
     @Override
-    public List<AnswerDTO> findAnswersByQuestionId(Long questionId) {
-        return answerMapper.toDTOList(answerRepository.findByQuestionId(questionId));
+    public List<AnswerDTO> findAnswersByQuestion(Long questionId) {
+        Question question = questionService.findVerifiedQuestion(questionId);
+        return answerMapper.toDTOList(answerRepository.findByQuestion(question));
     }
 
     @Transactional
     @Override
     public void acceptAnswer(Long questionId, Long answerId) {
         Question question = questionService.findQuestionById(questionId);
-        AnswerDTO answerDTO = findAnswerById(answerId);
-        Member memberForMember = memberService.findMemberById(answerDTO.getMemberId());
+        AnswerDTO answerDTO = findAnswer(answerId);
+        Member memberForMember = memberService.findVerifiedMember(answerDTO.getMemberId());
         Question questionForAnswer = questionService.findQuestionById(answerDTO.getQuestionId());
         Answer answer = answerMapper.toEntity(answerDTO, memberForMember, questionForAnswer);
 
