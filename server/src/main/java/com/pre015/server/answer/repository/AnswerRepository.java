@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
     List<Answer> findByMember(Member member);
+
     List<Answer> findByQuestion(Question question);
 }

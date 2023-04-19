@@ -33,22 +33,22 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public AnswerDTO createAnswer(AnswerDTO answerDTO) {
         Member member = memberService.findVerifiedMember(answerDTO.getMemberId());
-        Question question = questionService.findQuestionById(answerDTO.getQuestionId());
+        Question question = questionService.findVerifiedQuestion(answerDTO.getQuestionId());
         Answer answer = answerMapper.toEntity(answerDTO, member, question);
         return answerMapper.toDTO(answerRepository.save(answer));
     }
 
     @Override
-    public AnswerDTO updateAnswer(Long id, AnswerDTO answerDTO) {
-        Answer answer = answerRepository.findById(id)
+    public AnswerDTO updateAnswer(Long answerId, AnswerDTO answerDTO) {
+        Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new RuntimeException("Answer not found"));
         answer.setContent(answerDTO.getContent());
         return answerMapper.toDTO(answerRepository.save(answer));
     }
 
     @Override
-    public void deleteAnswer(Long id) {
-        answerRepository.deleteById(id);
+    public void deleteAnswer(Long answerId) {
+        answerRepository.deleteById(answerId);
     }
 
     @Override
@@ -57,8 +57,8 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public AnswerDTO findAnswer(Long id) {
-        Answer answer = answerRepository.findById(id)
+    public AnswerDTO findAnswer(Long answerId) {
+        Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new RuntimeException("Answer not found"));
         return answerMapper.toDTO(answer);
     }
@@ -78,7 +78,7 @@ public class AnswerServiceImpl implements AnswerService {
     @Transactional
     @Override
     public void acceptAnswer(Long questionId, Long answerId) {
-        Question question = questionService.findQuestionById(questionId);
+        Question question = questionService.findVerifiedQuestion(questionId);
         AnswerDTO answerDTO = findAnswer(answerId);
         Member memberForMember = memberService.findVerifiedMember(answerDTO.getMemberId());
         Question questionForAnswer = questionService.findQuestionById(answerDTO.getQuestionId());

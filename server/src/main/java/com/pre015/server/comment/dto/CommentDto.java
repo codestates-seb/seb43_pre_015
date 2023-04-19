@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import java.time.LocalDateTime;
 
 
 public class CommentDto {
@@ -51,7 +52,17 @@ public class CommentDto {
         private String content;
         private Member member;
         private Answer answer;
+        private LocalDateTime created_at;
+        private LocalDateTime last_modified_at;
+    }
 
-
+    @Setter
+    @AllArgsConstructor
+    public static class ResponseAll<T> {
+        private T data;
+        private int page;
+        private int size;
+        private int getTotalElements;
+        private int getTotalPages;
     }
 }

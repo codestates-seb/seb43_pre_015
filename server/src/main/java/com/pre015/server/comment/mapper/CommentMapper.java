@@ -6,6 +6,8 @@ import com.pre015.server.comment.entity.Comment;
 import com.pre015.server.member.entity.Member;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class CommentMapper {
 
@@ -54,7 +56,24 @@ public class CommentMapper {
         return new CommentDto.Response(comment.getCommentId(),
                 comment.getContent(),
                 comment.getMember(),
-                comment.getAnswer()
+                comment.getAnswer(),
+                comment.getCreatedTime(),
+                comment.getModifiedTime()
                 );
+    }
+
+    public CommentDto.ResponseAll<Comment> commentsToResponseAll(List<Comment> comments,
+                                                                 int page,
+                                                                 int size,
+                                                                 int totalElements,
+                                                                 int totalPages) {
+        for(Comment comment : comments) {
+            if(comment.getContent().length() >= 50) {
+                StringBuilder sb = new StringBuilder(comment.getContent().substring(0,47)).append("...");
+                comment.setContent(sb.toString());
+            }
+        }
+        return new CommentDto.ResponseAll(
+                comments,page,size,totalElements,totalPages);
     }
 }

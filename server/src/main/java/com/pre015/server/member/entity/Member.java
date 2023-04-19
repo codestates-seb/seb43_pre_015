@@ -38,13 +38,17 @@ public class Member extends BaseTimeEntity {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
+    @ElementCollection(fetch = FetchType.LAZY)
     @OneToMany(mappedBy = "member")
     private List<Question> questions = new ArrayList<>();
+
+    @ElementCollection(fetch = FetchType.LAZY)
     @OneToMany(mappedBy = "member")
     private List<Answer> answers = new ArrayList<>();
+
+    @ElementCollection(fetch = FetchType.LAZY)
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
-
 
 }
 

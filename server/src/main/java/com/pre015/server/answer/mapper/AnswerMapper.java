@@ -14,7 +14,7 @@ public class AnswerMapper {
     public Answer toEntity(AnswerDTO answerDTO, Member member, Question question) {
         Answer answer = new Answer();
         answer.setContent(answerDTO.getContent());
-        answer.setLike(answerDTO.getLike());
+        answer.setLikes(answerDTO.getLike());
         answer.setSelectionStatus(answerDTO.isSelectionStatus());
         answer.setMember(member);
         answer.setQuestion(question);

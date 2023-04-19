@@ -9,12 +9,15 @@ import com.pre015.server.question.entity.Question;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.ColumnDefault;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 
 @Table(indexes = {
         @Index(columnList = "content")
@@ -25,8 +28,9 @@ import java.util.Objects;
 public class Answer extends BaseTimeEntity {
 
     @Id
+    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long answerId;
 
     @Setter
     @Column(nullable = false, length = 5000)
@@ -35,7 +39,7 @@ public class Answer extends BaseTimeEntity {
     @Setter
     @Column(nullable = false)
     @ColumnDefault("0")
-    private int like;
+    private int likes;
 
     @Setter
     @Column
@@ -74,11 +78,11 @@ public class Answer extends BaseTimeEntity {
         if (this == o) return true;
         if (!(o instanceof Answer)) return false;
         Answer answer = (Answer) o;
-        return id != null && id.equals(answer.id);
+        return answerId != null && answerId.equals(answer.answerId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(answerId);
     }
 }
