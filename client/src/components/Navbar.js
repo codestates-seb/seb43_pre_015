@@ -53,11 +53,13 @@ const NavBox = styled.div`
   justify-content: center;
   align-items: center;
   border-top: 3px solid #f48225;
-  box-shadow: 0 4px 4px -4px #999;
+  box-shadow: 0 10px 10px -10px #999;
+  z-index: 1;
 `
 
 const ContentBox = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
   width: 90%;
   height: 100%;
