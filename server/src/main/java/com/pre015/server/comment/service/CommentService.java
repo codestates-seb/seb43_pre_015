@@ -1,5 +1,6 @@
 package com.pre015.server.comment.service;
 
+import com.pre015.server.answer.service.AnswerService;
 import com.pre015.server.comment.entity.Comment;
 import com.pre015.server.comment.repository.CommentRepository;
 import com.pre015.server.member.service.MemberService;
@@ -25,7 +26,7 @@ public class CommentService {
 
     public Comment createComment(Comment comment){
         memberService.findVerifiedMember(comment.getMember().getMemberId());
-        answerService.findAnswer(comment.getAnswer().getAnswerId());
+        answerService.findAnswerById(comment.getAnswer().getAnswerId());
         Comment savedComment = commentRepository.save(comment);
         return savedComment;
     }
@@ -33,7 +34,7 @@ public class CommentService {
     // 예외처리 필요
     public Comment updateComment(Comment comment) {
         memberService.findVerifiedMember(comment.getMember().getMemberId());
-        answerService.findAnswer(comment.getAnswer().getAnswerId());
+        answerService.findAnswerById(comment.getAnswer().getAnswerId());
         Optional<Comment> optionalComment = commentRepository.findById(comment.getCommentId());
         Comment findComment = optionalComment.orElseThrow(() -> null);
 

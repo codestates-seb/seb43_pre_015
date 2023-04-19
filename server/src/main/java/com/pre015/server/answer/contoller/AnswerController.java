@@ -45,15 +45,15 @@ public class AnswerController {
         return new ResponseEntity<>(answerService.findAnswerById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/member/{memberId}")
-    public ResponseEntity<List<AnswerDTO>> findAnswersByMemberId(@PathVariable Long memberId) {
-        return new ResponseEntity<>(answerService.findAnswersByMemberId(memberId), HttpStatus.OK);
-    }
-
-    @GetMapping("/question/{questionId}")
-    public ResponseEntity<List<AnswerDTO>> findAnswersByQuestionId(@PathVariable Long questionId) {
-        return new ResponseEntity<>(answerService.findAnswersByQuestionId(questionId), HttpStatus.OK);
-    }
+//    @GetMapping("/member/{memberId}")
+//    public ResponseEntity<List<AnswerDTO>> findAnswersByMemberId(@PathVariable Long memberId) {
+//        return new ResponseEntity<>(answerService.findAnswersByMemberId(memberId), HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/question/{questionId}")
+//    public ResponseEntity<List<AnswerDTO>> findAnswersByQuestionId(@PathVariable Long questionId) {
+//        return new ResponseEntity<>(answerService.findAnswersByQuestionId(questionId), HttpStatus.OK);
+//    }
 
     @PutMapping("/accept/{questionId}/{answerId}")
     public ResponseEntity<Void> acceptAnswer(@PathVariable Long questionId, @PathVariable Long answerId) {

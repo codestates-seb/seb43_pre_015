@@ -56,7 +56,9 @@ public class CommentMapper {
         return new CommentDto.Response(comment.getCommentId(),
                 comment.getContent(),
                 comment.getMember(),
-                comment.getAnswer()
+                comment.getAnswer(),
+                comment.getCreatedTime(),
+                comment.getModifiedTime()
                 );
     }
 
