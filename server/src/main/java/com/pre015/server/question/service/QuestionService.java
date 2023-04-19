@@ -33,7 +33,7 @@ public class QuestionService {
         return mapper.questionToQuestionResponseDto(savedQuestion);
     }
 
-    public QuestionDto.Response updateQuestion(long questionId, QuestionDto.Patch patchDto){
+    public QuestionDto.Response updateQuestion(Long questionId, QuestionDto.Patch patchDto){
         patchDto.setQuestionId(questionId);
         Question question = mapper.questionPatchDtoToQuestion(patchDto);
 
@@ -47,7 +47,7 @@ public class QuestionService {
         return mapper.questionToQuestionResponseDto(updatedQuestion);
     }
 
-    public QuestionDto.DetailsResponse findQuestion(long questionId){
+    public QuestionDto.DetailsResponse findQuestion(Long questionId){
         Question foundQuestion = findVerifiedQuestion(questionId);
         return mapper.questionToQuestionDetailsResponseDto(foundQuestion);
     }
@@ -61,12 +61,12 @@ public class QuestionService {
         return new QuestionDto.MultiResponse<>(responseDtos, pageInfo);
     }
 
-    public void deleteQuestion(long questionId) {
+    public void deleteQuestion(Long questionId) {
         Question question = findVerifiedQuestion(questionId);
         questionRepository.delete(question);
     }
 
-    public Question findVerifiedQuestion(long questionId) {
+    public Question findVerifiedQuestion(Long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
 
         return optionalQuestion.orElseThrow(() -> new RuntimeException("question not found"));
