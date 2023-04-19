@@ -73,6 +73,7 @@ const MenuBtn = styled.div`
   width: 48px;
   height: 47px;
   padding: 0 16px;
+  cursor: pointer;
 `
 
 const Logo = styled.div`
@@ -96,34 +97,37 @@ const MenuList = styled.ul`
   list-style: none;
   width: 223px;
   height: 33px;
-  padding-left: 0;
-  padding-right: 20px;
+  padding-left: 10px;
+  padding-right: 250px;
 `
 
 const MenuListEl = styled.li`
-  
   display: flex;
   justify-content: center;
   align-items: center;
+  white-space: nowrap;
+  padding: 0 12px;
+  cursor: pointer;
   
   &: first-of-type {
-    width: 59px;
   }
 
   &: nth-of-type(2) {
-    width: 74px;
   }
 
   &:last-of-type {
     margin-right: 0;
-    width: 81px;
   }
-  
+
+  &:hover {
+    border-radius: 1000px;
+    background-color: #e3e6e8;
+  }
 `
 
 const MenuListElLink = styled.a`
   text-decoration: none;
-  color: #6b7277;
+  color: hsl(210, 8%, 15%);
   font-size: 14px;
   
 `
@@ -132,7 +136,7 @@ const SearchContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 30px;
+  height: 33px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   z-index: 1;
@@ -140,6 +144,11 @@ const SearchContainer = styled.div`
   padding-left: 5px;
   margin-right: 20px;
   flex-grow: 1;
+  
+  &:focus-within {
+    box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+    border: 1px solid #59a4de;
+  }
 `
 
 const SearchIcon = styled.div`
@@ -166,12 +175,23 @@ const LoginBtn = styled.div`
   margin-right: 10px;
   padding: 10px;
   border: 1px solid #80abca;
-  border-radius: 5px;
+  border-radius: 3px;
   width: 70px;
-  height: 30px;
+  height: 33px;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  &:hover, &:focus {
+    background-color: #b3d3ea;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+  }
+  
 `
 
 const LoginLink = styled.a`
@@ -180,16 +200,43 @@ const LoginLink = styled.a`
 `
 
 const RegistBtn = styled.div`
-  background-color: #0995ff;
-  font-size: 14px;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #279afe;
-  width: 80px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: #0095ff;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.15385;
+  margin: 0;
+  outline: none;
+  padding: 8px .8em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+
+  &:hover,
+  &:focus {
+  background-color: #07c;
+  }
+
+  &:focus {
+  box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+  }
+
+  &:active {
+  background-color: #0064bd;
+  box-shadow: none;
+}
 `
 
 const RegistLink = styled.a`

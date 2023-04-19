@@ -79,6 +79,10 @@ const SocialLoginBtn = styled.div`
   border-radius: 5px;
   cursor: pointer;
   margin-bottom: 20px;
+
+  &:hover {
+    background-color: hsl(210, 8%, 97.5%);
+  }
 `
 
 const SocialLoginLinkBox = styled.a`
@@ -124,6 +128,12 @@ const EmailIndicator = styled.div`
 const EmailInput = styled.input`
   width: 100%;
   height: 32px;
+
+  &:focus {
+    box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+    border: 1px solid #59a4de;
+    outline: none;
+  }
 `
 
 const PasswordFormBox = styled.div`
@@ -151,6 +161,12 @@ const FindPassword = styled.a`
 const PasswordInput = styled.input`
   width: 100%;
   height: 32px;
+
+  &:focus {
+    box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+    border: 1px solid #59a4de;
+    outline: none;
+  }
 `
 
 const LoginSubmitBox = styled.div`
@@ -161,13 +177,43 @@ const LoginSubmitBox = styled.div`
 
 const LoginSubmitBtn = styled.button`
   width: 100%;
-  background-color: #0995ff;
+  background-color: #0095ff;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+  box-sizing: border-box;
   color: #fff;
-  border: none;
   cursor: pointer;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #279afe;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.15385;
+  margin: 0;
+  outline: none;
+  padding: 8px .8em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+
+  &:hover,
+  &:focus {
+    background-color: #07c;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+  }
+
+  &:active {
+    background-color: #0064bd;
+    box-shadow: none;
+  }
 `
 
 const SignUpLinkBox = styled.div`
