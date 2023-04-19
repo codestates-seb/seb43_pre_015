@@ -32,6 +32,10 @@ function LoginPage() {
           </LoginSubmitBox>
         </UserLoginFormBox>
 
+        <SignUpLinkBox>
+          <SignUpText>Don't have an account?</SignUpText>
+          <SignUpLink href="#">Sign up</SignUpLink>
+        </SignUpLinkBox>
       </LoginBox>
     </LoginPageBox>
   )
@@ -102,6 +106,7 @@ const UserLoginFormBox = styled.div`
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 4px 4px #d9d9d9;
+  margin-bottom: 30px;
 `
 
 const EmailFormBox = styled.div`
@@ -113,6 +118,7 @@ const EmailFormBox = styled.div`
 const EmailIndicator = styled.div`
   font-weight: bold;
   margin-bottom: 5px;
+  color: #0c0d0e;
 `
 
 const EmailInput = styled.input`
@@ -133,11 +139,12 @@ const PasswordGuideBox = styled.div`
 
 const PasswordIndicator = styled.div`
   font-weight: bold;
+  color: #0c0d0e;
 `
 
 const FindPassword = styled.a`
   text-decoration: none;
-  color: #65a0dd;
+  color: #0a95ff;
   font-size: 12px;
 `
 
@@ -163,4 +170,21 @@ const LoginSubmitBtn = styled.button`
   border: 1px solid #279afe;
 `
 
+const SignUpLinkBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const SignUpText = styled.div`
+  color: #232629;
+  font-size: 14px;
+  margin-right: 5px;
+`
+
+const SignUpLink = styled.a`
+  color: #0a95ff;
+  text-decoration: none;
+  font-size: 14px;
+`
 export default LoginPage;

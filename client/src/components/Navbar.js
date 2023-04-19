@@ -59,6 +59,7 @@ const NavBox = styled.div`
 
 const ContentBox = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
   width: 90%;
   height: 100%;
