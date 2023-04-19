@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
-//@CrossOrigin
 @RestController
 @RequestMapping("/questions")
 @AllArgsConstructor
@@ -25,15 +24,15 @@ public class QuestionController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<QuestionDto.Response> patchQuestion(@PathVariable("id") long questionId,
+    @PatchMapping("/{question_id}")
+    public ResponseEntity<QuestionDto.Response> patchQuestion(@PathVariable("question_id") Long questionId,
                                                             @Valid @RequestBody QuestionDto.Patch patchDto){
         QuestionDto.Response response = questionService.updateQuestion(questionId, patchDto);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<QuestionDto.DetailsResponse> getQuestion(@PathVariable("id") @Positive long questionId){
+    @GetMapping("/{question_id}")
+    public ResponseEntity<QuestionDto.DetailsResponse> getQuestion(@PathVariable("question_id") @Positive Long questionId){
         QuestionDto.DetailsResponse response = questionService.findQuestion(questionId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -44,8 +43,8 @@ public class QuestionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteQuestion(@PathVariable("id") @Positive long questionId) {
+    @DeleteMapping("/{question_id}")
+    public ResponseEntity<Void> deleteQuestion(@PathVariable("question_id") @Positive Long questionId) {
 
         questionService.deleteQuestion(questionId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
