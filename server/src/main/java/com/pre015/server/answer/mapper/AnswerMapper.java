@@ -21,6 +21,16 @@ public class AnswerMapper {
         return answer;
     }
 
+    public Answer PostDTOtoEntity(AnswerDTO.POST answerDTO, Member member, Question question) {
+        Answer answer = new Answer();
+        answer.setContent(answerDTO.getContent());
+        answer.setLikes(0);
+        answer.setSelectionStatus(false);
+        answer.setMember(member);
+        answer.setQuestion(question);
+        return answer;
+    }
+
     public AnswerDTO toDTO(Answer answer) {
         return new AnswerDTO(answer);
     }
