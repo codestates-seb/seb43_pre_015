@@ -5,14 +5,12 @@ import com.pre015.server.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 @Entity
 public class Question extends BaseTimeEntity {
 
@@ -35,6 +33,23 @@ public class Question extends BaseTimeEntity {
         if (!this.member.getQuestions().contains(this)) {
             this.member.getQuestions().add(this);
         }
+    }
+    public void setTitle(String setTitle){
+        if(title.length() <= 100) {
+            this.title = setTitle;
+        } else{
+            throw new IllegalArgumentException("title length must be less than 100");
+        }
+    }
+    public void setContent(String setContent){
+        if(content.length() <= 5000) {
+            this.content = setContent;
+        } else{
+            throw new IllegalArgumentException("content length must be less than 5,000");
+        }
+    }
+    public void setQuestionStatus(Question.QuestionStatus questionStatus){
+        this.questionStatus = questionStatus;
     }
 
     public enum QuestionStatus {
