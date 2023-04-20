@@ -27,6 +27,7 @@ export default Activity;
 export const ActivityPageContainer = styled.div`
     display: flex;
     justify-content: center;
+    height: 100vh;
 `;
 
 export const ActivityContainer = styled.div`

@@ -103,6 +103,12 @@ export const ProfileContainer = styled.div`
         margin-bottom: 8px;
     }
 
+    input:focus {
+        box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+        border: 1px solid #59a4de;
+        outline: none;
+    }
+
     .default-btn {
         background-color: #0095ff;
         border: 1px solid transparent;
@@ -226,7 +232,7 @@ export const ProfileContainer = styled.div`
         box-shadow: 0 0 0 4px rgba(208, 57, 62, .15);
     }
 
-    .default-btn:active {
+    .delete-btn:active {
         background-color: #932123;
         box-shadow: none;
     }
