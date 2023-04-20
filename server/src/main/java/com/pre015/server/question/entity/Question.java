@@ -34,8 +34,15 @@ public class Question extends BaseTimeEntity {
     public long getMemberId() {
         return member.getMemberId();
     }
+    public String getDisplayName() {
+        return member.getDisplayName();
+    }
+
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
+    public long getAnswerCount() {
+        return answers.size();
+    }
 
     public void setQuestionId(Long questionId){
         if(0 < questionId) {
