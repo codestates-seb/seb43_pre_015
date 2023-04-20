@@ -93,6 +93,7 @@ export const SidebarContainer = styled.div`
   .sidebar-questions {
     display: flex;
     align-items: center;
+    height: 34px;
     padding: 8px 6px 8px 8px;
     height: 34px;
   }
