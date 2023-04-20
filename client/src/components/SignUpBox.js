@@ -50,11 +50,12 @@ const SignUpBoxContainer = styled.div`
     }
     input {
         width: 268px;
-        height: 33px;
+        height: 35px;
         background-color: #fff;
         border-radius: 4px;
         border: 1px solid #ccc;
         margin-bottom: 20px;
+        padding: 8px;
     }
     
     .checkbox-text {
