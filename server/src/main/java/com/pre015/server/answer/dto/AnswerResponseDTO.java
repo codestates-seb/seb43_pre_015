@@ -5,38 +5,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Objects;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class AnswerDTO {
+public class AnswerResponseDTO {
     private Long answerId;
     private String content;
     private int likes;
     private boolean selectionStatus;
     private Long memberId;
+    private String memberDisplayName;
     private Long questionId;
+    private LocalDateTime createdTime;
+    private LocalDateTime modifiedTime;
 
-    public AnswerDTO(Answer answer) {
+    public AnswerResponseDTO(Answer answer) {
         this.answerId = answer.getAnswerId();
         this.content = answer.getContent();
         this.likes = answer.getLikes();
         this.selectionStatus = answer.isSelectionStatus();
         this.memberId = answer.getMember().getMemberId();
+        this.memberDisplayName = answer.getMember().getDisplayName();
         this.questionId = answer.getQuestion().getQuestionId();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof AnswerDTO)) return false;
-        AnswerDTO answerDTO = (AnswerDTO) o;
-        return answerId != null && Objects.equals(answerId, answerDTO.answerId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(answerId);
+        this.createdTime = answer.getCreatedTime();
+        this.modifiedTime = answer.getModifiedTime();
     }
 }
