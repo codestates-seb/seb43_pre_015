@@ -73,12 +73,16 @@ const SocialLoginBtn = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 50px;
+  height: 40px;
   background-color: #fff;
   border: 1px solid #d6d9dc;
   border-radius: 5px;
   cursor: pointer;
   margin-bottom: 20px;
+
+  &:hover {
+    background-color: hsl(210, 8%, 97.5%);
+  }
 `
 
 const SocialLoginLinkBox = styled.a`
@@ -96,7 +100,7 @@ const SocialLoginLogo = styled.img`
 
 const SocialLoginContent = styled.div`
   color: #232629;
-  font-size: 14px;
+  font-size: 13px;
 `
 
 const UserLoginFormBox = styled.div`
@@ -119,11 +123,18 @@ const EmailIndicator = styled.div`
   font-weight: bold;
   margin-bottom: 5px;
   color: #0c0d0e;
+  font-size: 15px;
 `
 
 const EmailInput = styled.input`
   width: 100%;
   height: 32px;
+
+  &:focus {
+    box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+    border: 1px solid #59a4de;
+    outline: none;
+  }
 `
 
 const PasswordFormBox = styled.div`
@@ -140,17 +151,28 @@ const PasswordGuideBox = styled.div`
 const PasswordIndicator = styled.div`
   font-weight: bold;
   color: #0c0d0e;
+  font-size: 15px;
 `
 
 const FindPassword = styled.a`
   text-decoration: none;
-  color: #0a95ff;
+  color: #0074cc;
   font-size: 12px;
+
+  &:hover {
+    color: #0a95ff;
+  }
 `
 
 const PasswordInput = styled.input`
   width: 100%;
   height: 32px;
+
+  &:focus {
+    box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+    border: 1px solid #59a4de;
+    outline: none;
+  }
 `
 
 const LoginSubmitBox = styled.div`
@@ -161,13 +183,43 @@ const LoginSubmitBox = styled.div`
 
 const LoginSubmitBtn = styled.button`
   width: 100%;
-  background-color: #0995ff;
+  background-color: #0095ff;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+  box-sizing: border-box;
   color: #fff;
-  border: none;
   cursor: pointer;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #279afe;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.15385;
+  margin: 0;
+  outline: none;
+  padding: 8px .8em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+
+  &:hover,
+  &:focus {
+    background-color: #07c;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+  }
+
+  &:active {
+    background-color: #0064bd;
+    box-shadow: none;
+  }
 `
 
 const SignUpLinkBox = styled.div`
@@ -183,8 +235,12 @@ const SignUpText = styled.div`
 `
 
 const SignUpLink = styled.a`
-  color: #0a95ff;
+  color: #0074cc;
   text-decoration: none;
   font-size: 14px;
+
+  &:hover {
+    color: #0a95ff;
+  }
 `
 export default LoginPage;
