@@ -13,7 +13,7 @@ const SignUpPage = () => {
     <>
       <SignUpContainer>        
         <SignUpText>
-            <h2>Join the Stackoverflow<br />community</h2>
+            <h2>Join the Stack Overflow community</h2>
             
             <div className="signup-text">
               <RiQuestionnaireFill className="signup-icon" /><p>Get Unstuck - Ask a Question</p>
@@ -67,7 +67,7 @@ const SignUpText = styled.div`
   height: 400px;
 
   h2 {
-    font-size: 1.6875rem; 
+    font-size: 1.5rem; 
     font-weight: 500;
     text-align: left;
   }
