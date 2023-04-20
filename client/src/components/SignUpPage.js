@@ -32,9 +32,9 @@ const SignUpPage = () => {
         </SignUpText>
 
         <SignUpArea>
-          <SignUpAuth>
+          <SignUpSocial>
             <button><FcGoogle size="18" className="auth-icon" />Sign up with Google</button>
-          </SignUpAuth>
+          </SignUpSocial>
           <SignUpBox />
           <SignUpToLogin>
             <p>Already have an account? <a href="#">Log in</a></p>
@@ -105,15 +105,15 @@ const SignUpArea = styled.div`
 
 `;
 
-const SignUpAuth = styled.div`
+const SignUpSocial = styled.div`
 
   button {
     width: 318px;
     height: 40px;
     background-color: #fff;
     color: #333;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid #d6d9dc;
+    border-radius: 5px;
     margin-bottom: 12px;
     cursor: pointer;
     display: flex;
@@ -121,7 +121,7 @@ const SignUpAuth = styled.div`
     align-items: center;
   }
   button:hover {
-    background-color: #f5f5f5;
+    background-color: hsl(210, 8%, 97.5%);
   }
 
   .auth-icon{
