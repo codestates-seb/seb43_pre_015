@@ -12,7 +12,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
 
-import static com.pre015.server.question.service.QuestionService.createUri;
 
 @RestController
 @RequestMapping("/questions")
