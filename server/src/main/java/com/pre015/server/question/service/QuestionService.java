@@ -52,7 +52,7 @@ public class QuestionService {
         return mapper.questionToQuestionDetailsResponseDto(foundQuestion);
     }
 
-    public QuestionDto.MultiResponse findQuestions(int page, int size){
+    public QuestionDto.MultiResponse<QuestionDto.Response> findQuestions(int page, int size){
         PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by("questionId").descending());
         Page<Question> questionPage = questionRepository.findAll(pageRequest);
         List<QuestionDto.Response> responseDtos = mapper.questionsToQuestionResponseDtos(questionPage.getContent());
