@@ -73,7 +73,7 @@ const SocialLoginBtn = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 50px;
+  height: 40px;
   background-color: #fff;
   border: 1px solid #d6d9dc;
   border-radius: 5px;
@@ -100,7 +100,7 @@ const SocialLoginLogo = styled.img`
 
 const SocialLoginContent = styled.div`
   color: #232629;
-  font-size: 14px;
+  font-size: 13px;
 `
 
 const UserLoginFormBox = styled.div`
@@ -123,6 +123,7 @@ const EmailIndicator = styled.div`
   font-weight: bold;
   margin-bottom: 5px;
   color: #0c0d0e;
+  font-size: 15px;
 `
 
 const EmailInput = styled.input`
@@ -150,12 +151,17 @@ const PasswordGuideBox = styled.div`
 const PasswordIndicator = styled.div`
   font-weight: bold;
   color: #0c0d0e;
+  font-size: 15px;
 `
 
 const FindPassword = styled.a`
   text-decoration: none;
-  color: #0a95ff;
+  color: #0074cc;
   font-size: 12px;
+
+  &:hover {
+    color: #0a95ff;
+  }
 `
 
 const PasswordInput = styled.input`
@@ -229,8 +235,12 @@ const SignUpText = styled.div`
 `
 
 const SignUpLink = styled.a`
-  color: #0a95ff;
+  color: #0074cc;
   text-decoration: none;
   font-size: 14px;
+
+  &:hover {
+    color: #0a95ff;
+  }
 `
 export default LoginPage;

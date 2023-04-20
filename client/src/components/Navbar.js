@@ -55,6 +55,7 @@ const NavBox = styled.div`
   border-top: 3px solid #f48225;
   box-shadow: 0 10px 10px -10px #999;
   z-index: 1;
+  background-color: #f8f9f9;
 `
 
 const ContentBox = styled.div`
