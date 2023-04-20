@@ -1,6 +1,7 @@
 package com.pre015.server.answer.service;
 
-import com.pre015.server.answer.dto.AnswerDTO;
+import com.pre015.server.answer.dto.AnswerPostDTO;
+import com.pre015.server.answer.dto.AnswerResponseDTO;
 import com.pre015.server.answer.entity.Answer;
 import com.pre015.server.answer.mapper.AnswerMapper;
 import com.pre015.server.answer.repository.AnswerRepository;
@@ -9,6 +10,8 @@ import com.pre015.server.member.service.MemberService;
 import com.pre015.server.question.entity.Question;
 import com.pre015.server.question.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,19 +34,19 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public AnswerDTO createAnswer(AnswerDTO.POST answerDTO) {
+    public AnswerResponseDTO createAnswer(AnswerPostDTO answerDTO) {
         Member member = memberService.findVerifiedMember(answerDTO.getMemberId());
         Question question = questionService.findVerifiedQuestion(answerDTO.getQuestionId());
-        Answer answer = answerMapper.PostDTOtoEntity(answerDTO, member, question);
-        return answerMapper.toDTO(answerRepository.save(answer));
+        Answer answer = answerMapper.postDTOtoEntity(answerDTO, member, question);
+        return answerMapper.entityToAnswerResponseDto(answerRepository.save(answer), member, question);
     }
 
     @Override
-    public AnswerDTO updateAnswer(Long answerId, AnswerDTO answerDTO) {
+    public AnswerResponseDTO updateAnswer(Long answerId, String content) {
         Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new RuntimeException("Answer not found"));
-        answer.setContent(answerDTO.getContent());
-        return answerMapper.toDTO(answerRepository.save(answer));
+        answer.setContent(content);
+        return answerMapper.toResponseDTO(answerRepository.save(answer));
     }
 
     @Override
@@ -52,37 +55,37 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public List<AnswerDTO> findAllAnswers() {
-        return answerMapper.toDTOList(answerRepository.findAll());
-    }
-
-    @Override
-    public AnswerDTO findAnswer(Long answerId) {
+    public AnswerResponseDTO findAnswer(Long answerId) {
         Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new RuntimeException("Answer not found"));
-        return answerMapper.toDTO(answer);
+        return answerMapper.toResponseDTO(answer);
     }
 
     @Override
-    public List<AnswerDTO> findAnswersByMember(Long memberId) {
+    public Page<AnswerResponseDTO> findAllAnswers(Pageable pageable) {
+        return answerRepository.findAll(pageable).map(answerMapper::toResponseDTO);
+    }
+
+    @Override
+    public Page<AnswerResponseDTO> findAnswersByMember(Long memberId, Pageable pageable) {
         Member member = memberService.findVerifiedMember(memberId);
-        return answerMapper.toDTOList(answerRepository.findByMember(member));
+        return answerRepository.findByMember(member, pageable).map(answerMapper::toResponseDTO);
     }
 
     @Override
-    public List<AnswerDTO> findAnswersByQuestion(Long questionId) {
+    public Page<AnswerResponseDTO> findAnswersByQuestion(Long questionId, Pageable pageable) {
         Question question = questionService.findVerifiedQuestion(questionId);
-        return answerMapper.toDTOList(answerRepository.findByQuestion(question));
+        return answerRepository.findByQuestion(question, pageable).map(answerMapper::toResponseDTO);
     }
 
     @Transactional
     @Override
     public void acceptAnswer(Long questionId, Long answerId) {
         Question question = questionService.findVerifiedQuestion(questionId);
-        AnswerDTO answerDTO = findAnswer(answerId);
+        AnswerResponseDTO answerDTO = findAnswer(answerId);
         Member memberForMember = memberService.findVerifiedMember(answerDTO.getMemberId());
         Question questionForAnswer = questionService.findVerifiedQuestion(answerDTO.getQuestionId());
-        Answer answer = answerMapper.toEntity(answerDTO, memberForMember, questionForAnswer);
+        Answer answer = answerMapper.responseDtoToEntity(answerDTO, memberForMember, questionForAnswer);
 
         if (question.getQuestionStatus() == Question.QuestionStatus.QUESTION_SOLVED) {
             throw new RuntimeException("The question already has an accepted answer");
