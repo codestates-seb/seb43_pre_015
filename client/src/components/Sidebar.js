@@ -52,7 +52,7 @@ export default Sidebar
 
 export const SidebarContainer = styled.div`
   position: relative;
-  height: 100vh;
+  height: 100v;
   // margin-top: 50px; // for the header
   width: 164px;
   font-size: 13px;

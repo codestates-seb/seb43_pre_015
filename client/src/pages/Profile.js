@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import UserProfile from '../components/UserProfile';
 import Sidebar from '../components/Sidebar';
+import { useState } from 'react';
 
 const Profile = () => {
+    const [isChecked, setIsChecked] = useState(false);
 
     return (
         <ProfilePageContainer>
@@ -35,10 +37,11 @@ const Profile = () => {
                     <p>Confirming deletion will only delete your profile on Stack Overflow - it will not affect any of your other profiles on the Stack Exchange network. If you want to delete multiple profiles, you'll need to visit each site separately and request deletion of those individual profiles.</p>
                     <div className='consent-container'>
                         <div className='checkbox-box'>
-                            <input className='delete-checkbox' type='checkbox'></input>
+                            <input className='delete-checkbox' type='checkbox' onChange={() => setIsChecked(!isChecked)}></input>
                         </div>
                         <label className='checkbox-label'>I have read the information stated above and understand the implications of having my profile deleted. I wish to proceed with the deletion of my profile.</label>
                     </div>
+                    <button className={`delete-btn ${!isChecked && 'disabled-btn'}`} disabled={!isChecked}>Delete profile</button>
                 </div>
             </ProfileContainer>
         </ProfilePageContainer>
@@ -49,6 +52,7 @@ export default Profile;
 
 
 export const ProfilePageContainer = styled.div`
+    height: 100%;
     display: flex;
     justify-content: center;
 `;
@@ -184,6 +188,57 @@ export const ProfileContainer = styled.div`
         padding: 0px 2px;
         margin: 4px;
         font-weight: 400;
+    }
+
+    .delete-btn {
+        background-color: hsl(358, 62%, 52%);
+        border: 1px solid transparent;
+        border-radius: 3px;
+        box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.15385;
+        outline: none;
+        padding: 8px .8em;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        white-space: nowrap;
+        width: 104px;
+        height: 38px;
+        margin-top: 4px;
+    }
+
+    .delete-btn:hover, .delete-btn:focus {
+        background-color: #C22E32;
+    }
+
+    .delete-btn:focus {
+        box-shadow: 0 0 0 4px rgba(208, 57, 62, .15);
+    }
+
+    .default-btn:active {
+        background-color: #932123;
+        box-shadow: none;
+    }
+
+    .disabled-btn {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .delete-btn:disabled:hover {
+        background-color: hsl(358, 62%, 52%);
+        cursor: not-allowed;
     }
         
 `;
