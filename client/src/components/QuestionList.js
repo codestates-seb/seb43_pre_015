@@ -1,9 +1,12 @@
 import styled from 'styled-components';
+import Sidebar from './Sidebar.js'
 
 function QuestionList() {
   return (
     <QuestionListPageBox>
-      <Sidebar></Sidebar>
+      <QuestionListBox>
+
+      </QuestionListBox>
     </QuestionListPageBox>
   )
 }
@@ -12,4 +15,8 @@ const QuestionListPageBox = styled.div`
   display: flex;
 `
 
-export default QuestionList();
+const QuestionListBox = styled.div`
+
+`
+
+export default QuestionList;
