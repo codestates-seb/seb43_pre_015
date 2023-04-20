@@ -8,7 +8,7 @@ import { AiTwotoneTags } from "react-icons/ai";
 import { AiFillTrophy } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 
-const SignUp = () => {
+const SignUpPage = () => {
   return (
     <>
       <SignUpContainer>        
@@ -143,4 +143,4 @@ const SignUpToLogin = styled.div`
   
 `;
 
-export default SignUp;
+export default SignUpPage;
