@@ -12,7 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,16 +26,16 @@ public class QuestionService {
     private final QuestionMapper mapper;
     private final MemberService memberService;
 
-    public QuestionDto.Response createQuestion(QuestionDto.Post postDto){
+    public QuestionDto.DetailsResponse createQuestion(QuestionDto.Post postDto){
         Question question = mapper.questionPostDtoToQuestion(postDto);
         Member member = memberService.findVerifiedMember(question.getMember().getMemberId());
         question.setMember(member);
 
         Question savedQuestion = this.questionRepository.save(question);
-        return mapper.questionToQuestionResponseDto(savedQuestion);
+        return mapper.questionToQuestionDetailsResponseDto(savedQuestion);
     }
 
-    public QuestionDto.Response updateQuestion(Long questionId, QuestionDto.Patch patchDto){
+    public QuestionDto.DetailsResponse updateQuestion(Long questionId, QuestionDto.Patch patchDto){
         patchDto.setQuestionId(questionId);
         Question question = mapper.questionPatchDtoToQuestion(patchDto);
 
@@ -44,7 +46,7 @@ public class QuestionService {
                 .ifPresent(findQuestion::setContent);
 
         Question updatedQuestion = questionRepository.save(findQuestion);
-        return mapper.questionToQuestionResponseDto(updatedQuestion);
+        return mapper.questionToQuestionDetailsResponseDto(updatedQuestion);
     }
 
     public QuestionDto.DetailsResponse findQuestion(Long questionId){
@@ -74,5 +76,12 @@ public class QuestionService {
 
     public void updateQuestion(Question question) {
         questionRepository.save(question);
+    }
+    public static URI createUri(String defaultUrl, long questionId) {
+        return UriComponentsBuilder
+                .newInstance()
+                .path(defaultUrl + "/{question_id}")
+                .buildAndExpand(questionId)
+                .toUri();
     }
 }

@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.net.URI;
+
+import static com.pre015.server.question.service.QuestionService.createUri;
 
 @RestController
 @RequestMapping("/questions")
@@ -18,16 +21,17 @@ import javax.validation.constraints.Positive;
 public class QuestionController {
     private final QuestionService questionService;
 
-    @PostMapping
-    public ResponseEntity<QuestionDto.Response> postQuestion(@Valid @RequestBody QuestionDto.Post postDto){
-        QuestionDto.Response response = questionService.createQuestion(postDto);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    @PostMapping("/ask")
+    public ResponseEntity<QuestionDto.DetailsResponse> postQuestion(@Valid @RequestBody QuestionDto.Post postDto){
+        QuestionDto.DetailsResponse response = questionService.createQuestion(postDto);
+        URI location = QuestionService.createUri("/questions",response.getQuestionId());
+        return ResponseEntity.created(location).build();
     }
 
     @PatchMapping("/{question_id}")
-    public ResponseEntity<QuestionDto.Response> patchQuestion(@PathVariable("question_id") Long questionId,
+    public ResponseEntity<QuestionDto.DetailsResponse> patchQuestion(@PathVariable("question_id") Long questionId,
                                                             @Valid @RequestBody QuestionDto.Patch patchDto){
-        QuestionDto.Response response = questionService.updateQuestion(questionId, patchDto);
+        QuestionDto.DetailsResponse response = questionService.updateQuestion(questionId, patchDto);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
