@@ -5,18 +5,18 @@ import '../App.css';
 const SignUpBox = () => {
   return (
     <>
-      <SignUpBoxContainer>
-          <label for="display-name">Display Name</label>
-          <input type="text" id="display-name"></input>
-          <label for="email">Email</label>
-          <input type="text" id="email"></input>
-          <label for="password">Password</label>
-          <input type="password" id="password"></input>
-          <p>Passwords must contain at least eight characters. <br />including at least 1 letter and 1 number.</p>
-          <p>Opt-in to receive occasional product updates,<br />user research invitations, company<br />announcements, and digests.</p>
-          <button>Sign Up</button>
-          <p>By clicking “Sign up”, you agree to our terms of<br />service, privacy policy and cookie policy</p>
-      </SignUpBoxContainer>
+    <SignUpBoxContainer>                
+        <label for="display-name">Display Name</label>
+        <input type="text" id="display-name"></input>
+        <label for="email">Email</label>
+        <input type="text" id="email"></input>
+        <label for="password">Password</label>
+        <input type="password" id="password"></input>
+        <p>Passwords must contain at least eight characters. <br />including at least 1 letter and 1 number.</p>
+        <p className="checkbox-text">Opt-in to receive occasional product updates,<br />user research invitations, company<br />announcements, and digests.</p>
+        <button>Sign Up</button>
+        <p>By clicking “Sign up”, you agree to our terms of<br />service, privacy policy and cookie policy</p>
+    </SignUpBoxContainer>
     </>
   );
 };
@@ -27,7 +27,8 @@ const SignUpBoxContainer = styled.div`
     height: 600px;
     background-color: #fff;
     border-radius: 4px;
-    border: solid 1px #666;
+    border: none;
+    box-shadow: 3px 3px 5px #999;
     display: flex;
     flex-flow: column wrap;
     justify-content: center;
@@ -37,9 +38,9 @@ const SignUpBoxContainer = styled.div`
     label {
         width: 268px;
         font-size: 0.9375rem;
-        text-align: left;
-        margin: 2px 0;
-        padding: 0 2px;        
+        text-align: left;        
+        font-weight: 600;
+        margin-bottom: 10px;    
     }
     p {
         width: 268px;
@@ -47,19 +48,27 @@ const SignUpBoxContainer = styled.div`
         text-align: left;
         color: #666;
     }
-
     input {
         width: 268px;
         height: 33px;
         background-color: #fff;
-        border-radius: 5px;
+        border-radius: 4px;
         border: 1px solid #ccc;
+        margin-bottom: 20px;
+    }
+    
+    .checkbox-text {
+        width: 268px;
+        font-size: 0.8125rem;
+        line-height: 16px;
+        text-align: left;
+        color: #333;
     }
     button {
         width: 268px;
         height: 38px;
         background-color: #0095ff;
-        border: 0px solid transparent;
+        border: 1px solid transparent;
         border-radius: 3px;
         box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
         box-sizing: border-box;
