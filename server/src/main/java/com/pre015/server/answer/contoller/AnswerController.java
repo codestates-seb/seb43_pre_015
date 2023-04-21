@@ -1,12 +1,20 @@
 package com.pre015.server.answer.contoller;
 
-import com.pre015.server.answer.dto.AnswerDTO;
+import com.pre015.server.answer.dto.AnswerPatchDTO;
+import com.pre015.server.answer.dto.AnswerPostDTO;
+import com.pre015.server.answer.dto.AnswerResponseDTO;
 import com.pre015.server.answer.service.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
@@ -20,13 +28,13 @@ public class AnswerController {
     }
 
     @PostMapping
-    public ResponseEntity<AnswerDTO> createAnswer(@RequestBody AnswerDTO answerDTO) {
-        return new ResponseEntity<>(answerService.createAnswer(answerDTO), HttpStatus.CREATED);
+    public ResponseEntity<AnswerResponseDTO> createAnswer(@RequestBody AnswerPostDTO answerPostDTO) {
+        return new ResponseEntity<>(answerService.createAnswer(answerPostDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<AnswerDTO> updateAnswer(@PathVariable Long id, @RequestBody AnswerDTO answerDTO) {
-        return new ResponseEntity<>(answerService.updateAnswer(id, answerDTO), HttpStatus.OK);
+    @PatchMapping("/{id}")
+    public ResponseEntity<AnswerResponseDTO> updateAnswer(@PathVariable Long id, @RequestBody AnswerPatchDTO answerPatchDTO) {
+        return new ResponseEntity<>(answerService.updateAnswer(id, answerPatchDTO.getContent()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -35,24 +43,32 @@ public class AnswerController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping
-    public ResponseEntity<List<AnswerDTO>> findAllAnswers() {
-        return new ResponseEntity<>(answerService.findAllAnswers(), HttpStatus.OK);
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<AnswerDTO> findAnswerById(@PathVariable Long id) {
+    public ResponseEntity<AnswerResponseDTO> findAnswerById(@PathVariable Long id) {
         return new ResponseEntity<>(answerService.findAnswer(id), HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<Page<AnswerResponseDTO>> getAllAnswers(
+            @RequestParam(value = "page", defaultValue = "0") @Positive int page,
+            @RequestParam(value = "size", defaultValue = "10") @Positive int size) {
+        return ResponseEntity.ok(answerService.findAllAnswers(page, size));
+    }
+
     @GetMapping("/member/{memberId}")
-    public ResponseEntity<List<AnswerDTO>> findAnswersByMemberId(@PathVariable Long memberId) {
-        return new ResponseEntity<>(answerService.findAnswersByMember(memberId), HttpStatus.OK);
+    public ResponseEntity<Page<AnswerResponseDTO>> getAnswersByMemberId(
+            @PathVariable Long memberId,
+            @RequestParam(value = "page", defaultValue = "0") @Positive int page,
+            @RequestParam(value = "size", defaultValue = "10") @Positive int size) {
+        return ResponseEntity.ok(answerService.findAnswersByMember(memberId, page, size));
     }
 
     @GetMapping("/question/{questionId}")
-    public ResponseEntity<List<AnswerDTO>> findAnswersByQuestionId(@PathVariable Long questionId) {
-        return new ResponseEntity<>(answerService.findAnswersByQuestion(questionId), HttpStatus.OK);
+    public ResponseEntity<Page<AnswerResponseDTO>> getAnswersByQuestionId(
+            @PathVariable Long questionId,
+            @RequestParam(value = "page", defaultValue = "0") @Positive int page,
+            @RequestParam(value = "size", defaultValue = "10") @Positive int size) {
+        return ResponseEntity.ok(answerService.findAnswersByQuestion(questionId, page, size));
     }
 
     @PutMapping("/accept/{questionId}/{answerId}")
