@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { HiBars3 } from "react-icons/hi2";
 import { MdSearch } from "react-icons/md";
@@ -35,13 +36,8 @@ function Navbar() {
           <SearchInput type="text" placeholder="Search..." />
         </SearchContainer>
 
-        <LoginBtn>
-          <LoginLink href="#">Log in</LoginLink>
-        </LoginBtn>
-
-        <RegistBtn>
-          <RegistLink href="#">Sign up</RegistLink>
-        </RegistBtn>
+        <LoginLink to="/">Log in</LoginLink>
+        <RegistLink to="/signup">Sign up</RegistLink>
       </ContentBox>
     </NavBox>
   )
@@ -171,7 +167,9 @@ const SearchInput = styled.input`
   }
 `
 
-const LoginBtn = styled.div`
+const LoginLink = styled(Link)`
+  color: #3e769e;
+  text-decoration: none;
   background-color: #e1ecf4;
   font-size: 14px;
   margin-right: 10px;
@@ -193,15 +191,10 @@ const LoginBtn = styled.div`
   &:focus {
     box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
   }
-  
 `
 
-const LoginLink = styled.a`
-  color: #3e769e;
-  text-decoration: none;
-`
 
-export const RegistBtn = styled.div`
+const RegistLink = styled(Link)`
   background-color: #0095ff;
   border: 1px solid transparent;
   border-radius: 3px;
@@ -238,15 +231,7 @@ export const RegistBtn = styled.div`
   &:active {
   background-color: #0064bd;
   box-shadow: none;
-}
-`
-
-const RegistLink = styled.a`
-  color: #fff;
-  text-decoration: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  }
 `
 
 export default Navbar;
