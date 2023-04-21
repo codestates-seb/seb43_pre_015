@@ -7,12 +7,18 @@ const QuestionDetail = () => {
     <QuestionDetailContainer>
       <Sidebar />
       <QuestionContainer>
-        <div className="question-title">
+        <QuestionTitle>
           <h2>
             How to vertically align text inside a textarea inside a flexbox
             inside a grid
           </h2>
-        </div>
+          <button>Ask Question</button>
+          <div className="q-date-view">
+            <p>Asked today</p>
+            <p>Modified today</p>
+            <p>Viewed 12 times</p>
+          </div>
+        </QuestionTitle>
       </QuestionContainer>
       <AnswerContainer></AnswerContainer>
     </QuestionDetailContainer>
@@ -38,6 +44,16 @@ export const QuestionContainer = styled.div`
     color: #232629;
     font-size: 21px;
     margin-bottom: 8px;
+  }
+`;
+
+export const QuestionTitle = styled.div`
+  h2 {
+    font-size: 27px;
+  }
+  .q-date-view {
+    display: flex;
+    justify-content: flex-start;
   }
 `;
 
