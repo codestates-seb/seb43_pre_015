@@ -1,8 +1,12 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function Sidebar() {
   const [selectedItem, setSelectedItem] = useState(null);
+
+  useEffect(() => {
+    setSelectedItem('user'); // set default selected item as 'user' when the component mounts
+  }, []);
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
@@ -48,8 +52,8 @@ export default Sidebar
 
 export const SidebarContainer = styled.div`
   position: relative;
-  height: 100vh;
-  margin-top: 50px; /* for the header */
+  height: 100v;
+  // margin-top: 50px; // for the header
   width: 164px;
   font-size: 13px;
   border-right: 1px solid hsl(210, 8%, 85%);
@@ -91,6 +95,7 @@ export const SidebarContainer = styled.div`
     align-items: center;
     height: 34px;
     padding: 8px 6px 8px 8px;
+    height: 34px;
   }
 
   .sidebar-questions:hover {

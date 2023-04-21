@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import SignUpBox from './SignUpBox';
+import SignUpBox from '../components/SignUpBox';
+import { Link } from 'react-router-dom';
 
 import { RiQuestionnaireFill } from 'react-icons/ri'
 import { HiChevronUpDown } from "react-icons/hi2";
@@ -11,23 +12,23 @@ import { FcGoogle } from "react-icons/fc";
 const SignUpPage = () => {
   return (
     <>
-      <SignUpContainer>        
+      <SignUpContainer>
         <SignUpText>
-            <h2>Join the Stackoverflow<br />community</h2>
-            
-            <div className="signup-text">
-              <RiQuestionnaireFill className="signup-icon" /><p>Get Unstuck - Ask a Question</p>
-            </div>
-            <div className="signup-text">
-              <HiChevronUpDown className="signup-icon" /><p>Unlock new privileges like voting and commenting</p>
-            </div>
-            <div className="signup-text">
-              <AiTwotoneTags className="signup-icon" /><p>Save your favorite questions, answers, watch tags, and more</p>
-            </div>
-            <div className="signup-text">
-              <AiFillTrophy className="signup-icon" /><p>Earn reputation and badges</p>
-            </div>            
-            <p className="forteams-text">Collaborate and share knowledge with a private group for FREE.<br />
+          <h2>Join the Stackoverflow<br />community</h2>
+
+          <div className="signup-text">
+            <RiQuestionnaireFill className="signup-icon" /><p>Get Unstuck - Ask a Question</p>
+          </div>
+          <div className="signup-text">
+            <HiChevronUpDown className="signup-icon" /><p>Unlock new privileges like voting and commenting</p>
+          </div>
+          <div className="signup-text">
+            <AiTwotoneTags className="signup-icon" /><p>Save your favorite questions, answers, watch tags, and more</p>
+          </div>
+          <div className="signup-text">
+            <AiFillTrophy className="signup-icon" /><p>Earn reputation and badges</p>
+          </div>
+          <p className="forteams-text">Collaborate and share knowledge with a private group for FREE.<br />
             Get Stack Overflow for Teams free for up to 50 users.</p>
         </SignUpText>
 
@@ -37,7 +38,7 @@ const SignUpPage = () => {
           </SignUpAuth>
           <SignUpBox />
           <SignUpToLogin>
-            <p>Already have an account? <a href="#">Log in</a></p>
+            <p>Already have an account? <Link to="/">Log in</Link></p>
             <p>Are you an employer? Sign up on Talent</p>
           </SignUpToLogin>
         </SignUpArea>
@@ -60,7 +61,7 @@ const SignUpContainer = styled.div`
   align-items: center;
 
 `;
-  
+
 const SignUpText = styled.div`
 
   width: 458px;

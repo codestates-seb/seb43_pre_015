@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 function LoginPage() {
@@ -28,13 +29,13 @@ function LoginPage() {
             <PasswordInput />
           </PasswordFormBox>
           <LoginSubmitBox>
-            <LoginSubmitBtn>Log in</LoginSubmitBtn>
+            <LoginSubmitBtn to="/questionlist">Log in</LoginSubmitBtn>
           </LoginSubmitBox>
         </UserLoginFormBox>
 
         <SignUpLinkBox>
           <SignUpText>Don't have an account?</SignUpText>
-          <SignUpLink href="#">Sign up</SignUpLink>
+          <SignUpLink to="/signup">Sign up</SignUpLink>
         </SignUpLinkBox>
       </LoginBox>
     </LoginPageBox>
@@ -181,7 +182,7 @@ const LoginSubmitBox = styled.div`
   align-items: center;
 `
 
-const LoginSubmitBtn = styled.button`
+const LoginSubmitBtn = styled(Link)`
   width: 100%;
   background-color: #0095ff;
   border: 1px solid transparent;
@@ -234,7 +235,7 @@ const SignUpText = styled.div`
   margin-right: 5px;
 `
 
-const SignUpLink = styled.a`
+const SignUpLink = styled(Link)`
   color: #0074cc;
   text-decoration: none;
   font-size: 14px;
