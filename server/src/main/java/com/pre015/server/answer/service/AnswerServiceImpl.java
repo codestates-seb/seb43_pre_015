@@ -11,6 +11,7 @@ import com.pre015.server.question.entity.Question;
 import com.pre015.server.question.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,19 +63,22 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public Page<AnswerResponseDTO> findAllAnswers(Pageable pageable) {
+    public Page<AnswerResponseDTO> findAllAnswers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
         return answerRepository.findAll(pageable).map(answerMapper::toResponseDTO);
     }
 
     @Override
-    public Page<AnswerResponseDTO> findAnswersByMember(Long memberId, Pageable pageable) {
+    public Page<AnswerResponseDTO> findAnswersByMember(Long memberId, int page, int size) {
         Member member = memberService.findVerifiedMember(memberId);
+        Pageable pageable = PageRequest.of(page, size);
         return answerRepository.findByMember(member, pageable).map(answerMapper::toResponseDTO);
     }
 
     @Override
-    public Page<AnswerResponseDTO> findAnswersByQuestion(Long questionId, Pageable pageable) {
+    public Page<AnswerResponseDTO> findAnswersByQuestion(Long questionId, int page, int size) {
         Question question = questionService.findVerifiedQuestion(questionId);
+        Pageable pageable = PageRequest.of(page, size);
         return answerRepository.findByQuestion(question, pageable).map(answerMapper::toResponseDTO);
     }
 

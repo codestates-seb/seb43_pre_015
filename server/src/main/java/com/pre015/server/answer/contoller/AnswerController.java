@@ -6,6 +6,7 @@ import com.pre015.server.answer.dto.AnswerResponseDTO;
 import com.pre015.server.answer.service.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
@@ -48,22 +50,25 @@ public class AnswerController {
 
     @GetMapping
     public ResponseEntity<Page<AnswerResponseDTO>> getAllAnswers(
-            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(answerService.findAllAnswers(pageable));
+            @RequestParam(value = "page", defaultValue = "0") @Positive int page,
+            @RequestParam(value = "size", defaultValue = "10") @Positive int size) {
+        return ResponseEntity.ok(answerService.findAllAnswers(page, size));
     }
 
     @GetMapping("/member/{memberId}")
     public ResponseEntity<Page<AnswerResponseDTO>> getAnswersByMemberId(
             @PathVariable Long memberId,
-            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(answerService.findAnswersByMember(memberId, pageable));
+            @RequestParam(value = "page", defaultValue = "0") @Positive int page,
+            @RequestParam(value = "size", defaultValue = "10") @Positive int size) {
+        return ResponseEntity.ok(answerService.findAnswersByMember(memberId, page, size));
     }
 
     @GetMapping("/question/{questionId}")
     public ResponseEntity<Page<AnswerResponseDTO>> getAnswersByQuestionId(
             @PathVariable Long questionId,
-            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(answerService.findAnswersByQuestion(questionId, pageable));
+            @RequestParam(value = "page", defaultValue = "0") @Positive int page,
+            @RequestParam(value = "size", defaultValue = "10") @Positive int size) {
+        return ResponseEntity.ok(answerService.findAnswersByQuestion(questionId, page, size));
     }
 
     @PutMapping("/accept/{questionId}/{answerId}")

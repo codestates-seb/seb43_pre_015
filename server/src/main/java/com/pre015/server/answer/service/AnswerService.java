@@ -13,7 +13,7 @@ public interface AnswerService {
     AnswerResponseDTO findAnswer(Long answerId);
     void deleteAnswer(Long id);
     void acceptAnswer(Long questionId, Long answerId);
-    Page<AnswerResponseDTO> findAllAnswers(Pageable pageable);
-    Page<AnswerResponseDTO> findAnswersByMember(Long memberId, Pageable pageable);
-    Page<AnswerResponseDTO> findAnswersByQuestion(Long questionId, Pageable pageable);
+    Page<AnswerResponseDTO> findAllAnswers(int page, int size);
+    Page<AnswerResponseDTO> findAnswersByMember(Long memberId, int page, int size);
+    Page<AnswerResponseDTO> findAnswersByQuestion(Long questionId, int page, int size);
 }
