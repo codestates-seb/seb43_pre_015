@@ -286,7 +286,7 @@ public class QuestionControllerDocumentationTest {
                                        requestParameters(
                                                List.of(
                                                        parameterWithName("page").description("현재 page 번호"),
-                                                       parameterWithName("size").description("전체 page 사이즈(15,30,45)")
+                                                       parameterWithName("size").description("page 사이즈(15,30,45)")
                                                )
                                        ),
                                        responseFields(

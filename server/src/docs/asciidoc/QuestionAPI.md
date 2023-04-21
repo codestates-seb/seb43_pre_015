@@ -1,6 +1,5 @@
-# Question API (로컬 환경) 
+# Question API 요약 (로컬 환경) 
 
-## 간단 요약
 
 + `question`
     1. `POST` - `/questions/ask`: 질문 등록
@@ -16,6 +15,15 @@
   + `400: Bad request`
   + `500: Internal Server Error`
 
+
+request-fields
+
+| **Path** | **Type** | **Description** |
+|:--------:|:--------:|:---------------:|
+| memberId |  Number  |      회원 id      |
+|  title   |  String  |      질문 제목      |
+| content  |  String  |      질문 목록      |
+
 request ex)
 ```ts
 POST
@@ -30,7 +38,8 @@ http://localhost:8080/questions/ask
 response
 
 ```ts
-
+HTTP/1.1 201 Created
+Location: /questions/1
 ```
 ***
 ### 1️⃣ 질문 목록 조회
@@ -39,6 +48,14 @@ response
     + `200: ok`
     + `400: Bad request`
     + `500: Internal Server Error`
+
+path-parameters
+
+| **Parameter** |    **Description**    |
+|:-------------:|:---------------------:|
+|     page      |      현재 page 번호       |
+|     size      |  Page 사이즈(15,30,45) |
+
 
 request ex)
 
@@ -50,6 +67,8 @@ http://localhost:8080/questions?page=1&size=15
 response
 
 ```ts
+HTTP/1.1 200 OK
+
 {
     "questions": [
         {
@@ -89,6 +108,10 @@ response
     + `400: Bad request`
     + `500: Internal Server Error`
 
+| **Parameter** |    **Description**    |
+|:-------------:|:---------------------:|
+|  question_id   |      질문 식별자       |
+
 request ex)
 
 ```ts
@@ -99,6 +122,8 @@ http://localhost:8080/questions/2
 response
 
 ```ts
+HTTP/1.1 200 OK
+
 {
     "questionId": 2,
     "memberId": 1,
@@ -142,6 +167,17 @@ response
     + `400: Bad request`
     + `500: Internal Server Error`
 
+| **Parameter** |    **Description**    |
+|:-------------:|:---------------------:|
+|  question_id   |      질문 식별자       |
+
+request-fields
+
+|  **Path**  | **Type** | **Description** |
+|:----------:|:--------:|:---------------:|
+|   title    |  String  |      질문 제목      |
+|  content   |  String  |      질문 목록      |
+
 request ex)
 
 ```ts
@@ -156,6 +192,8 @@ http://localhost:8080/questions/1
 
 response
 ```ts
+HTTP/1.1 200 OK
+
 {
     "questionId": 1,
     "memberId": 1,
@@ -175,6 +213,11 @@ response
     + `400: Bad request`
     + `500: Internal Server Error`
 
+
+| **Parameter** |    **Description**    |
+|:-------------:|:---------------------:|
+|  question_id  |      질문 식별자       |
+
 request ex)
 ```ts
 DELETE
@@ -183,4 +226,5 @@ http://localhost:8080/questions/2
 
 response
 ```ts
+HTTP/1.1 204 No Content
 ```

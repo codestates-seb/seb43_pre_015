@@ -89,9 +89,6 @@ include::{snippets}/delete-question/curl-request.adoc[]
 .http-request
 include::{snippets}/delete-question/http-request.adoc[]
 
-.httpie-request
-include::{snippets}/delete-question/httpie-request.adoc[]
-
 .path-parameters
 include::{snippets}/delete-question/path-parameters.adoc[]
 
