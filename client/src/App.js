@@ -10,6 +10,7 @@ import SignUpPage from "./pages/SignUpPage.js";
 import Activity from "./pages/Activity";
 import Profile from "./pages/Profile";
 import QuestionList from "./pages/QuestionList.js";
+import QuestionDetail from "./pages/QuestionDetail.js";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/questionlist" element={<QuestionList />} />
+            <Route path="/questiondetail" element={<QuestionDetail />} />
           </Routes>
         </section>
       </main>
