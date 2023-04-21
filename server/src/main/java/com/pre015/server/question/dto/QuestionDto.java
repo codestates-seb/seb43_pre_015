@@ -1,5 +1,6 @@
 package com.pre015.server.question.dto;
 
+import com.pre015.server.answer.dto.AnswerResponseDTO;
 import com.pre015.server.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,12 +18,12 @@ public class QuestionDto {
     @Getter
     @AllArgsConstructor
     public static class Post {
+        @Positive
+        private long memberId;
         @NotBlank
         private String title;
         @NotBlank
         private String content;
-        @Positive
-        private long memberId;
 
         public Member getMember() {
             Member member = new Member();
@@ -47,11 +48,12 @@ public class QuestionDto {
     @NoArgsConstructor
     public static class Response {
         private long questionId;
+        private long memberId;
         private String title;
         private String content;
-        private long memberId;
-        private LocalDateTime createdAt;
-        private LocalDateTime modifiedAt;
+        private String displayName;
+        private LocalDateTime createdTime;
+        private LocalDateTime modifiedTime;
         private long answerCount;
     }
 
@@ -61,11 +63,13 @@ public class QuestionDto {
     @NoArgsConstructor
     public static class DetailsResponse {
         private long questionId;
+        private long memberId;
         private String title;
         private String content;
-        private long memberId;
-        private LocalDateTime createdAt;
-        private LocalDateTime modifiedAt;
+        private String displayName;
+        private LocalDateTime createdTime;
+        private LocalDateTime modifiedTime;
+        private List<AnswerResponseDTO> answers;
     }
 
     @Getter
@@ -80,7 +84,7 @@ public class QuestionDto {
     @Getter
     @AllArgsConstructor
     public static class MultiResponse<T> {
-        private List<T> data;
+        private List<T> questions;
         private PageInfo pageInfo;
     }
 }

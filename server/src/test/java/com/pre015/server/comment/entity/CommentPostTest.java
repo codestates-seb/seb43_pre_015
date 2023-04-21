@@ -2,7 +2,7 @@ package com.pre015.server.comment.entity;
 
 
 import com.google.gson.Gson;
-import com.pre015.server.answer.dto.AnswerDTO;
+import com.pre015.server.answer.dto.AnswerResponseDTO;
 import com.pre015.server.answer.entity.Answer;
 import com.pre015.server.answer.mapper.AnswerMapper;
 import com.pre015.server.answer.service.AnswerService;
@@ -74,9 +74,9 @@ class CommentPostTest {
 
         BDDMockito.given(commentMapper.postToComment(Mockito.any(CommentDto.Post.class))).willReturn(new Comment());
         BDDMockito.given(memberService.findVerifiedMember(Mockito.anyLong())).willReturn(new Member());
-        BDDMockito.given(answerService.findAnswer(Mockito.anyLong())).willReturn(new AnswerDTO());
+        BDDMockito.given(answerService.findAnswer(Mockito.anyLong())).willReturn(new AnswerResponseDTO());
         BDDMockito.given(answerMapper
-                .toEntity(Mockito.any(AnswerDTO.class),Mockito.any(Member.class),Mockito.any(Question.class))).willReturn(new Answer());
+                .responseDtoToEntity(Mockito.any(AnswerResponseDTO.class),Mockito.any(Member.class),Mockito.any(Question.class))).willReturn(new Answer());
 
         Member member = new Member();
         member.setMemberId(memberId);

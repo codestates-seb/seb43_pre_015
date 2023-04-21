@@ -1,5 +1,6 @@
 package com.pre015.server.question.entity;
 
+import com.pre015.server.answer.entity.Answer;
 import com.pre015.server.audit.BaseTimeEntity;
 import com.pre015.server.member.entity.Member;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,10 +27,30 @@ public class Question extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20, nullable = false)
     private QuestionStatus questionStatus = QuestionStatus.QUESTION_UNSOLVED;
+
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+    public long getMemberId() {
+        return member.getMemberId();
+    }
+    public String getDisplayName() {
+        return member.getDisplayName();
+    }
 
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<Answer> answers = new ArrayList<>();
+    public long getAnswerCount() {
+        return answers.size();
+    }
+
+    public void setQuestionId(Long questionId){
+        if(0 < questionId) {
+            this.questionId = questionId;
+        } else{
+            throw new IllegalArgumentException("questionId must be positive");
+        }
+    }
     public void setMember(Member member) {
         this.member = member;
         if (!this.member.getQuestions().contains(this)) {
