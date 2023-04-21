@@ -49,7 +49,7 @@ Location: /questions/1
     + `400: Bad request`
     + `500: Internal Server Error`
 
-path-parameters
+request-parameters
 
 | **Parameter** |    **Description**    |
 |:-------------:|:---------------------:|
@@ -101,12 +101,79 @@ HTTP/1.1 200 OK
 }
 ```
 ***
-### 2️⃣ 질문 상세 조회
+### 2️⃣ 회원 질문 목록 조회
+
++ `Status Code`
+  + `200: ok`
+  + `400: Bad request`
+  + `500: Internal Server Error`
+
+path-parameters
+
+| **Parameter** | **Description** |
+|:-------------:|:---------------:|
+|  question_id   |     회원 식별자      |
+
+request-parameters
+
+| **Parameter** |    **Description**    |
+|:-------------:|:---------------------:|
+|     page      |      현재 page 번호       |
+|     size      |  Page 사이즈(15,30,45) |
+
+
+request ex)
+
+```ts
+GET
+http://localhost:8080/questions/member/1?page=1&size=15
+```
+
+response
+
+```ts
+HTTP/1.1 200 OK
+
+{
+    "questions": [
+        {
+            "questionId": 2,
+            "memberId": 1,
+            "title": "제목",
+            "content": "내용",
+            "displayName": "cm3222",
+            "createdTime": "2023-04-20T21:06:04.407497",
+            "modifiedTime": "2023-04-20T21:06:04.407497",
+            "answerCount": 3
+        },
+        {
+            "questionId": 1,
+            "memberId": 1,
+            "title": "sdf",
+            "content": "sf",
+            "displayName": "cm3222",
+            "createdTime": "2023-04-20T20:58:31.503427",
+            "modifiedTime": "2023-04-20T20:58:31.503427",
+            "answerCount": 0
+        }
+    ],
+    "pageInfo": {
+        "page": 1,
+        "size": 15,
+        "totalElements": 2,
+        "totalPages": 1
+    }
+}
+```
+***
+### 3️⃣ 질문 상세 조회
 
 + `Status Code`
     + `200: ok`
     + `400: Bad request`
     + `500: Internal Server Error`
+
+path-parameters
 
 | **Parameter** |    **Description**    |
 |:-------------:|:---------------------:|
@@ -161,11 +228,13 @@ HTTP/1.1 200 OK
 }
 ```
 ***
-### 3️⃣ 질문 수정
+### 4️⃣ 질문 수정
 + `Status Code`
     + `200: ok`
     + `400: Bad request`
     + `500: Internal Server Error`
+
+path-parameters
 
 | **Parameter** |    **Description**    |
 |:-------------:|:---------------------:|
@@ -206,13 +275,14 @@ HTTP/1.1 200 OK
 }
 ```
 ***
-### 4️⃣ 질문 삭제 
+### 5️⃣ 질문 삭제 
 
 + `Status Code`
     + `204: No Content`
     + `400: Bad request`
     + `500: Internal Server Error`
 
+path-parameters
 
 | **Parameter** |    **Description**    |
 |:-------------:|:---------------------:|

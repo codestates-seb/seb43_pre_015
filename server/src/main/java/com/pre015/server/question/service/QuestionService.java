@@ -1,5 +1,7 @@
 package com.pre015.server.question.service;
 
+import com.pre015.server.answer.dto.AnswerDTO;
+import com.pre015.server.answer.entity.Answer;
 import com.pre015.server.member.entity.Member;
 import com.pre015.server.member.service.MemberService;
 import com.pre015.server.question.dto.QuestionDto;
@@ -63,6 +65,20 @@ public class QuestionService {
         return new QuestionDto.MultiResponse<>(responseDtos, pageInfo);
     }
 
+    public QuestionDto.MultiResponse<QuestionDto.Response> responseQuestionsByMember(Long memberId, int page, int size){
+        PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by("questionId").descending());
+        Page<Question> questionPage = questionRepository.findAll(pageRequest);
+        List<QuestionDto.Response> responseDtos = findQuestionsByMember(memberId);
+        QuestionDto.PageInfo pageInfo = new QuestionDto.PageInfo(questionPage.getNumber() + 1, questionPage.getSize(), questionPage.getTotalElements(), questionPage.getTotalPages());
+
+        return new QuestionDto.MultiResponse<>(responseDtos, pageInfo);
+    }
+
+    public List<QuestionDto.Response> findQuestionsByMember(Long memberId) {
+        Member member = memberService.findVerifiedMember(memberId);
+        return mapper.questionsToQuestionResponseDtos(questionRepository.findByMember(member));
+    }
+
     public void deleteQuestion(Long questionId) {
         Question question = findVerifiedQuestion(questionId);
         questionRepository.delete(question);
@@ -77,6 +93,7 @@ public class QuestionService {
     public void updateQuestion(Question question) {
         questionRepository.save(question);
     }
+
     public static URI createUri(String defaultUrl, long questionId) {
         return UriComponentsBuilder
                 .newInstance()
