@@ -43,7 +43,7 @@ public class QuestionController {
         QuestionDto.MultiResponse response = questionService.findQuestions(page, size);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteQuestion(@PathVariable("id") @Positive long questionId) {
 

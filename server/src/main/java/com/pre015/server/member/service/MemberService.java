@@ -57,10 +57,6 @@ public class MemberService {
 
         return memberRepository.save(findMember);
     }
-
-    public Member findMemberById(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-    }
 }
 
 

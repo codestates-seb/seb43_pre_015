@@ -45,18 +45,20 @@ public class CommentDto {
     }
 
     @Setter
+    @Getter
     @AllArgsConstructor
     public static class Response {
 
         private Long commentId;
         private String content;
-        private Member member;
-        private Answer answer;
+        private Long memberId;
+        private Long answerId;
         private LocalDateTime created_at;
         private LocalDateTime last_modified_at;
     }
 
     @Setter
+    @Getter
     @AllArgsConstructor
     public static class ResponseAll<T> {
         private T data;
