@@ -205,7 +205,7 @@ public class QuestionControllerDocumentationTest {
                 );
 
 
-                // then
+        // then
         actions
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.questionId").value(1L))
