@@ -1,7 +1,5 @@
 package com.pre015.server.question.service;
 
-import com.pre015.server.answer.dto.AnswerDTO;
-import com.pre015.server.answer.entity.Answer;
 import com.pre015.server.member.entity.Member;
 import com.pre015.server.member.service.MemberService;
 import com.pre015.server.question.dto.QuestionDto;

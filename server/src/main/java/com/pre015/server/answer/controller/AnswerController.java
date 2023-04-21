@@ -1,4 +1,4 @@
-package com.pre015.server.answer.contoller;
+package com.pre015.server.answer.controller;
 
 import com.pre015.server.answer.dto.AnswerPatchDTO;
 import com.pre015.server.answer.dto.AnswerPostDTO;
@@ -44,7 +44,7 @@ public class AnswerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AnswerResponseDTO> findAnswerById(@PathVariable Long id) {
+    public ResponseEntity<AnswerResponseDTO> findAnswer(@PathVariable Long id) {
         return new ResponseEntity<>(answerService.findAnswer(id), HttpStatus.OK);
     }
 

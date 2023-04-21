@@ -112,7 +112,7 @@ public class QuestionControllerDocumentationTest {
         // given
         long questionId = 1L;
         long memberId = 1L;
-        List<com.pre015.server.answer.dto.AnswerDTO> answers = new ArrayList<>();
+        List<com.pre015.server.answer.dto.AnswerResponseDTO> answers = new ArrayList<>();
 
         QuestionDto.Patch patch = new QuestionDto.Patch();
         patch.setQuestionId(questionId);
@@ -180,7 +180,7 @@ public class QuestionControllerDocumentationTest {
     @Test
     public void getQuestionTest() throws Exception {
         // given
-        List<com.pre015.server.answer.dto.AnswerDTO> answers = new ArrayList<>();
+        List<com.pre015.server.answer.dto.AnswerResponseDTO> answers = new ArrayList<>();
 
         QuestionDto.DetailsResponse responseDto =
                 new QuestionDto.DetailsResponse(
