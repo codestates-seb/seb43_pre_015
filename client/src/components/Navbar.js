@@ -194,7 +194,7 @@ const LoginLink = styled(Link)`
 `
 
 
-const RegistLink = styled(Link)`
+export const RegistLink = styled(Link)`
   background-color: #0095ff;
   border: 1px solid transparent;
   border-radius: 3px;

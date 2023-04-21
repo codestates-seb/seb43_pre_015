@@ -8,6 +8,7 @@ import SignUpPage from './pages/SignUpPage.js';
 import Activity from './pages/Activity';
 import Profile from './pages/Profile';
 import QuestionList from './pages/QuestionList.js';
+import Ask from './pages/Ask';
 
 function App() {
   return (
@@ -15,11 +16,12 @@ function App() {
       <main>
         <Navbar />
         <section className='features'>
-          <Routes>
+          {/* <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/questionlist" element={<QuestionList />} />
-          </Routes>
+          </Routes> */}
+          <Ask />
         </section>
       </main>
 

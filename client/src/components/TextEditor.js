@@ -4,7 +4,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useState } from 'react';
 
 
-function TextEditor() {
+function TextEditor({onFocus, onBlur}) {
     const [text, setText] = useState('');
   
     return (
@@ -20,6 +20,8 @@ function TextEditor() {
                         const data = editor.getData();
                         setText(data)}
                     }
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                 />
             </Editor>
         </EditorContainer>
@@ -32,20 +34,48 @@ const EditorContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 `;
 
 const Editor = styled.div`
-  .ck-editor__main {
-    width: 80%;
-    height: 80%;
-  }
+  width: 100%;
 
-  .ck-toolbar {
-    height: 30px;
-  }
+&:focus-within {
+  box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+  border: 1px solid #59a4de;
+  outline: none;
+}
 
-  .ck-toolbar button {
-    font-size: 80%;
-  }
+& {
+  border: 1px solid hsl(210,8%,85%);
+  border-radius: 3px;
+  background-color: white;
+}
+
+.ck-icon:focus {
+  border: none;
+}
+
+.ck-editor__main {
+  width: 100%;
+  margin: 0;
+}
+
+.ck-editor__editable {
+  min-height: 210px;
+  width: 100%;
+}
+
+.ck.ck-editor__editable:not(.ck-editor__nested-editable):focus {
+    border: none;
+    box-shadow: none;
+}
+
+.ck.ck-toolbar .ck.ck-toolbar__separator {
+    background-color: white;
+}
+
+.ck {
+  border: none;
+}
+
 `;
