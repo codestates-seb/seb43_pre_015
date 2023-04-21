@@ -1,6 +1,6 @@
 package com.pre015.server.question.dto;
 
-import com.pre015.server.answer.dto.AnswerDTO;
+import com.pre015.server.answer.dto.AnswerResponseDTO;
 import com.pre015.server.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -69,7 +69,7 @@ public class QuestionDto {
         private String displayName;
         private LocalDateTime createdTime;
         private LocalDateTime modifiedTime;
-        private List<AnswerDTO> answers;
+        private List<AnswerResponseDTO> answers;
     }
 
     @Getter

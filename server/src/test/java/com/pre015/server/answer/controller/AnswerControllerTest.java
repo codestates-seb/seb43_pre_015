@@ -1,4 +1,4 @@
-package com.pre015.server.answer.contoller;
+package com.pre015.server.answer.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pre015.server.answer.dto.AnswerPatchDTO;
@@ -90,7 +90,7 @@ class AnswerControllerTest {
                                 fieldWithPath("answerId").type(NUMBER).description("답변글 ID"),
                                 fieldWithPath("content").type(STRING).description("답변글 내용"),
                                 fieldWithPath("likes").type(NUMBER).description("좋아요 카운트"),
-                                fieldWithPath("selectionStatus").type(BOOLEAN).description("채택 여부"),
+                                fieldWithPath("selectionSgtatus").type(BOOLEAN).description("채택 여부"),
                                 fieldWithPath("memberId").type(NUMBER).description("작성자 아이디"),
                                 fieldWithPath("memberDisplayName").type(STRING).description("작성자 닉네임"),
                                 fieldWithPath("questionId").type(NUMBER).description("질문글 아이디"),
@@ -155,7 +155,7 @@ class AnswerControllerTest {
 
     @DisplayName("get Answer By AnswerId")
     @Test
-    void testFindAnswerById() throws Exception {
+    void testfindAnswer() throws Exception {
         Long id = 1L;
         when(answerService.findAnswer(id)).thenReturn(answerResponseDTO);
 
