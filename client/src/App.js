@@ -4,6 +4,8 @@ import LoginPage from './components/LoginPage.js';
 import Activity from './pages/Activity';
 import Sidebar from './components/Sidebar';
 import Profile from './pages/Profile';
+import TextEditor from './components/TextEditor';
+import Ask from './pages/Ask';
 
 
 function App() {
@@ -12,7 +14,7 @@ function App() {
       <main>
         <Navbar />
         <section className='features'>
-          <Profile />
+          <Ask />
         </section>
       </main>
     </>

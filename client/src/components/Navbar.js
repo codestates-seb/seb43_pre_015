@@ -201,7 +201,7 @@ const LoginLink = styled.a`
   text-decoration: none;
 `
 
-const RegistBtn = styled.div`
+export const RegistBtn = styled.div`
   background-color: #0095ff;
   border: 1px solid transparent;
   border-radius: 3px;
