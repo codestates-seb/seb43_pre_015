@@ -1,6 +1,7 @@
 package com.pre015.server.answer.service;
 
-import com.pre015.server.answer.dto.AnswerDTO;
+import com.pre015.server.answer.dto.AnswerPostDTO;
+import com.pre015.server.answer.dto.AnswerResponseDTO;
 import com.pre015.server.answer.entity.Answer;
 import com.pre015.server.answer.mapper.AnswerMapper;
 import com.pre015.server.answer.repository.AnswerRepository;
@@ -14,12 +15,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static org.mockito.Mockito.*;
 
@@ -41,8 +44,9 @@ class AnswerServiceTest {
     @InjectMocks
     private AnswerServiceImpl answerService;
 
+    private Pageable pageable = PageRequest.of(0, 10);
     private Answer answer;
-    private AnswerDTO answerDTO;
+    private AnswerResponseDTO answerResponseDTO;
     private Member member;
     private Question question;
 
@@ -75,45 +79,48 @@ class AnswerServiceTest {
         answer.setMember(member);
         answer.setQuestion(question);
 
-        answerDTO = new AnswerDTO();
-        answerDTO.setAnswerId(1L);
-        answerDTO.setContent("Test answer");
-        answerDTO.setMemberId(member.getMemberId());
-        answerDTO.setQuestionId(question.getQuestionId());
+        answerResponseDTO = new AnswerResponseDTO();
+        answerResponseDTO.setAnswerId(1L);
+        answerResponseDTO.setContent("Test answer");
+        answerResponseDTO.setMemberId(member.getMemberId());
+        answerResponseDTO.setMemberDisplayName(member.getDisplayName());
+        answerResponseDTO.setQuestionId(question.getQuestionId());
+        answerResponseDTO.setCreatedTime(LocalDateTime.now());
+        answerResponseDTO.setModifiedTime(LocalDateTime.now());
     }
 
     @Test
     void createAnswer() {
-        AnswerDTO.POST postDTO = new AnswerDTO.POST("Test answer", 1L, 1L);
+        AnswerPostDTO postDTO = new AnswerPostDTO("Test answer", 1L, 1L);
         when(memberService.findVerifiedMember(postDTO.getMemberId())).thenReturn(member);
         when(questionService.findVerifiedQuestion(postDTO.getQuestionId())).thenReturn(question);
-        when(answerMapper.PostDTOtoEntity(postDTO, member, question)).thenReturn(answer);
+        when(answerMapper.postDTOtoEntity(postDTO, member, question)).thenReturn(answer);
         when(answerRepository.save(answer)).thenReturn(answer);
-        when(answerMapper.toDTO(answer)).thenReturn(answerDTO);
+        when(answerMapper.entityToAnswerResponseDto(answer, member, question)).thenReturn(answerResponseDTO);
 
-        AnswerDTO result = answerService.createAnswer(postDTO);
+        AnswerResponseDTO result = answerService.createAnswer(postDTO);
 
         verify(memberService, times(1)).findVerifiedMember(postDTO.getMemberId());
         verify(questionService, times(1)).findVerifiedQuestion(postDTO.getQuestionId());
-        verify(answerMapper, times(1)).PostDTOtoEntity(postDTO, member, question);
+        verify(answerMapper, times(1)).postDTOtoEntity(postDTO, member, question);
         verify(answerRepository, times(1)).save(answer);
-        verify(answerMapper, times(1)).toDTO(answer);
+        verify(answerMapper, times(1)).entityToAnswerResponseDto(answer, member, question);
 
-        assert(result.getContent().equals(answerDTO.getContent()));
+        assert (result.getContent().equals(answerResponseDTO.getContent()));
     }
 
     @Test
     void updateAnswer() {
         when(answerRepository.findById(answer.getAnswerId())).thenReturn(Optional.of(answer));
         when(answerRepository.save(answer)).thenReturn(answer);
-        when(answerMapper.toDTO(answer)).thenReturn(answerDTO);
+        when(answerMapper.toResponseDTO(answer)).thenReturn(answerResponseDTO);
 
-        AnswerDTO result = answerService.updateAnswer(answer.getAnswerId(), answerDTO);
+        AnswerResponseDTO result = answerService.updateAnswer(answer.getAnswerId(), answerResponseDTO.getContent());
 
         verify(answerRepository, times(1)).findById(answer.getAnswerId());
         verify(answerRepository, times(1)).save(answer);
-        verify(answerMapper, times(1)).toDTO(answer);
-        assert(result.getContent().equals(answerDTO.getContent()));
+        verify(answerMapper, times(1)).toResponseDTO(answer);
+        assert (result.getContent().equals(answerResponseDTO.getContent()));
     }
 
     @Test
@@ -126,64 +133,70 @@ class AnswerServiceTest {
     }
 
     @Test
-    void findAllAnswers() {
-        List<Answer> answers = new ArrayList<>(Arrays.asList(answer));
-        when(answerRepository.findAll()).thenReturn(answers);
-        when(answerMapper.toDTOList(answers)).thenReturn(Arrays.asList(answerDTO));
+    void findAnswer() {
+        when(answerRepository.findById(answer.getAnswerId())).thenReturn(Optional.of(answer));
+        when(answerMapper.toResponseDTO(answer)).thenReturn(answerResponseDTO);
 
-        List<AnswerDTO> result = answerService.findAllAnswers();
+        AnswerResponseDTO result = answerService.findAnswer(answer.getAnswerId());
 
-        verify(answerRepository, times(1)).findAll();
-        verify(answerMapper, times(1)).toDTOList(answers);
+        verify(answerRepository, times(1)).findById(answer.getAnswerId());
+        verify(answerMapper, times(1)).toResponseDTO(answer);
 
-        assert(result.size() == 1);
-        assert(result.get(0).getContent().equals(answerDTO.getContent()));
+        assert (result.getContent().equals(answerResponseDTO.getContent()));
     }
 
     @Test
-    void findAnswer() {
-        when(answerRepository.findById(answer.getAnswerId())).thenReturn(Optional.of(answer));
-        when(answerMapper.toDTO(answer)).thenReturn(answerDTO);
+    void findAllAnswers() {
+        int page = 0, size = 10;
+        List<Answer> answers = new ArrayList<>(Arrays.asList(answer));
+        Page<Answer> answerPage = new PageImpl<>(answers, pageable, answers.size());
+        when(answerRepository.findAll(pageable)).thenReturn(answerPage);
+        when(answerMapper.toResponseDTO(answers.get(0))).thenReturn(answerResponseDTO);
 
-        AnswerDTO result = answerService.findAnswer(answer.getAnswerId());
+        Page<AnswerResponseDTO> result = answerService.findAllAnswers(page, size);
 
-        verify(answerRepository, times(1)).findById(answer.getAnswerId());
-        verify(answerMapper, times(1)).toDTO(answer);
+        verify(answerRepository, times(1)).findAll(pageable);
+        verify(answerMapper, times(1)).toResponseDTO(answers.get(0));
 
-        assert(result.getContent().equals(answerDTO.getContent()));
+        assert (result.getContent().size() == 1);
+        assert (result.getContent().get(0).getContent().equals(answerResponseDTO.getContent()));
     }
 
     @Test
     void findAnswersByMember() {
+        int page = 0, size = 10;
         List<Answer> answers = new ArrayList<>(Arrays.asList(answer));
+        Page<Answer> answerPage = new PageImpl<>(answers, pageable, answers.size());
         when(memberService.findVerifiedMember(member.getMemberId())).thenReturn(member);
-        when(answerRepository.findByMember(member)).thenReturn(answers);
-        when(answerMapper.toDTOList(answers)).thenReturn(Arrays.asList(answerDTO));
+        when(answerRepository.findByMember(member, pageable)).thenReturn(answerPage);
+        when(answerMapper.toResponseDTO(answers.get(0))).thenReturn(answerResponseDTO);
 
-        List<AnswerDTO> result = answerService.findAnswersByMember(member.getMemberId());
+        Page<AnswerResponseDTO> result = answerService.findAnswersByMember(member.getMemberId(), page, size);
 
         verify(memberService, times(1)).findVerifiedMember(member.getMemberId());
-        verify(answerRepository, times(1)).findByMember(member);
-        verify(answerMapper, times(1)).toDTOList(answers);
+        verify(answerRepository, times(1)).findByMember(member, pageable);
+        verify(answerMapper, times(1)).toResponseDTO(answers.get(0));
 
-        assert(result.size() == 1);
-        assert(result.get(0).getContent().equals(answerDTO.getContent()));
+        assert (result.getContent().size() == 1);
+        assert (result.getContent().get(0).getContent().equals(answerResponseDTO.getContent()));
     }
 
     @Test
     void findAnswersByQuestion() {
+        int page = 0, size = 10;
         List<Answer> answers = new ArrayList<>(Arrays.asList(answer));
+        Page<Answer> answerPage = new PageImpl<>(answers, pageable, answers.size());
         when(questionService.findVerifiedQuestion(question.getQuestionId())).thenReturn(question);
-        when(answerRepository.findByQuestion(question)).thenReturn(answers);
-        when(answerMapper.toDTOList(answers)).thenReturn(Arrays.asList(answerDTO));
+        when(answerRepository.findByQuestion(question, pageable)).thenReturn(answerPage);
+        when(answerMapper.toResponseDTO(answers.get(0))).thenReturn(answerResponseDTO);
 
-        List<AnswerDTO> result = answerService.findAnswersByQuestion(question.getQuestionId());
+        Page<AnswerResponseDTO> result = answerService.findAnswersByQuestion(question.getQuestionId(), page, size);
 
         verify(questionService, times(1)).findVerifiedQuestion(question.getQuestionId());
-        verify(answerRepository, times(1)).findByQuestion(question);
-        verify(answerMapper, times(1)).toDTOList(answers);
+        verify(answerRepository, times(1)).findByQuestion(question, pageable);
+        verify(answerMapper, times(1)).toResponseDTO(answers.get(0));
 
-        assert(result.size() == 1);
-        assert(result.get(0).getContent().equals(answerDTO.getContent()));
+        assert (result.getContent().size() == 1);
+        assert (result.getContent().get(0).getContent().equals(answerResponseDTO.getContent()));
     }
 }
