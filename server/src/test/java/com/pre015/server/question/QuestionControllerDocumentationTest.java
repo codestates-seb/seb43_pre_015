@@ -314,6 +314,90 @@ public class QuestionControllerDocumentationTest {
     }
 
     @Test
+    public void getQuestionsByMemberTest() throws Exception {
+        //given
+        long memberId = 1L;
+        List<QuestionDto.Response> responseDtos = List.of(
+                new QuestionDto.Response(
+                        1L,
+                        memberId,
+                        "질문 제목",
+                        "질문 내용",
+                        "회원 닉네임",
+                        LocalDateTime.now(),
+                        LocalDateTime.now(),
+                        0
+                ),
+                new QuestionDto.Response(
+                        2L,
+                        memberId,
+                        "질문 제목",
+                        "질문 내용",
+                        "회원 닉네임",
+                        LocalDateTime.now(),
+                        LocalDateTime.now(),
+                        5
+                )
+        );
+        QuestionDto.PageInfo pageInfo = new QuestionDto.PageInfo(1,15,2,1);
+        String page = "1";
+        String size = "15";
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("page", page);
+        params.add("size", size);
+
+        QuestionDto.MultiResponse<QuestionDto.Response> Mresponse = new QuestionDto.MultiResponse<>(responseDtos, pageInfo);
+
+        given(questionService.responseQuestionsByMember(Mockito.anyLong(),Mockito.anyInt(),Mockito.anyInt())).willReturn(Mresponse);
+        //when
+        ResultActions actions =
+                mockMvc.perform(
+                        get("/questions/member/{member_id}", memberId)
+                                .params(params)
+                                .accept(MediaType.APPLICATION_JSON)
+                );
+        //then
+        MvcResult result =
+                actions.andExpect(status().isOk())
+                        .andDo(
+                                document("get-questions-by-member",
+                                        preprocessRequest(prettyPrint()),
+                                        preprocessResponse(prettyPrint()),
+                                        pathParameters(
+                                                List.of(parameterWithName("member_id").description("회원 식별자"))
+                                        ),
+                                        requestParameters(
+                                                List.of(
+                                                        parameterWithName("page").description("현재 page 번호"),
+                                                        parameterWithName("size").description("page 사이즈(15,30,45)")
+                                                )
+                                        ),
+                                        responseFields(
+                                                List.of(
+                                                        fieldWithPath("questions").type(JsonFieldType.ARRAY).description("질문 리스트"),
+                                                        fieldWithPath("questions[].questionId").type(JsonFieldType.NUMBER).description("질문 id"),
+                                                        fieldWithPath("questions[].memberId").type(JsonFieldType.NUMBER).description("회원 id"),
+                                                        fieldWithPath("questions[].title").type(JsonFieldType.STRING).description("질문 제목"),
+                                                        fieldWithPath("questions[].content").type(JsonFieldType.STRING).description("질문 내용"),
+                                                        fieldWithPath("questions[].displayName").type(JsonFieldType.STRING).description("닉네임"),
+                                                        fieldWithPath("questions[].createdTime").type(JsonFieldType.STRING).description("질문 생성 시간"),
+                                                        fieldWithPath("questions[].modifiedTime").type(JsonFieldType.STRING).description("질문 수정 시간"),
+                                                        fieldWithPath("questions[].answerCount").type(JsonFieldType.NUMBER).description("답변 리스트"),
+                                                        fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
+                                                        fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지 번호"),
+                                                        fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지 사이즈"),
+                                                        fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 질문 갯수"),
+                                                        fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("전체 페이지 수")
+                                                )
+                                        )
+                                )
+                        ).andReturn();
+        List list = JsonPath.parse(result.getResponse().getContentAsString()).read("$.questions");
+        assertThat(list.size(), is(2));
+    }
+
+    @Test
     public void deleteQuestionTest() throws Exception {
 
         // given

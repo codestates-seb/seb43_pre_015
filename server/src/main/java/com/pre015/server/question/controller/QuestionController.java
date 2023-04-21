@@ -39,10 +39,19 @@ public class QuestionController {
         QuestionDto.DetailsResponse response = questionService.findQuestion(questionId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
     @GetMapping
     public ResponseEntity getQuestions(@RequestParam("page") @Positive int page,
                                        @RequestParam("size") @Positive int size) {
         QuestionDto.MultiResponse response = questionService.findQuestions(page, size);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/member/{member_id}")
+    public ResponseEntity getQuestionsByMemberId(@PathVariable("member_id") Long memberId,
+                                                 @RequestParam("page") @Positive int page,
+                                                 @RequestParam("size") @Positive int size) {
+        QuestionDto.MultiResponse response = questionService.responseQuestionsByMember(memberId, page, size);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
