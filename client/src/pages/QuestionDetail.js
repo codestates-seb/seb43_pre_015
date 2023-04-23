@@ -2,6 +2,11 @@ import styled from "styled-components";
 import UserProfile from "../components/UserProfile";
 import Sidebar from "../components/Sidebar";
 
+import { AiFillCaretUp } from "react-icons/ai";
+import { AiFillCaretDown } from "react-icons/ai";
+import { BsBookmark } from "react-icons/bs";
+import { MdHistory } from "react-icons/md";
+
 const QuestionDetail = () => {
   return (
     <QuestionDetailContainer>
@@ -21,11 +26,19 @@ const QuestionDetail = () => {
         </QuestionDate>
         <QuestionMain>
           <QuestionLike>
-            <div>up</div>
-            <div>0</div>
-            <div>down</div>
-            <div>book</div>
-            <div>acti</div>
+            <div>
+              <AiFillCaretUp />
+            </div>
+            <div>-1</div>
+            <div>
+              <AiFillCaretDown />
+            </div>
+            <div>
+              <BsBookmark />
+            </div>
+            <div>
+              <MdHistory />
+            </div>
           </QuestionLike>
           <article>
             <p>
@@ -34,8 +47,19 @@ const QuestionDetail = () => {
               (for me). Fiddle:
             </p>
           </article>
-          <div className="question-button"></div>
         </QuestionMain>
+        <QuestionEdit>
+          <div className="question-edit">
+            <div>Share</div>
+            <div>Edit</div>
+            <div>Follow</div>
+          </div>
+          <div className="question-profile">
+            <p>Answered 18 years ago</p>
+
+            <p>nickname</p>
+          </div>
+        </QuestionEdit>
       </QuestionContainer>
       <AnswerContainer></AnswerContainer>
     </QuestionDetailContainer>
@@ -103,6 +127,15 @@ const QuestionLike = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  text-align: center;
+`;
+
+const QuestionEdit = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
 `;
 
 const AnswerContainer = styled.div``;
