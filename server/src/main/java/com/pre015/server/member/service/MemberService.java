@@ -1,14 +1,18 @@
 package com.pre015.server.member.service;
 
+import com.pre015.server.auth.utils.CustomAuthorityUtils;
 import com.pre015.server.member.entity.Member;
 import com.pre015.server.member.entity.MemberStatus;
 import com.pre015.server.exception.BusinessLogicException;
 import com.pre015.server.exception.ExceptionCode;
 import com.pre015.server.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -16,11 +20,23 @@ import java.util.Optional;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final ApplicationEventPublisher publisher;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomAuthorityUtils authorityUtils;
+
 
     public Member saveMember(Member member){
         verifyExistEmail(member.getEmail());
+        String encryptedPassword = passwordEncoder.encode(member.getPassword());
+        member.setPassword(encryptedPassword);
 
-        return memberRepository.save(member);
+        List<String> roles = authorityUtils.createRoles(member.getEmail());
+        member.setRoles(roles);
+
+        Member savedMember = memberRepository.save(member);
+//        email certification
+//        publisher.publishEvent(new MemberRegistrationApplicationEvent(savedMember));
+        return savedMember;
     }
 
     private void verifyExistEmail(String email){
