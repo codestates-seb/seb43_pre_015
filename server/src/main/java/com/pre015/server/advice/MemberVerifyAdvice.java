@@ -14,6 +14,8 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
@@ -35,7 +37,8 @@ public class MemberVerifyAdvice extends VerifyAdvice {
     private final CommentRepository commentRepository;
     private final AnswerRepository answerRepository;
 
-    public MemberVerifyAdvice(JwtTokenizer jwtTokenizer, ObjectMapper objectMapper, QuestionRepository questionRepository, CommentRepository commentRepository, AnswerRepository answerRepository) {
+    @Autowired
+    public MemberVerifyAdvice(@Lazy JwtTokenizer jwtTokenizer, ObjectMapper objectMapper, QuestionRepository questionRepository, CommentRepository commentRepository, AnswerRepository answerRepository) {
         super(jwtTokenizer);
         this.objectMapper = objectMapper;
         this.questionRepository = questionRepository;

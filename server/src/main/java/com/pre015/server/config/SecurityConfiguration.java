@@ -2,16 +2,17 @@ package com.pre015.server.config;
 
 import com.pre015.server.auth.filter.JwtAuthenticationFilter;
 import com.pre015.server.auth.filter.JwtVerificationFilter;
-import com.pre015.server.auth.handler.MemberAccessDeniedHandler;
-import com.pre015.server.auth.handler.MemberAuthenticationEntryPoint;
-import com.pre015.server.auth.handler.MemberAuthenticationFailureHandler;
-import com.pre015.server.auth.handler.MemberAuthenticationSuccessHandler;
+import com.pre015.server.auth.handler.*;
 import com.pre015.server.auth.interceptor.JwtParseInterceptor;
 import com.pre015.server.auth.jwt.JwtTokenizer;
 import com.pre015.server.auth.utils.CustomAuthorityUtils;
 import com.pre015.server.auth.utils.JwtUtils;
+import com.pre015.server.member.service.MemberService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +21,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -34,11 +36,15 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity(debug = false)
 public class SecurityConfiguration implements WebMvcConfigurer {
-
+    private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
+    private final MemberService memberService;
 
-    public SecurityConfiguration(CustomAuthorityUtils authorityUtils) {
+    @Autowired
+    public SecurityConfiguration(@Lazy JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils, @Lazy MemberService memberService) {
+        this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
+        this.memberService = memberService;
     }
 
     @Bean
@@ -59,14 +65,15 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.POST, "/members").permitAll()
-                        .antMatchers(HttpMethod.PATCH, "/members/**").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.POST, "/members").permitAll()
+                                .antMatchers(HttpMethod.PATCH, "/members/**").hasAnyRole("USER", "ADMIN")
 //                        .antMatchers(HttpMethod.GET, "/*/members").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.GET, "/members/**").hasAnyRole("USER", "ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/members/**").hasAnyRole("USER", "ADMIN")
-                        .antMatchers(HttpMethod.POST, "/questions/**", "/questions", "/api/answers", "/api/answers/**", "/comments/**").hasAnyRole("USER", "ADMIN")
-                        .anyRequest().permitAll()
-                );
+                                .antMatchers(HttpMethod.GET, "/members/**").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.DELETE, "/members/**").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.POST, "/questions/**", "/questions", "/api/answers", "/api/answers/**", "/comments/**").hasAnyRole("USER", "ADMIN")
+                                .anyRequest().permitAll()
+                )
+                .oauth2Login(oauth2 -> oauth2.successHandler(new OAuth2MemberSuccessHandler(memberService, jwtTokenizer, authorityUtils)));
         return http.build();
     }
 
@@ -83,7 +90,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
         //모든 출처에 대해 스크립트 기반 HTTP 통신 허용
         configuration.setAllowedOrigins(Arrays.asList("*"));
         //파라미터로 지정한 HTTP Method에 대한 통신 허용
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
 
         // UrlBasedCorsConfigurationSource 객체 생성
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -105,7 +112,8 @@ public class SecurityConfiguration implements WebMvcConfigurer {
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtUtils(), authorityUtils);
 
             builder.addFilter(jwtAuthenticationFilter)
-                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class)
+                    .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class);
         }
     }
 
@@ -119,6 +127,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     public JwtUtils jwtUtils() {
         return new JwtUtils(jwtTokenizer());
     }
+
     @Bean
     public JwtTokenizer jwtTokenizer() {
         return new JwtTokenizer();

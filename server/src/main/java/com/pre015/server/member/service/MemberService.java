@@ -25,7 +25,7 @@ public class MemberService {
     private final CustomAuthorityUtils authorityUtils;
 
 
-    public Member saveMember(Member member){
+    public Member saveMember(Member member) {
         verifyExistEmail(member.getEmail());
         String encryptedPassword = passwordEncoder.encode(member.getPassword());
         member.setPassword(encryptedPassword);
@@ -39,9 +39,23 @@ public class MemberService {
         return savedMember;
     }
 
-    private void verifyExistEmail(String email){
+    public void saveOAuthMember(String email, String displayName) {
+        Optional<Member> findMember = memberRepository.findByEmail(email);
+        if (findMember.isEmpty()) {
+            List<String> roles = authorityUtils.createRoles(email);
+            Member member = new Member();
+            member.setEmail(email);
+            member.setPassword("oauth_temp");
+            member.setDisplayName(displayName);
+            member.setMemberStatus(MemberStatus.ACTIVE);
+            member.setRoles(roles);
+            memberRepository.save(member);
+        }
+    }
+
+    private void verifyExistEmail(String email) {
         Optional<Member> member = memberRepository.findByEmail(email);
-        if(member.isPresent())
+        if (member.isPresent())
             throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
     }
 
