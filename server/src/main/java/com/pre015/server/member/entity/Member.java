@@ -10,9 +10,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @Entity
