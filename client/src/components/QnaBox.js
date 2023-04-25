@@ -15,19 +15,19 @@ const QnaBox = () => {
     <>
       <QnaBoxContainer>
         <QnaLike>
-          <div className="like-icon">
+          <a className="like-icon">
             <AiFillCaretUp size="36" color="#babfc4" />
-          </div>
+          </a>
           <div className="like-count">-1</div>
-          <div className="like-icon">
+          <a className="like-icon">
             <AiFillCaretDown size="36" color="#babfc4" />
-          </div>
-          <div className="like-icon">
+          </a>
+          <a className="like-icon">
             <GrBookmark size="18" color="#babfc4" />
-          </div>
-          <div className="like-icon">
+          </a>
+          <a className="like-icon">
             <GrHistory size="18" color="#babfc4" />
-          </div>
+          </a>
         </QnaLike>
         <QnaMain>
           <article>
@@ -37,6 +37,11 @@ const QnaBox = () => {
               (for me). Fiddle:
             </p>
           </article>
+          <QnaTag>
+            <a className="qna-tag">javascript</a>
+            <a className="qna-tag">React</a>
+            <a className="qna-tag">function</a>
+          </QnaTag>
           <QnaEditContainer>
             <div className="qna-edit">
               <div>Share</div>
@@ -96,6 +101,27 @@ const QnaMain = styled.div`
   }
 `;
 
+const QnaTag = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 20px;
+
+  .qna-tag {
+    height: 24px;
+    color: #39739d;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    background-color: #e1ecf4;
+    margin: 2px 8px 2px 0;
+    padding: 4.8px 6px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
 const QnaLike = styled.div`
   width: 40px;
   display: flex;
@@ -107,11 +133,13 @@ const QnaLike = styled.div`
   .like-icon {
     width: 36px;
     padding: 4px 0;
+    cursor: pointer;
   }
   .like-count {
     width: 36px;
     font-size: 1.3125rem;
     color: #6a737c;
+    vertical-align: middle;
     padding: 4px 0;
   }
 `;
@@ -163,6 +191,7 @@ const QnaProfile = styled.div`
     color: #0074cc;
     font-weight: 300;
     margin-left: 8px;
+    cursor: pointer;
   }
 `;
 
@@ -173,12 +202,13 @@ const CommentText = styled.div`
   border-bottom: 1px solid hsl(210, 8%, 90%);
 
   span {
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: #232629;
   }
   a {
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: #0074cc;
+    cursor: pointer;
   }
   .comment-date {
     margin-left: 5px;
