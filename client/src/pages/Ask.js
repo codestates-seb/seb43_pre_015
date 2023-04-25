@@ -1,12 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import TextEditor from '../components/TextEditor';
 import { RegistLink } from '../components/Navbar';
 import AskGuide from '../components/AskGuide';
 import Tag from '../components/Tag';
 import DiscardModal from '../components/DiscardModal';
+import axios from 'axios';
 
 function Ask() {
+    // 서버 연결
+    const [title, setTitle] = useState('');
+    const [problemContent, setProblemContent] = useState('');
+    const [expectedContent, setExpectedContent] = useState('');
+    
+    const handleFormSubmit = async () => {
+        console.log('Submitting form with values:', {
+            memberId: 1,
+            title: title,
+            content: `${problemContent} ${expectedContent}`,
+        });
+    
+        try {
+            const response = await axios.post('https://e6cb-58-232-110-9.ngrok-free.app/questions/ask', {
+                memberId: 1,
+                title: title,
+                content: `${problemContent} ${expectedContent}`,
+            });
+            console.log('POST request successful:', response.data);
+        } catch (error) {
+            console.error('Error during POST request:', error);
+        }
+    };
+
+    const handleTitleChange = (event) => {
+        setTitle(event.target.value);
+        console.log('Title:', event.target.value);
+    };
+
+    // 컴포넌트
     const [focusedElement, setFocusedElement] = useState(null);
     const [nextClicked, setNextClicked] = useState([false, false, false, false]);
     const [modalOpen, setModalOpen] = useState(false);
@@ -40,6 +71,8 @@ function Ask() {
                             placeholder='e.g. Is there an R function for finding the index of an element in a vector?'
                             onFocus={() => setFocusedElement('title')}
                             autoFocus
+                            value={title}
+                            onChange={handleTitleChange}
                         />
                         {!nextClicked[0] && <NextBtn onClick={() => handleNextClick(0)}>Next</NextBtn>}
                     </ContentBox>
@@ -62,6 +95,7 @@ function Ask() {
                         <label className='description'>Introduce the problem and expand on what you put in the title. Minimum 20 characters.</label>
                         <TextEditor 
                             onFocus={() => setFocusedElement('problem')}
+                            handleContentChange={setProblemContent}
                         />
                         {!nextClicked[1] && <NextBtn onClick={() => handleNextClick(1)} style={{ display: nextClicked[0] ? 'block' : 'none' }}>Next</NextBtn>}
                     </TextBox>
@@ -86,6 +120,7 @@ function Ask() {
                         <label className='description'>Describe what you tried, what you expected to happen, and what actually resulted. Minimum 20 characters.</label>
                         <TextEditor 
                             onFocus={() => setFocusedElement('expect')}
+                            handleContentChange={setExpectedContent}
                         />
                         { !nextClicked[2] && 
                             <NextBtn onClick={() => handleNextClick(2)} style={{ display: nextClicked[1] ? 'block' : 'none' }}>Next</NextBtn>}
@@ -115,7 +150,7 @@ function Ask() {
                             {!nextClicked[3] && <NextBtn onClick={() => handleNextClick(3)} style={{ display: nextClicked[2] ? 'block' : 'none' }}>Next</NextBtn>}
                         </TagContentBox>
                         <ButtonBox style={{ opacity: nextClicked[3] ? 1 : 0.5, cursor: nextClicked[3] ? 'auto' : 'not-allowed', display: nextClicked[3] ? 'block' : 'none' }}>
-                            <PostBtn>Post your question</PostBtn>
+                            <PostBtn onClick={() => handleFormSubmit()}>Post your question</PostBtn>
                             <DiscardBtn onClick={openModal}>Discard draft</DiscardBtn>
                         </ButtonBox>
                     </LastBox>
