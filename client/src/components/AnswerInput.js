@@ -33,6 +33,7 @@ const AnswerInput = () => {
 };
 
 const AnswerInputContainer = styled.div`
+  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

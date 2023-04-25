@@ -31,6 +31,12 @@ const QuestionDetail = () => {
             <h3>Your Answer</h3>
           </AnswerTitle>
           <AnswerInput />
+          <NotTheAnswer>
+            Not the answer you're looking for? Browse other questions tagged{" "}
+            <a className="qna-tag">javascript</a>{" "}
+            <a className="qna-tag">closures</a> or{" "}
+            <AskQuestionLink to="/">ask your own question</AskQuestionLink>.
+          </NotTheAnswer>
         </AnswerContainer>
       </QnaContainer>
     </QuestionDetailContainer>
@@ -143,4 +149,24 @@ const AnswerTitle = styled.div`
     font-size: 1.2rem;
     font-weight: 400;
   }
+`;
+const NotTheAnswer = styled.div`
+  width: 664px;
+  font-size: 1.0625rem;
+
+  .qna-tag {
+    height: 24px;
+    color: #39739d;
+    font-size: 0.8125rem;
+    border-radius: 4px;
+    background-color: #e1ecf4;
+    padding: 4.8px 6px;
+    cursor: pointer;
+  }
+`;
+
+const AskQuestionLink = styled.a`
+  font-size: 1.0625rem;
+  color: #0074cc;
+  cursor: pointer;
 `;

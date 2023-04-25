@@ -40,7 +40,7 @@ const QnaBox = () => {
           <QnaTag>
             <a className="qna-tag">javascript</a>
             <a className="qna-tag">React</a>
-            <a className="qna-tag">function</a>
+            <a className="qna-tag">closures</a>
           </QnaTag>
           <QnaEditContainer>
             <div className="qna-edit">
