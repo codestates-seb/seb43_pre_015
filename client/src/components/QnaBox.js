@@ -160,6 +160,7 @@ const QnaEditContainer = styled.div`
     font-size: 0.875rem;
     font-weight: 300;
     padding-right: 30px;
+    cursor: pointer;
   }
 `;
 
