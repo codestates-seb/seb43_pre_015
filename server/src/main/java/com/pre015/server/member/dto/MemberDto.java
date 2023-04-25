@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 
 public class MemberDto {
 
+    @Getter
+    @Setter
     public static class Response {
         private Long memberId;
         private String displayName;
