@@ -34,11 +34,10 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity(debug = false)
 public class SecurityConfiguration implements WebMvcConfigurer {
-    private  final JwtTokenizer jwtTokenizer;
+
     private final CustomAuthorityUtils authorityUtils;
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils) {
-        this.jwtTokenizer = jwtTokenizer;
+    public SecurityConfiguration(CustomAuthorityUtils authorityUtils) {
         this.authorityUtils = authorityUtils;
     }
 

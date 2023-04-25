@@ -1,5 +1,6 @@
 package com.pre015.server.question.service;
 
+import com.pre015.server.auth.interceptor.JwtParseInterceptor;
 import com.pre015.server.member.entity.Member;
 import com.pre015.server.member.service.MemberService;
 import com.pre015.server.question.dto.QuestionDto;
@@ -28,7 +29,11 @@ public class QuestionService {
 
     public QuestionDto.DetailsResponse createQuestion(QuestionDto.Post postDto){
         Question question = mapper.questionPostDtoToQuestion(postDto);
-        Member member = memberService.findVerifiedMember(question.getMember().getMemberId());
+        long authenticatedMemberId = JwtParseInterceptor.getAuthenticatedMemberId();
+        if (question.getMemberId() != authenticatedMemberId) {
+            throw new RuntimeException("This question was written by another member!");
+        }
+        Member member = memberService.findVerifiedMember(authenticatedMemberId);
         question.setMember(member);
 
         Question savedQuestion = this.questionRepository.save(question);
@@ -44,6 +49,12 @@ public class QuestionService {
                 .ifPresent(findQuestion::setTitle);
         Optional.ofNullable(question.getContent())
                 .ifPresent(findQuestion::setContent);
+
+        //자격증명 코드
+        long authenticatedMemberId = JwtParseInterceptor.getAuthenticatedMemberId();
+        if (findQuestion.getMemberId() != authenticatedMemberId) {
+            throw new RuntimeException("This question was written by another member!");
+        }
 
         Question updatedQuestion = questionRepository.save(findQuestion);
         return mapper.questionToQuestionDetailsResponseDto(updatedQuestion);
@@ -79,6 +90,10 @@ public class QuestionService {
 
     public void deleteQuestion(Long questionId) {
         Question question = findVerifiedQuestion(questionId);
+        long authenticatedMemberId = JwtParseInterceptor.getAuthenticatedMemberId();
+        if (question.getMemberId() != authenticatedMemberId) {
+            throw new RuntimeException("This question was written by another member!");
+        }
         questionRepository.delete(question);
     }
 
