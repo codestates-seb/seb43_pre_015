@@ -5,8 +5,17 @@ import { HiAnnotation } from "react-icons/hi";
 import { BsStackOverflow } from "react-icons/bs";
 import { RiNumber4 } from "react-icons/ri";
 import Sidebar from '../components/Sidebar.js'
+import axios from 'axios';
+
+
 
 function QuestionList() {
+  axios.get('https://b153-58-232-110-9.ngrok-free.app/questions').then((response) => {
+    console.log(response.data);
+  }).catch((error) => {
+    console.log(error);
+  })
+
   return (
     <QuestionListPage>
       <QuestionContainer>
@@ -17,7 +26,7 @@ function QuestionList() {
             <TitleBox>
               <Title>Top Questions</Title>
               <AskBtnBox>
-                <AskBtn>Ask Question</AskBtn>
+                <AskBtn to="/ask">Ask Question</AskBtn>
               </AskBtnBox>
             </TitleBox>
             <FilterBarBox>
