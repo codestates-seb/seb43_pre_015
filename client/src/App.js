@@ -25,6 +25,7 @@ function App() {
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/questionlist" element={<QuestionList />} />
             <Route path="/questiondetail" element={<QuestionDetail />} />
+            <Route path="/ask" element={<Ask />} />
           </Routes>
         </section>
       </main>
