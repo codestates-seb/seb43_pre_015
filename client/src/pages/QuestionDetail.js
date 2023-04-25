@@ -24,7 +24,7 @@ const QuestionDetail = () => {
         <AnswerContainer>
           <AnswerTitle>
             <h3>2 Answer</h3>
-            <div>sorted by:</div>
+            {/* <div>sorted by:</div> */}
           </AnswerTitle>
           <QnaBox />
           <AnswerTitle>
