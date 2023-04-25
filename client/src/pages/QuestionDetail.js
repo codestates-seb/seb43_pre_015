@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import UserProfile from "../components/UserProfile";
 import Sidebar from "../components/Sidebar";
 import QnaBox from "../components/QnaBox";
 
@@ -26,6 +25,11 @@ const QuestionDetail = () => {
             <h3>2 Answer</h3>
             <div>sorted by:</div>
           </AnswerTitle>
+          <QnaBox />
+          <AnswerTitle>
+            <h3>Your Answer</h3>
+          </AnswerTitle>
+          <AnswerInput></AnswerInput>
         </AnswerContainer>
       </QnaContainer>
     </QuestionDetailContainer>
@@ -128,6 +132,19 @@ const AnswerContainer = styled.div`
 `;
 
 const AnswerTitle = styled.div`
+  width: 696px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    color: #232629;
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
+`;
+
+const AnswerInput = styled.div`
   width: 696px;
   display: flex;
   justify-content: space-between;

@@ -1,32 +1,35 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import CommentInput from "../components/CommentInput";
 
 import { AiFillCaretUp } from "react-icons/ai";
 import { AiFillCaretDown } from "react-icons/ai";
-import { BsBookmark } from "react-icons/bs";
-import { MdHistory } from "react-icons/md";
+import { GrBookmark } from "react-icons/gr";
+import { GrHistory } from "react-icons/gr";
 
 const QnaBox = () => {
+  const [visible, setVisible] = useState(false);
+
   return (
     <>
       <QnaBoxContainer>
         <QnaLike>
-          <div>
-            <AiFillCaretUp className="qna" />
+          <div className="like-icon">
+            <AiFillCaretUp size="36" color="#babfc4" />
           </div>
-          <div>-1</div>
-          <div>
-            <AiFillCaretDown />
+          <div className="like-count">-1</div>
+          <div className="like-icon">
+            <AiFillCaretDown size="36" color="#babfc4" />
           </div>
-          <div>
-            <BsBookmark />
+          <div className="like-icon">
+            <GrBookmark size="18" color="#babfc4" />
           </div>
-          <div>
-            <MdHistory />
+          <div className="like-icon">
+            <GrHistory size="18" color="#babfc4" />
           </div>
         </QnaLike>
-        <QnaText>
+        <QnaMain>
           <article>
             <p>
               I want to center text inside a textarea inside a flexbox inside a
@@ -48,11 +51,31 @@ const QnaBox = () => {
                   alt="profile"
                   src="/img/profile.png"
                 />
-                <div className="profile-username">lain-alice</div>
+                <a className="profile-username">lain-alice</a>
               </div>
             </QnaProfile>
           </QnaEditContainer>
-        </QnaText>
+          <QnaComment>
+            <CommentText>
+              <span>
+                Got "undefined" console message by using
+                Game.prototype.someFunctionName.
+              </span>
+              <span> - </span>
+              <a>lain-alice</a>
+              <span className="comment-date">2 hours ago</span>
+            </CommentText>
+            <CommentButton
+              onClick={() => {
+                setVisible(!visible);
+              }}
+            >
+              {/* {visible ? "hide " : "Add a comment"} */}
+              Add a comment
+            </CommentButton>
+            {visible && <CommentInput />}
+          </QnaComment>
+        </QnaMain>
       </QnaBoxContainer>
     </>
   );
@@ -64,7 +87,9 @@ const QnaBoxContainer = styled.div`
   justify-content: flex-start;
 `;
 
-const QnaText = styled.div`
+const QnaMain = styled.div`
+  border-bottom: 1px solid hsl(210, 8%, 90%);
+
   article {
     width: 664px;
     padding: 20px;
@@ -72,12 +97,23 @@ const QnaText = styled.div`
 `;
 
 const QnaLike = styled.div`
-  width: 36px;
+  width: 40px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   text-align: center;
+
+  .like-icon {
+    width: 36px;
+    padding: 4px 0;
+  }
+  .like-count {
+    width: 36px;
+    font-size: 1.3125rem;
+    color: #6a737c;
+    padding: 4px 0;
+  }
 `;
 
 const QnaEditContainer = styled.div`
@@ -86,7 +122,6 @@ const QnaEditContainer = styled.div`
   align-items: center;
   text-align: center;
   padding: 20px;
-  border-bottom: 1px solid hsl(210, 8%, 90%);
 
   .qna-edit {
     display: flex;
@@ -128,6 +163,39 @@ const QnaProfile = styled.div`
     color: #0074cc;
     font-weight: 300;
     margin-left: 8px;
+  }
+`;
+
+const QnaComment = styled.div``;
+
+const CommentText = styled.div`
+  padding-bottom: 10px;
+  border-bottom: 1px solid hsl(210, 8%, 90%);
+
+  span {
+    font-size: 13px;
+    color: #232629;
+  }
+  a {
+    font-size: 13px;
+    color: #0074cc;
+  }
+  .comment-date {
+    margin-left: 5px;
+    color: #6a737c;
+  }
+`;
+
+const CommentButton = styled.button`
+  border: none;
+  background-color: rgba(255, 255, 255, 0);
+  color: #838c95;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  margin: 8px 0 10px;
+
+  &:hover {
+    color: #0074cc;
   }
 `;
 
