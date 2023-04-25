@@ -42,7 +42,8 @@ dependencies {
 
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
-
+	//json-path
+	implementation 'com.jayway.jsonpath:json-path:2.7.0'
 
 	// jjwt
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'

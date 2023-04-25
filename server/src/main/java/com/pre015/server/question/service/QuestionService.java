@@ -50,12 +50,6 @@ public class QuestionService {
         Optional.ofNullable(question.getContent())
                 .ifPresent(findQuestion::setContent);
 
-        //자격증명 코드
-        long authenticatedMemberId = JwtParseInterceptor.getAuthenticatedMemberId();
-        if (findQuestion.getMemberId() != authenticatedMemberId) {
-            throw new RuntimeException("This question was written by another member!");
-        }
-
         Question updatedQuestion = questionRepository.save(findQuestion);
         return mapper.questionToQuestionDetailsResponseDto(updatedQuestion);
     }
@@ -90,10 +84,6 @@ public class QuestionService {
 
     public void deleteQuestion(Long questionId) {
         Question question = findVerifiedQuestion(questionId);
-        long authenticatedMemberId = JwtParseInterceptor.getAuthenticatedMemberId();
-        if (question.getMemberId() != authenticatedMemberId) {
-            throw new RuntimeException("This question was written by another member!");
-        }
         questionRepository.delete(question);
     }
 
