@@ -4,9 +4,12 @@ import com.pre015.server.auth.jwt.JwtTokenizer;
 import com.pre015.server.auth.utils.CustomAuthorityUtils;
 import com.pre015.server.member.entity.Member;
 import com.pre015.server.member.service.MemberService;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -21,16 +24,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {   // (1)
-    private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
-    private final MemberService memberService;
+    private JwtTokenizer jwtTokenizer;
+    private MemberService memberService;
 
-    public OAuth2MemberSuccessHandler(JwtTokenizer jwtTokenizer,
-                                      CustomAuthorityUtils authorityUtils,
-                                      MemberService memberService) {
-        this.jwtTokenizer = jwtTokenizer;
+    public OAuth2MemberSuccessHandler(CustomAuthorityUtils authorityUtils) {
         this.authorityUtils = authorityUtils;
+    }
+
+    @Autowired
+    public void setJwtTokenizer(JwtTokenizer jwtTokenizer) {
+        this.jwtTokenizer = jwtTokenizer;
+    }
+
+    @Autowired
+    public void setMemberService(MemberService memberService) {
         this.memberService = memberService;
     }
 
