@@ -41,7 +41,6 @@ const CommentInputContainer = styled.div`
     margin-left: 10px;
     outline: none;
     padding: 8px;
-    position: relative;
     text-align: center;
     text-decoration: none;
     user-select: none;
