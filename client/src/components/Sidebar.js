@@ -28,7 +28,7 @@ function Sidebar() {
           </li>
           <li
             className={`sidebar-user ${
-              location.pathname === '/activity' ? 'selected' : ''
+              location.pathname === '/activity' || location.pathname === '/profile' ? 'selected' : ''
             }`}
           >
             <Link to='/activity' activeClassName="selected">User</Link>
