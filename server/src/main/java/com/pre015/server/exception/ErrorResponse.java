@@ -1,6 +1,5 @@
-package com.pre015.server.response;
+package com.pre015.server.exception;
 
-import com.pre015.server.exception.ExceptionCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -11,10 +10,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
-public class ErrorResponse {
-    private int status;
+public class ErrorResponse {  //에러응답객체
+    private int status;       // http상태코드
     private String message;
-    private List<FieldError> fieldErrors;
+    private List<FieldError> fieldErrors;              // 유효성검증에서 실패했을경우 발생하는 에러정보 리스트,   //생성자는 private해되야 정적 팩토리 메소드가 의미가있다.
     private List<ConstraintViolationError> violationErrors;
 
     private ErrorResponse(int status, String message) {
@@ -57,10 +56,11 @@ public class ErrorResponse {
             this.reason = reason;
         }
 
+        //BindingResult는 검증오류가 발생할 경우 검증오류를 보관하는 객체
         public static List<FieldError> of(BindingResult bindingResult) {
-            final List<org.springframework.validation.FieldError> fieldErrors =
+            final List<org.springframework.validation.FieldError> fieldErrors =    //bindingResult에 저장되는 springframeworkd에서 지원하는 fielderror 가져온다
                     bindingResult.getFieldErrors();
-            return fieldErrors.stream()
+            return fieldErrors.stream()                           //내가 만든 fielderror로 매핑
                     .map(error -> new FieldError(
                             error.getField(),
                             error.getRejectedValue() == null ?

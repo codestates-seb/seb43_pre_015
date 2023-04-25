@@ -16,8 +16,8 @@ public enum ExceptionCode {
     MEMBER_RESIGNED(422, "Member resigned"),
 
 
-    QUESTION_NOT_FOUND(404, "QUESTION NOT FOUND"),
-    ANSWER_NOT_FOUND(404, "ANSWER NOT FOUND"),
+    QUESTION_SOLVED(404, "The question already has an accepted answer"),
+    ANSWER_NOT_FOUND(404, "Answer not found"),
     COMMENT_NOT_FOUND(404, "COMMENT NOT FOUND"),
 
     /* 405 : */
@@ -31,6 +31,8 @@ public enum ExceptionCode {
 
     @Getter
     private int status;
+
+    @Getter
     private String message;
 
     ExceptionCode(int statusCode, String message){
