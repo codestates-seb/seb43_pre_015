@@ -58,6 +58,11 @@ const SignUpBoxContainer = styled.div`
         margin-bottom: 20px;
         padding: 8px;
     }
+    input:focus {
+        box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+        border: 1px solid #59a4de;
+        outline: none;
+    }
     
     .checkbox-text {
         width: 268px;
