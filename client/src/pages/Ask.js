@@ -2,30 +2,32 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import TextEditor from '../components/TextEditor';
 import { RegistLink } from '../components/Navbar';
+import AskGuide from '../components/AskGuide';
+import Tag from '../components/Tag';
+import DiscardModal from '../components/DiscardModal';
 
 function Ask() {
     const [focusedElement, setFocusedElement] = useState(null);
+    const [nextClicked, setNextClicked] = useState([false, false, false, false]);
+    const [modalOpen, setModalOpen] = useState(false);
+    
+    const handleNextClick = (index) => {
+        const nextClickedCopy = [...nextClicked];
+        nextClickedCopy[index] = true;
+        setNextClicked(nextClickedCopy);
+    };
+
+    const openModal = () => {
+        setModalOpen(true);
+    };
+    const closeModal = () => {
+        setModalOpen(false);
+    };
 
     return (
         <AskPage>
             <AskContainer>
-                <HeadContainer>
-                    <h1>Ask a public question</h1>
-                    <img className='robot-img' alt='curious-robot' src='./img/ask.png'/>
-                </HeadContainer>
-                <GuideBox>
-                    <h2>Writing a good question</h2>
-                    <p>You're ready to <a href="https://stackoverflow.com/help/how-to-ask">ask</a> a <a href="https://stackoverflow.com/help/on-topic">programming-related question</a> and this form will help guide you through the process.</p>
-                    <p className='p2'>Looking to ask a non-programming question? See <a href="https://stackexchange.com/sites#technology-traffic">the topics here</a> to find a relevant site.</p>
-                    <h5>Steps</h5>
-                    <ul>
-                        <li>Summarize your problem in a one-line title.</li>
-                        <li>Describe your problem in more detail.</li>
-                        <li>Describe what you tried and what you expected to happen.</li>
-                        <li>Add “tags” which help surface your question to members of the community.</li>
-                        <li>Review your question and post it to the site.</li>
-                    </ul>
-                </GuideBox>
+                <AskGuide />
                 <FormContainer>
                     <ContentBox>
                         <div className='label-box'>
@@ -33,12 +35,13 @@ function Ask() {
                             <label className='description'>Be specific and imagine you're asking a question to another person.</label>
                         </div>
                         <input 
-                            type='text' 
-                            maxlength='300' 
-                            placeholder='e.g. Is there an R function for finding the index of an element in a vector?' 
-                            onFocus={() => setFocusedElement('title')} 
+                            type='text'
+                            maxLength='300'
+                            placeholder='e.g. Is there an R function for finding the index of an element in a vector?'
+                            onFocus={() => setFocusedElement('title')}
+                            autoFocus
                         />
-                        <NextBtn>Next</NextBtn>
+                        {!nextClicked[0] && <NextBtn onClick={() => handleNextClick(0)}>Next</NextBtn>}
                     </ContentBox>
                     {focusedElement === 'title' && (
                     <FirstTipBox>
@@ -54,13 +57,13 @@ function Ask() {
                     )}
                 </FormContainer>
                 <FormContainer>
-                    <TextBox>
+                    <TextBox style={{ opacity: nextClicked[0] ? 1 : 0.5, cursor: nextClicked[0] ? 'auto' : 'not-allowed' }}>
                         <label className='title'>What are the details of your problem?</label>
                         <label className='description'>Introduce the problem and expand on what you put in the title. Minimum 20 characters.</label>
                         <TextEditor 
                             onFocus={() => setFocusedElement('problem')}
                         />
-                        <NextBtn>Next</NextBtn>
+                        {!nextClicked[1] && <NextBtn onClick={() => handleNextClick(1)} style={{ display: nextClicked[0] ? 'block' : 'none' }}>Next</NextBtn>}
                     </TextBox>
                     {focusedElement === 'problem' && (
                     <SecondTipBox>
@@ -75,11 +78,17 @@ function Ask() {
                      )}
                 </FormContainer>
                 <FormContainer>
-                    <TextBox>
+                    <TextBox 
+                        style={{ opacity: nextClicked[1] ? 1 : 0.5, 
+                        cursor: nextClicked[1] ? 'auto' : 'not-allowed' }}
+                    >
                         <label className='title'>What did you try and what were you expecting?</label>
                         <label className='description'>Describe what you tried, what you expected to happen, and what actually resulted. Minimum 20 characters.</label>
-                        <TextEditor onFocus={() => setFocusedElement('expect')} />
-                        <NextBtn>Next</NextBtn>
+                        <TextEditor 
+                            onFocus={() => setFocusedElement('expect')}
+                        />
+                        { !nextClicked[2] && 
+                            <NextBtn onClick={() => handleNextClick(2)} style={{ display: nextClicked[1] ? 'block' : 'none' }}>Next</NextBtn>}
                     </TextBox>
                     {focusedElement === 'expect' && (
                     <ThirdTipBox>
@@ -88,27 +97,28 @@ function Ask() {
                             <img alt='pencil' src='/img/writing-tip.png' />
                             <div className='tip-text'>
                                 <p>Show what you’ve tried, tell us what happened, and why it didn’t meet your needs.</p>
-                                <p>Not all questions benefit from including code, but if your problem is better understood with code you’ve written, you should include a minimal, reproducible example.</p>
-                                <p>Please make sure to post code and errors as text directly to the question (and not as images), and format them appropriately.</p>
+                                <p>Not all questions benefit from including code, but if your problem is better understood with code you’ve written, you should include <a href="https://stackoverflow.com/help/minimal-reproducible-example">minimal, reproducible example</a>.</p>
+                                <p>Please make sure to post code and errors as text directly to the question (and <a href="https://meta.stackoverflow.com/questions/285551">not as images</a>), and <a href="https://stackoverflow.com/help/formatting">format them appropriately</a>.</p>
                             </div>
                         </div>
                     </ThirdTipBox>
                      )}
                 </FormContainer>
                 <FormContainer>
-                    <TagContentBox>
-                        <div className='label-box'>
-                            <label className='title'>Tags</label>
-                            <label className='description'>Add up to 5 tags to describe what your question is about. Start typing to see suggestions.</label>
-                        </div>
-                        <input 
-                            type='text' 
-                            maxlength='300' 
-                            placeholder='e.g. (asp.net-mvc objective-c ruby-on-rails)' 
-                            onFocus={() => setFocusedElement('tags')} 
-                        />
-                        <NextBtn>Next</NextBtn>
-                    </TagContentBox>
+                    <LastBox>
+                        <TagContentBox style={{ opacity: nextClicked[2] ? 1 : 0.5, cursor: nextClicked[2] ? 'auto' : 'not-allowed' }}>
+                            <div className='label-box'>
+                                <label className='title'>Tags</label>
+                                <label className='description'>Add up to 5 tags to describe what your question is about. Start typing to see suggestions.</label>
+                            </div>
+                            <Tag onFocus={() => setFocusedElement('tags')} />
+                            {!nextClicked[3] && <NextBtn onClick={() => handleNextClick(3)} style={{ display: nextClicked[2] ? 'block' : 'none' }}>Next</NextBtn>}
+                        </TagContentBox>
+                        <ButtonBox style={{ opacity: nextClicked[3] ? 1 : 0.5, cursor: nextClicked[3] ? 'auto' : 'not-allowed', display: nextClicked[3] ? 'block' : 'none' }}>
+                            <PostBtn>Post your question</PostBtn>
+                            <DiscardBtn onClick={openModal}>Discard draft</DiscardBtn>
+                        </ButtonBox>
+                    </LastBox>
                     {focusedElement === 'tags' && (
                     <FourthTipBox>
                         <div className='tip-title'>Adding tags</div>
@@ -117,18 +127,17 @@ function Ask() {
                             <div className='tip-text'>
                                 <p>Tags help ensure that your question will get attention from the right people.</p>
                                 <p>Tag things in more than one way so people can find them more easily. Add tags for product lines, projects, teams, and the specific technologies or languages used.</p>
-                                <p>Learn more about tagging</p>
+                                <p><a href="https://stackoverflow.com/help/tagging">Learn more about tagging</a></p>
                             </div>
                         </div>
                     </FourthTipBox>
                     )}
                 </FormContainer>
-                <PostBtn>Post your question</PostBtn>
-                <DiscardBtn>Discard draft</DiscardBtn>
+                <DiscardModal open={modalOpen} close={closeModal} />
             </AskContainer>
         </AskPage>
     )
-  }
+}
   
 export default Ask;
 
@@ -146,71 +155,6 @@ export  const AskContainer = styled.div`
     margin-bottom: 300px;
 `;
 
-export  const HeadContainer = styled.div`
-    width: 100%;
-    height: 130px;
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-
-    h1 {
-        align-items: center;
-        font-size: 27px;
-    }
-
-    .robot-img {
-        height: 130px;
-    }
-`;
-
-export  const GuideBox = styled.div`
-    width: 70%;
-    height: 250px;
-    border: 1px solid #A6CEED;
-    background-color: #EBF4FB;
-    border-radius: 3px;
-    padding: 24px;
-    margin: 16px 0;
-
-    h2 {
-        font-weight: 400;
-        font-size: 21px;
-        margin: 0 0 9px;
-        color: hsl(210,8%,25%);
-    }
-
-    p {
-        margin: 0;
-        font-size: 15px;
-        margin: 1px 0;
-    }
-
-    a {
-        color: #0074CC !important;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    .p2 {
-        margin-bottom: 15px;
-    }
-
-    h5 {
-        font-size: 13px;
-        margin: 17px 0 9px;
-        color: hsl(210,8%,25%);
-    }
-
-    ul {
-        font-size: 13px;
-        margin-left: -10px;
-        margin-top: 0;
-    }
-
-    li {
-        padding: 1px 0;
-    }
-`;
 
 export  const FormContainer = styled.div`
     display: flex;
@@ -267,7 +211,7 @@ const NextBtn = styled(RegistLink)`
 `
 
 export  const FirstTipBox = styled.div`
-    width: 28.5%;
+    width: 348px;
     height: 165px;
     border: 1px solid hsl(210,8%,85%);
     box-shadow: 0 1px 2px hsla(0,0%,0%,0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05), 0 2px 8px hsla(0, 0%, 0%, 0.05);
@@ -303,6 +247,12 @@ export  const FirstTipBox = styled.div`
 
     p {
         margin: 0 0 12px;
+    }
+
+    a {
+        color: #0074CC !important;
+        text-decoration: none;
+        cursor: pointer;
     }
 `;
 
@@ -387,6 +337,30 @@ export const DiscardBtn = styled.button`
 `
 
 const TagContentBox = styled(ContentBox)`
-    height: 170.5px;
-    
+    width: 100%;
+
+    input {
+        border: none;
+        background-color: transparent;
+        padding: 0;
+        height: auto;
+        font-size: 13px;
+    }
+
+    input:focus {
+        box-shadow: none;
+        border: none;
+        outline: none;
+    }
+`;
+
+const LastBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+`;
+
+export const ButtonBox = styled.div`
+    display: flex;
+    margin-top: 12px;
 `;

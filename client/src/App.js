@@ -9,6 +9,8 @@ import Activity from './pages/Activity';
 import Profile from './pages/Profile';
 import QuestionList from './pages/QuestionList.js';
 import Ask from './pages/Ask';
+import Tag from './components/Tag';
+import DiscardModal from './components/DiscardModal';
 
 function App() {
   return (
