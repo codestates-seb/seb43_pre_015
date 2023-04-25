@@ -2,10 +2,9 @@ package com.pre015.server.auth.handler;
 
 import com.pre015.server.auth.jwt.JwtTokenizer;
 import com.pre015.server.auth.utils.CustomAuthorityUtils;
-import com.pre015.server.member.entity.Member;
 import com.pre015.server.member.service.MemberService;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -26,21 +25,14 @@ import java.util.Map;
 
 @Component
 public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {   // (1)
+    private final MemberService memberService;
+    private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
-    private JwtTokenizer jwtTokenizer;
-    private MemberService memberService;
-
-    public OAuth2MemberSuccessHandler(CustomAuthorityUtils authorityUtils) {
-        this.authorityUtils = authorityUtils;
-    }
 
     @Autowired
-    public void setJwtTokenizer(JwtTokenizer jwtTokenizer) {
+    public OAuth2MemberSuccessHandler(@Lazy MemberService memberService, @Lazy JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils) {
         this.jwtTokenizer = jwtTokenizer;
-    }
-
-    @Autowired
-    public void setMemberService(MemberService memberService) {
+        this.authorityUtils = authorityUtils;
         this.memberService = memberService;
     }
 
@@ -50,7 +42,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String email = String.valueOf(oAuth2User.getAttributes().get("email").toString());
         String displayName = String.valueOf(oAuth2User.getAttributes().get("name").toString());
         List<String> authorities = authorityUtils.createRoles(email);
-
+        System.out.println("email = " + email);
+        System.out.println("displayName = " + displayName);
         saveMember(email, displayName);
         redirect(request, response, email, authorities);
     }
