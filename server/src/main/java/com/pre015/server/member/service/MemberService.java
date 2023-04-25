@@ -39,6 +39,23 @@ public class MemberService {
         return savedMember;
     }
 
+    public void saveOAuthMember(String email, String displayName) {
+        Optional<Member> findMember = memberRepository.findByEmail(email);
+        if(findMember.isPresent()) {
+            return;
+        }
+
+        List<String> roles = authorityUtils.createRoles(email);
+        Member member = Member.builder()
+                .email(email)
+                .displayName(displayName)
+                .password("oauth_password")
+                .memberStatus(MemberStatus.ACTIVE)
+                .roles(roles)
+                .build();
+        memberRepository.save(member);
+    }
+
     private void verifyExistEmail(String email){
         Optional<Member> member = memberRepository.findByEmail(email);
         if(member.isPresent())
