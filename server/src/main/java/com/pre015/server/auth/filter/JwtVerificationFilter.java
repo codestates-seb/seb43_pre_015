@@ -2,6 +2,7 @@ package com.pre015.server.auth.filter;
 
 import com.pre015.server.auth.jwt.JwtTokenizer;
 import com.pre015.server.auth.utils.CustomAuthorityUtils;
+import com.pre015.server.auth.utils.JwtUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 
 import io.jsonwebtoken.security.SignatureException;
@@ -20,19 +21,19 @@ import java.util.List;
 import java.util.Map;
 
 public class JwtVerificationFilter extends OncePerRequestFilter {
-    private final JwtTokenizer jwtTokenizer;
+
+    private final JwtUtils jwtUtils;
     private final CustomAuthorityUtils authorityUtils;
 
-    public JwtVerificationFilter(JwtTokenizer jwtTokenizer,
-                                 CustomAuthorityUtils authorityUtils) {
-        this.jwtTokenizer = jwtTokenizer;
+    public JwtVerificationFilter(JwtUtils jwtUtils, CustomAuthorityUtils authorityUtils) {
+        this.jwtUtils = jwtUtils;
         this.authorityUtils = authorityUtils;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            Map<String, Object> claims = verifyJws(request);
+            Map<String, Object> claims = jwtUtils.getJwsClaimsFromRequest(request);
             setAuthenticationToContext(claims);
         } catch (SignatureException | ExpiredJwtException se) {
             request.setAttribute("exception", se);
@@ -50,13 +51,13 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         return authorization == null || !authorization.startsWith("Bearer");
     }
 
-    private Map<String, Object> verifyJws(HttpServletRequest request) {
-        String jws = request.getHeader("Authorization").replace("Bearer ", "");
-        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
-        Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();
-
-        return claims;
-    }
+//    private Map<String, Object> verifyJws(HttpServletRequest request) {
+//        String jws = request.getHeader("Authorization").replace("Bearer ", "");
+//        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+//        Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();
+//
+//        return claims;
+//    }
 
     private void setAuthenticationToContext(Map<String, Object> claims) {
         String username = (String) claims.get("username");

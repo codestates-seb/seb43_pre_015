@@ -19,7 +19,7 @@ public class MemberAuthenticationFailureHandler implements AuthenticationFailure
                                         AuthenticationException exception) throws IOException {
         // 인증 실패 시, 에러 로그를 기록하거나 error response를 전송할 수 있다.
         log.error("# Authentication failed: {}", exception.getMessage());
-        //  Todo AUTHORIZE Error Response
+        //  Todo AUTHORIZE Error Response(1)
 //        sendErrorResponse(response);
     }
 

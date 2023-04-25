@@ -6,13 +6,16 @@ import com.pre015.server.auth.handler.MemberAccessDeniedHandler;
 import com.pre015.server.auth.handler.MemberAuthenticationEntryPoint;
 import com.pre015.server.auth.handler.MemberAuthenticationFailureHandler;
 import com.pre015.server.auth.handler.MemberAuthenticationSuccessHandler;
+import com.pre015.server.auth.interceptor.JwtParseInterceptor;
 import com.pre015.server.auth.jwt.JwtTokenizer;
 import com.pre015.server.auth.utils.CustomAuthorityUtils;
+import com.pre015.server.auth.utils.JwtUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -21,13 +24,16 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-public class SecurityConfiguration {
+@EnableWebSecurity(debug = false)
+public class SecurityConfiguration implements WebMvcConfigurer {
     private  final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
 
@@ -54,11 +60,12 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.POST, "/*/members").permitAll()
-                        .antMatchers(HttpMethod.PATCH, "/*/members/**").hasRole("USER")
+                        .antMatchers(HttpMethod.POST, "/members").permitAll()
+                        .antMatchers(HttpMethod.PATCH, "/members/**").hasAnyRole("USER", "ADMIN")
 //                        .antMatchers(HttpMethod.GET, "/*/members").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.GET, "/*/members/**").hasAnyRole("USER", "ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/*/members/**").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/members/**").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.DELETE, "/members/**").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.POST, "/questions/**", "/questions", "/api/answers", "/api/answers/**", "/comments/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().permitAll()
                 );
         return http.build();
@@ -90,16 +97,31 @@ public class SecurityConfiguration {
         @Override
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer());
             //request URL
             jwtAuthenticationFilter.setFilterProcessesUrl("/login");
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
-            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtUtils(), authorityUtils);
 
             builder.addFilter(jwtAuthenticationFilter)
                     .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
         }
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new JwtParseInterceptor(jwtUtils()))
+                .addPathPatterns("/questions/**");
+    }
+
+    @Bean
+    public JwtUtils jwtUtils() {
+        return new JwtUtils(jwtTokenizer());
+    }
+    @Bean
+    public JwtTokenizer jwtTokenizer() {
+        return new JwtTokenizer();
     }
 }
