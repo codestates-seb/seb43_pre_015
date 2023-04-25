@@ -12,7 +12,7 @@ const QuestionDetail = () => {
         <QuestionContainer>
           <QuestionTitle>
             <h2>How to access the internal function?</h2>
-            <AskQuestionButton to="/">Ask Question</AskQuestionButton>
+            <AskQuestionButton to="/ask">Ask Question</AskQuestionButton>
           </QuestionTitle>
           <QuestionDate>
             <div>Asked today</div>
