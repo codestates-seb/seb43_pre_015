@@ -2,6 +2,8 @@ package com.pre015.server.question.entity;
 
 import com.pre015.server.answer.entity.Answer;
 import com.pre015.server.audit.BaseTimeEntity;
+import com.pre015.server.exception.BusinessLogicException;
+import com.pre015.server.exception.ExceptionCode;
 import com.pre015.server.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -48,7 +50,7 @@ public class Question extends BaseTimeEntity {
         if(0 < questionId) {
             this.questionId = questionId;
         } else{
-            throw new IllegalArgumentException("questionId must be positive");
+            throw new BusinessLogicException(ExceptionCode.INVALID_INPUT_VALUE);
         }
     }
     public void setMember(Member member) {
@@ -61,14 +63,14 @@ public class Question extends BaseTimeEntity {
         if(setTitle.length() <= 100) {
             this.title = setTitle;
         } else{
-            throw new IllegalArgumentException("title length must be less than 100");
+            throw new BusinessLogicException(ExceptionCode.INVALID_INPUT_VALUE);
         }
     }
     public void setContent(String setContent){
         if(setContent.length() <= 5000) {
             this.content = setContent;
         } else{
-            throw new IllegalArgumentException("content length must be less than 5,000");
+            throw new BusinessLogicException(ExceptionCode.INVALID_INPUT_VALUE);
         }
     }
     public void setQuestionStatus(Question.QuestionStatus questionStatus){

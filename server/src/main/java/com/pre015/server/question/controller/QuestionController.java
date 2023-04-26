@@ -14,7 +14,7 @@ import java.net.URI;
 
 
 @RestController
-@RequestMapping("/questions")
+@RequestMapping("/api/questions")
 @AllArgsConstructor
 @Validated
 public class QuestionController {
@@ -23,7 +23,7 @@ public class QuestionController {
     @PostMapping("/ask")
     public ResponseEntity<QuestionDto.DetailsResponse> postQuestion(@Valid @RequestBody QuestionDto.Post postDto){
         QuestionDto.DetailsResponse response = questionService.createQuestion(postDto);
-        URI location = QuestionService.createUri("/questions",response.getQuestionId());
+        URI location = QuestionService.createUri("/api/questions",response.getQuestionId());
         return ResponseEntity.created(location).build();
     }
 

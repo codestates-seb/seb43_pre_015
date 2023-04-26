@@ -65,11 +65,11 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                                .antMatchers(HttpMethod.POST, "/members").permitAll()
-                                .antMatchers(HttpMethod.PATCH, "/members/**").hasAnyRole("USER", "ADMIN")
-                                .antMatchers(HttpMethod.GET, "/members/**").hasAnyRole("USER", "ADMIN")
-                                .antMatchers(HttpMethod.DELETE, "/members/**").hasAnyRole("USER", "ADMIN")
-                                .antMatchers(HttpMethod.POST, "/questions/**", "/questions", "/api/answers", "/api/answers/**", "/comments/**").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.POST, "/api/members").permitAll()
+                                .antMatchers(HttpMethod.PATCH, "/api/members/**").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.GET, "/api/members/**").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.DELETE, "/api/members/**").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.POST, "/api/questions/**", "/api/questions", "/api/answers", "/api/answers/**", "/api/comments/**").hasAnyRole("USER", "ADMIN")
                                 .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2.successHandler(new OAuth2MemberSuccessHandler(memberService, jwtTokenizer, authorityUtils)));
@@ -119,7 +119,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new JwtParseInterceptor(jwtUtils()))
-                .addPathPatterns("/questions/**");
+                .addPathPatterns("/api/questions/**");
     }
 
     @Bean

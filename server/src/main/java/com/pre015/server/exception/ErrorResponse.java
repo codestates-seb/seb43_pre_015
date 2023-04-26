@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class ErrorResponse {  //에러응답객체
     private int status;       // http상태코드
     private String message;
-    private List<FieldError> fieldErrors;              // 유효성검증에서 실패했을경우 발생하는 에러정보 리스트,   //생성자는 private해되야 정적 팩토리 메소드가 의미가있다.
+    private List<FieldError> fieldErrors;              // 유효성검증에서 실패했을경우 발생하는 에러정보 리스트,   //생성자는 private해야 정적 팩토리 메소드가 의미가있다.
     private List<ConstraintViolationError> violationErrors;
 
     private ErrorResponse(int status, String message) {

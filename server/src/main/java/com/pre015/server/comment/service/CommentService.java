@@ -4,6 +4,8 @@ import com.pre015.server.answer.service.AnswerService;
 import com.pre015.server.comment.entity.Comment;
 import com.pre015.server.comment.repository.CommentRepository;
 
+import com.pre015.server.exception.BusinessLogicException;
+import com.pre015.server.exception.ExceptionCode;
 import com.pre015.server.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -30,31 +32,28 @@ public class CommentService {
         return savedComment;
     }
 
-    // 예외처리 필요
     public Comment updateComment(Comment comment) {
         memberService.findVerifiedMember(comment.getMember().getMemberId());
         answerService.findAnswer(comment.getAnswer().getAnswerId());
         Optional<Comment> optionalComment = commentRepository.findById(comment.getCommentId());
-        Comment findComment = optionalComment.orElseThrow(() -> null);
+        Comment findComment = optionalComment.orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
 
         Optional.ofNullable(comment.getContent()).ifPresent(content -> findComment.setContent(content));
 
         return findComment;
     }
 
-    // 예외처리 필요
     @Transactional(readOnly = true)
     public Comment findComment(Long commentId)  {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
-        Comment comment = optionalComment.orElseThrow(() -> null);
+        Comment comment = optionalComment.orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
         return comment;
     }
 
 
-    // 예외처리 필요/
          public void deleteComment(Long commentId) {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
-        Comment comment = optionalComment.orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다. id=" + commentId));
+        Comment comment = optionalComment.orElseThrow(() ->  new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
         commentRepository.delete(comment);
     }
 
