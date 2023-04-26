@@ -27,7 +27,11 @@ const SignUpBox = () => {
               setChecked(!checked);
             }}
           >
-            {checked ? <ImCheckboxUnchecked /> : <ImCheckboxChecked />}
+            {checked ? (
+              <ImCheckboxUnchecked />
+            ) : (
+              <ImCheckboxChecked className="checked" />
+            )}
           </CheckBox>
           <span className="checkbox-text">
             Opt-in to receive occasional product updates,
@@ -114,6 +118,9 @@ export const CheckBox = styled.button`
   cursor: pointer;
 
   &:hover {
+    color: #0074cc;
+  }
+  .checked {
     color: #0074cc;
   }
 `;
