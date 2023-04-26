@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 
-function UserProfile() {
+function UserProfile(props) {
   const location = useLocation();
 
   return (
@@ -9,7 +9,7 @@ function UserProfile() {
       <UserInfoContainer>
         <img className="profile-photo" alt="profile" src="/img/profile.png" />
         <div className="user-info-container">
-          <div className="user-name">Nyang</div>
+          <div className="user-name">{props.displayName}</div>
           <div className="user-join-container">
             <span className="material-icons">cake</span>
             <span className="user-join-text">Member for 4 months</span>
