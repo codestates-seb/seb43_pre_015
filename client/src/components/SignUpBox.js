@@ -16,7 +16,7 @@ const SignUpBox = () => {
         <label for="email">Email</label>
         <input type="text" id="email"></input>
         <label for="password">Password</label>
-        <input type="password" id="password"></input>
+        <input type="password" id="password" className="password-input"></input>
         <p>
           Passwords must contain at least eight characters. <br />
           including at least 1 letter and 1 number.
@@ -29,13 +29,13 @@ const SignUpBox = () => {
           >
             {checked ? <ImCheckboxUnchecked /> : <ImCheckboxChecked />}
           </CheckBox>
-          <p className="checkbox-text">
+          <span className="checkbox-text">
             Opt-in to receive occasional product updates,
             <br />
             user research invitations, company
             <br />
             announcements, and digests.
-          </p>
+          </span>
         </SignUpCheckbox>
         <SignUpSubmitBtn to="/">Sign Up</SignUpSubmitBtn>
         <p>
@@ -87,13 +87,17 @@ const SignUpBoxContainer = styled.div`
     border: 1px solid #59a4de;
     outline: none;
   }
+  .password-input {
+    margin-bottom: 0;
+  }
 `;
 
 const SignUpCheckbox = styled.div`
   width: 268px;
+  padding: 10px 0 20px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 
   .checkbox-text {
     /* width: 268px; */
@@ -104,13 +108,11 @@ const SignUpCheckbox = styled.div`
   }
 `;
 
-const CheckBox = styled.button`
+export const CheckBox = styled.button`
   border: none;
   background-color: rgba(255, 255, 255, 0);
   color: #838c95;
-  font-size: 0.8125rem;
   cursor: pointer;
-  margin: 8px 0 10px;
 
   &:hover {
     color: #0074cc;
@@ -130,7 +132,7 @@ const SignUpSubmitBtn = styled(Link)`
   display: inline-block;
   font-size: 13px;
   font-weight: 400;
-  line-height: 1.15385;
+  line-height: 1.15385rem;
   margin: 0;
   outline: none;
   padding: 8px 0.8em;

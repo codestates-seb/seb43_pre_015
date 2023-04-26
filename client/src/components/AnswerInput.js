@@ -1,32 +1,40 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-
-import { AiOutlineBold } from "react-icons/ai";
-import { AiOutlineItalic } from "react-icons/ai";
-import { AiOutlineLink } from "react-icons/ai";
-import { AiOutlineFileImage } from "react-icons/ai";
+import TextEditor from "../components/TextEditor";
+import axios from "axios";
 
 const AnswerInput = () => {
+  const [answerContent, setAnswerContent] = useState("");
+
+  const handleFormSubmit = async () => {
+    console.log("Submitting form with values:", {
+      memberId: 1,
+      content: `${answerContent}`,
+    });
+
+    try {
+      const response = await axios.post(
+        "https://e6cb-58-232-110-9.ngrok-free.app/questions/ask",
+        {
+          memberId: 1,
+          content: `${answerContent}`,
+        }
+      );
+      console.log("POST request successful:", response.data);
+    } catch (error) {
+      console.error("Error during POST request:", error);
+    }
+  };
+
   return (
     <>
       <AnswerInputContainer>
-        <InputTool>
-          <button>
-            <AiOutlineBold size="20" />
-          </button>
-          <button>
-            <AiOutlineItalic size="20" />
-          </button>
-          <button>
-            <AiOutlineLink size="20" />
-          </button>
-          <button>
-            <AiOutlineFileImage size="20" />
-          </button>
-        </InputTool>
-        <textarea type="text"></textarea>
-        <AnswerSubmitBtn>Post Your Answer</AnswerSubmitBtn>
+        <TextEditor handleContentChange={setAnswerContent} />
+
+        <AnswerSubmitBtn onClick={() => handleFormSubmit()}>
+          Post your answer
+        </AnswerSubmitBtn>
       </AnswerInputContainer>
     </>
   );
@@ -57,25 +65,6 @@ const AnswerInputContainer = styled.div`
   }
 `;
 
-const InputTool = styled.div`
-  width: 664px;
-  height: 44px;
-  border: 1px solid #ccc;
-  border-bottom: none;
-  padding: 0 8px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  button {
-    border: none;
-    background-color: transparent;
-    width: 28px;
-    height: 44px;
-    cursor: pointer;
-  }
-`;
-
 const AnswerSubmitBtn = styled(Link)`
   width: 122px;
   height: 38px;
@@ -89,7 +78,7 @@ const AnswerSubmitBtn = styled(Link)`
   display: inline-block;
   font-size: 13px;
   font-weight: 400;
-  line-height: 1.15385;
+  line-height: 1.15385rem;
   margin-top: 20px;
   outline: none;
   padding: 8px 0.8em;
