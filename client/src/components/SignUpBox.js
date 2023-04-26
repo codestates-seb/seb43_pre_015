@@ -1,22 +1,69 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 
 import { ImCheckboxUnchecked } from "react-icons/im";
 import { ImCheckboxChecked } from "react-icons/im";
 
 const SignUpBox = () => {
   const [checked, setChecked] = useState(false);
+  const [signUpEmail, setSignUpEmail] = useState("");
+  const [signUpPassword, setSignUpPassword] = useState("");
+  const [signUpDisplayName, setSignUpDisplayName] = useState("");
+
+  const handleFormSubmit = async () => {
+    console.log("Submitting form with values:", {
+      email: `${signUpEmail}`,
+      password: `${signUpPassword}`,
+      displayName: `${signUpDisplayName}`,
+    });
+
+    try {
+      const response = await axios.post(
+        "https://proxy.cors.sh/https://a180-58-232-110-9.ngrok-free.app/api/members",
+        {
+          email: `${signUpEmail}`,
+          password: `${signUpPassword}`,
+          displayName: `${signUpDisplayName}`,
+        }
+      );
+      console.log("POST request successful:", response.data);
+    } catch (error) {
+      console.error("Error during POST request:", error);
+    }
+  };
 
   return (
     <>
       <SignUpBoxContainer>
         <label for="display-name">Display Name</label>
-        <input type="text" id="display-name"></input>
+        <input
+          type="text"
+          id="display-name"
+          value={signUpDisplayName}
+          onChange={(e) => {
+            setSignUpDisplayName(e.target.value);
+          }}
+        />
         <label for="email">Email</label>
-        <input type="text" id="email"></input>
+        <input
+          type="text"
+          id="email"
+          value={signUpEmail}
+          onChange={(e) => {
+            setSignUpEmail(e.target.value);
+          }}
+        />
         <label for="password">Password</label>
-        <input type="password" id="password" className="password-input"></input>
+        <input
+          type="password"
+          id="password"
+          value={signUpPassword}
+          onChange={(e) => {
+            setSignUpPassword(e.target.value);
+          }}
+        />
         <p>
           Passwords must contain at least eight characters. <br />
           including at least 1 letter and 1 number.
@@ -28,9 +75,9 @@ const SignUpBox = () => {
             }}
           >
             {checked ? (
-              <ImCheckboxUnchecked />
-            ) : (
               <ImCheckboxChecked className="checked" />
+            ) : (
+              <ImCheckboxUnchecked />
             )}
           </CheckBox>
           <span className="checkbox-text">
@@ -41,7 +88,9 @@ const SignUpBox = () => {
             announcements, and digests.
           </span>
         </SignUpCheckbox>
-        <SignUpSubmitBtn to="/">Sign Up</SignUpSubmitBtn>
+        <SignUpSubmitBtn onClick={() => handleFormSubmit()} to="/">
+          Sign Up
+        </SignUpSubmitBtn>
         <p>
           By clicking “Sign up”, you agree to our terms of
           <br />
