@@ -1,12 +1,8 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
-function UserProfile({ defaultSelectedMenu }) {
-  const [selectedMenu, setSelectedMenu] = useState(defaultSelectedMenu || 'activity');
-
-  const handleMenuClick = (menu) => {
-    setSelectedMenu(menu);
-  }
+function UserProfile() {
+  const location = useLocation();
 
   return (
     <UserProfileContainer>
@@ -27,24 +23,17 @@ function UserProfile({ defaultSelectedMenu }) {
         </div>
       </UserInfoContainer>
       <NavigationContainer>
-        <div
-          className={`nav ${selectedMenu === 'profile' ? 'selected' : ''}`}
-          onClick={() => handleMenuClick('profile')}
+        <Link to="/profile"
+          className={`nav ${location.pathname === '/profile' ? 'selected' : ''}`}
         >
           Profile
-        </div>
-        <div
-          className={`nav ${selectedMenu === 'activity' ? 'selected' : ''}`}
-          onClick={() => handleMenuClick('activity')}
+        </Link>
+        <Link to="/activity"
+          className={`nav ${location.pathname === '/activity' ? 'selected' : ''}`}
         >
           Activity
-        </div>
-        <div
-          className={`nav ${selectedMenu === 'settings' ? 'selected' : ''}`}
-          onClick={() => handleMenuClick('settings')}
-        >
-          Settings
-        </div>
+        </Link>
+        <div className='nav'>Settings</div>
       </NavigationContainer>
     </UserProfileContainer>
   )
@@ -106,6 +95,7 @@ export const NavigationContainer = styled.div`
     color: hsl(210, 8%, 35%);
     font-size: 13px;
     margin-right: 5px;
+    text-decoration: none;
   }
 
   .nav:hover {

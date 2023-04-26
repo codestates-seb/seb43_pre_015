@@ -1,46 +1,37 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 function Sidebar() {
-  const [selectedItem, setSelectedItem] = useState(null);
-
-  useEffect(() => {
-    setSelectedItem('user'); // set default selected item as 'user' when the component mounts
-  }, []);
-
-  const handleItemClick = (item) => {
-    setSelectedItem(item);
-  }
+  const location = useLocation();
 
   return (
     <SidebarContainer>
       <ol className="sidebar-main-list">
         <li
           className={`sidebar-home ${
-            selectedItem === 'home' ? 'selected' : ''
+            location.pathname === '/questionlist' ? 'selected' : ''
           }`}
-          onClick={() => handleItemClick('home')}
         >
-          Home
+          <Link to='/questionlist' activeClassName="selected">Home</Link>
         </li>
         <li className="sidebar-public">PUBLIC</li>
         <ol className="sidebar-sub-list">
           <li
             className={`sidebar-questions ${
-              selectedItem === 'questions' ? 'selected' : ''
+              location.pathname === '/allquestions' ? 'selected' : ''
             }`}
-            onClick={() => handleItemClick('questions')}
           >
-            <span className="material-symbols-outlined">public</span>
-            Questions
+            <Link activeClassName="selected"> {/* All Questions 페이지 완성 시 링크 연결 */}
+              <span className="material-symbols-outlined">public</span>
+              Questions
+            </Link>
           </li>
           <li
             className={`sidebar-user ${
-              selectedItem === 'user' ? 'selected' : ''
+              location.pathname === '/activity' || location.pathname === '/profile' ? 'selected' : ''
             }`}
-            onClick={() => handleItemClick('user')}
           >
-            User
+            <Link to='/activity' activeClassName="selected">User</Link>
           </li>
         </ol>
       </ol>
@@ -68,11 +59,16 @@ export const SidebarContainer = styled.div`
     align-items: center;
     padding: 4px 4px 4px 8px;
     height: 34px;
-  }
 
-  .sidebar-home:hover {
-    cursor: pointer;
-    color: hsl(210, 8%, 5%);
+    a {
+        text-decoration: none;
+        color: #525060;
+
+      &:hover {
+        cursor: pointer;
+        color: black;
+      }
+    }
   }
 
   .sidebar-main-list {
@@ -96,11 +92,16 @@ export const SidebarContainer = styled.div`
     height: 34px;
     padding: 8px 6px 8px 8px;
     height: 34px;
-  }
+    
+    a {
+      text-decoration: none;
+      color: #525060;
 
-  .sidebar-questions:hover {
-    cursor: pointer;
-    color: hsl(210, 8%, 5%);
+      &:hover {
+        cursor: pointer;
+        color: black;
+      }
+    }
   }
 
   .material-symbols-outlined {
@@ -113,11 +114,16 @@ export const SidebarContainer = styled.div`
     padding: 4px 4px 4px 30px;
     height: 34px;
     align-items: center;
-  }
+    
+    a {
+      text-decoration: none;
+      color: #525060;
 
-  .sidebar-user:hover {
-    cursor: pointer;
-    color: hsl(210, 8%, 5%);
+      &:hover {
+        cursor: pointer;
+        color: black;
+      }
+    }
   }
 
   .sidebar-sub-list {
@@ -127,7 +133,9 @@ export const SidebarContainer = styled.div`
   .selected {
     background-color: hsl(210, 8%, 95%);
     border-right: 3px solid #f48225;
-    color: hsl(210, 8%, 5%);
     font-weight: bold;
+    a {
+      color: black;
+    }
   }
 `

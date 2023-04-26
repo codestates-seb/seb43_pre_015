@@ -3,23 +3,27 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useState } from 'react';
 
-
-function TextEditor({onFocus, onBlur}) {
+function TextEditor ({onFocus, onBlur, handleContentChange}) {
     const [text, setText] = useState('');
   
+    const handleOnChange = (event, editor) => {
+      const data = editor.getData();
+    const plainText = data.replace(/(<([^>]+)>)/gi, '');
+    setText(data);
+    console.log('TextEditor handleChange:', data);
+    handleContentChange(plainText);
+    }
+
     return (
         <EditorContainer>
             <Editor>
                 <CKEditor
                     editor={ClassicEditor}
-                    date={text}
+                    data={text}
                     config={{
                         contentCss: '/path/to/custom.css',
                     }}
-                    onChange={(event, editor) => {
-                        const data = editor.getData();
-                        setText(data)}
-                    }
+                    onChange={handleOnChange}
                     onFocus={onFocus}
                     onBlur={onBlur}
                 />
