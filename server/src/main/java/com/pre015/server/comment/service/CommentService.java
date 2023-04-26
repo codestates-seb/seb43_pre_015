@@ -3,8 +3,7 @@ package com.pre015.server.comment.service;
 import com.pre015.server.answer.service.AnswerService;
 import com.pre015.server.comment.entity.Comment;
 import com.pre015.server.comment.repository.CommentRepository;
-import com.pre015.server.exception.BusinessLogicException;
-import com.pre015.server.exception.ExceptionCode;
+
 import com.pre015.server.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -58,23 +57,6 @@ public class CommentService {
         Comment comment = optionalComment.orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다. id=" + commentId));
         commentRepository.delete(comment);
     }
-
- //   public void deleteComment(long commentId) {
- //       Comment comment = findVerifiedComment(commentId);
-
- //       commentRepository.delete(comment);
- //   }
- //   public Comment findVerifiedComment(long commentId) {
- //       Optional<Comment> optionalComment =
- //              commentRepository.findById(commentId);
- //       Comment findComment =
- //               optionalComment.orElseThrow(()->
- //                       new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
-
- //       return findComment;
-
- //   }
-
 
 
     public Page<Comment> findCommentsByMember(Long memberId, int page, int size) {
