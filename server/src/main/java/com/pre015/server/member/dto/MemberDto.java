@@ -1,17 +1,22 @@
 package com.pre015.server.member.dto;
 
 import com.pre015.server.member.entity.MemberStatus;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import lombok.*;
+
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class MemberDto {
-    @Builder
 
+    @Getter
+    @Setter
     public static class Response {
         private Long memberId;
         private String displayName;
@@ -24,8 +29,8 @@ public class MemberDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    @Builder
     public static class Post {
+
         @Email(message = "Email should not be empty.")
         private String email;
 
@@ -52,9 +57,6 @@ public class MemberDto {
     public static class MyPageResponse {
         private Long memberId;
         private String email;
-
-        private String about;
-        private String img;
 
         @Setter
         private Integer answerCount;

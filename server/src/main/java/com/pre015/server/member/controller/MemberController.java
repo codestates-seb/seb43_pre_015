@@ -1,10 +1,8 @@
 package com.pre015.server.member.controller;
 
-import com.pre015.server.member.argumentresolver.LoginAccountId;
 import com.pre015.server.member.dto.MemberDto;
 import com.pre015.server.member.dto.SingleResponseDto;
 import com.pre015.server.member.entity.Member;
-import com.pre015.server.member.jwt.JwtTokenizer;
 import com.pre015.server.member.mapper.MemberMapper;
 import com.pre015.server.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +21,6 @@ import javax.validation.constraints.Positive;
 public class MemberController {
     private final MemberService memberService;
     private final MemberMapper mapper;
-    private final JwtTokenizer jwtTokenizer;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -41,28 +38,26 @@ public class MemberController {
         return mapper.EntityToResPonseDto(member);
     }
 
-    @GetMapping("/profile")
-    @ResponseStatus(HttpStatus.OK)
-    public MemberDto.Response getProfile(@RequestHeader(name = "Authorization") String token) {
-        return mapper.EntityToResPonseDto(memberService.findVerifiedMember(jwtTokenizer.getMemberId(token)));
-
-    }
-
+//    @GetMapping("/{member_id}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public MemberDto.Response getProfile(@PathVariable("member_id")@Positive Long memberId) {
+//        return mapper.EntityToResPonseDto(memberService.findVerifiedMember(memberId));
+//    }
 
     @DeleteMapping("/{userId}")   // 회원탈퇴
     public ResponseEntity deleteMember(
             @PathVariable("memberId") @Positive long memberId){
 
-        memberService.DeleteMember(memberId);
+        memberService.deleteMember(memberId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
 
 
     //회원 정보 수정
-    @PatchMapping("/members/edit")
+    @PatchMapping("{member_id}")
     public ResponseEntity patchMember(@Valid @RequestBody MemberDto.Patch requestBody,
-                                      @LoginAccountId Long memberId) {
+                                      @PathVariable("member_id") @Positive Long memberId) {
 
         requestBody.setMemberId(memberId);
 
@@ -71,5 +66,5 @@ public class MemberController {
 
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.memberToMemberInfoResponse(member)), HttpStatus.OK);
     }
-
 }
+

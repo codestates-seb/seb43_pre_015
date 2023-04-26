@@ -12,9 +12,29 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${GOOGLE_CLIENT_ID}
+            clientSecret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
 logging:
   level:
     org:
       springframework:
         orm:
           jpa: DEBUG
+mail:
+  address:
+    admin: admin@gmail.com
+jwt:
+  key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
