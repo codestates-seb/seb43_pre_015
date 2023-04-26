@@ -1,6 +1,7 @@
 package com.pre015.server.comment.service;
 
 import com.pre015.server.answer.service.AnswerService;
+import com.pre015.server.auth.interceptor.JwtParseInterceptor;
 import com.pre015.server.comment.entity.Comment;
 import com.pre015.server.comment.repository.CommentRepository;
 
@@ -26,6 +27,11 @@ public class CommentService {
     private final MemberService memberService;
 
     public Comment createComment(Comment comment){
+        // JwtParseInterceptor에서 extract한 memberId를 얻는다.
+        long authenticatedMemberId = JwtParseInterceptor.getAuthenticatedMemberId();
+        if (comment.getMember().getMemberId() != authenticatedMemberId) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_ID_DIFFERENT);
+        }
         memberService.findVerifiedMember(comment.getMember().getMemberId());
         answerService.findAnswer(comment.getAnswer().getAnswerId());
         Comment savedComment = commentRepository.save(comment);

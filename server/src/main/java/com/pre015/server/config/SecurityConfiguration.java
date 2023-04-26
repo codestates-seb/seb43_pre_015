@@ -69,7 +69,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                                 .antMatchers(HttpMethod.PATCH, "/api/members/**").hasAnyRole("USER", "ADMIN")
                                 .antMatchers(HttpMethod.GET, "/api/members/**").hasAnyRole("USER", "ADMIN")
                                 .antMatchers(HttpMethod.DELETE, "/api/members/**").hasAnyRole("USER", "ADMIN")
-                                .antMatchers(HttpMethod.POST, "/api/questions/**", "/api/questions", "/api/answers", "/api/answers/**", "/api/comments/**").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.POST,  "/api/answers", "/api/answers/**").hasAnyRole("USER", "ADMIN")
                                 .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2.successHandler(new OAuth2MemberSuccessHandler(memberService, jwtTokenizer, authorityUtils)));
@@ -119,7 +119,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new JwtParseInterceptor(jwtUtils()))
-                .addPathPatterns("/api/questions/**");
+                .addPathPatterns("/api/questions/ask", "/api/comments/new");
     }
 
     @Bean

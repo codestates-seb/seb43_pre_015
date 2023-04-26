@@ -62,6 +62,9 @@ public class MemberVerifyAdvice extends VerifyAdvice {
 
     @Before(value = "verifyMySelfWithPointcut()")
     public void verifyMySelf(JoinPoint joinPoint) throws IOException {
+        if(getHeader("Authorization") == null){
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED);
+        }
         String jws = getHeader("Authorization").substring(7);
         long memberIdFromJws = getMemberIdFromJws(jws);
         long memberIdFromRequest = extractMemberId();
@@ -106,7 +109,7 @@ public class MemberVerifyAdvice extends VerifyAdvice {
 
     private void checkSameMember(long memberIdFromJws, long memberIdFromRequest) {
         if (memberIdFromJws != memberIdFromRequest) {
-            throw new AccessDeniedException(HttpStatus.FORBIDDEN.toString());
+            throw new BusinessLogicException(ExceptionCode.INVALID_INPUT_ATK);
         }
     }
 }

@@ -33,7 +33,7 @@ public class QuestionService {
         Question question = mapper.questionPostDtoToQuestion(postDto);
         long authenticatedMemberId = JwtParseInterceptor.getAuthenticatedMemberId();
         if (question.getMemberId() != authenticatedMemberId) {
-            throw new BusinessLogicException(ExceptionCode.HANDLE_ACCESS_DENIED);
+            throw new BusinessLogicException(ExceptionCode.MEMBER_ID_DIFFERENT);
         }
         Member member = memberService.findVerifiedMember(authenticatedMemberId);
         question.setMember(member);
