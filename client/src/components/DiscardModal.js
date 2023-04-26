@@ -1,21 +1,26 @@
 import styled from "styled-components";
 
-const DiscardModal = ({open, close}) => {
+const DiscardModal = ({open, close, onDiscard}) => {
 
     return (
-        <div className={open ? "openModal" : ""}>
-            {open ? (
+        open && <DiscardModalContainer className={open ? "openModal" : ""}>
                 <DiscardModalBox>
                     <h1>Discard question</h1>
                     <p>Are you sure you want to discard this question? This cannot be undone.</p>
                     <div className="discard-btn-container">
-                        <DiscardButton onClick={close}>Discard question</DiscardButton>
+                        <DiscardButton 
+                            onClick={() => { 
+                                onDiscard(); 
+                                close();
+                            }}
+                        >
+                            Discard question
+                        </DiscardButton>
                         <CancelButton onClick={close}>Cancel</CancelButton>
                     </div>
                     <span class="material-symbols-outlined" onClick={close}>close</span>
                 </DiscardModalBox>    
-            ) : null}
-        </div>
+        </DiscardModalContainer>
     )
 }
 
@@ -23,12 +28,15 @@ export default DiscardModal;
 
 
 export const DiscardModalContainer = styled.div`
-    display: none;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 99;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     .openModal {
         display: flex;
@@ -39,6 +47,7 @@ export const DiscardModalContainer = styled.div`
 
 
 export const DiscardModalBox = styled.div`
+    position: relative;
     width: 483px;
     height: 174px;
     padding: 24px;
@@ -62,8 +71,8 @@ export const DiscardModalBox = styled.div`
 
     .material-symbols-outlined {
         position: absolute;
-        left: 433px; // fix later
-        top: 60px;   // fix later
+        right: 12px; 
+        top: 12px;
         font-size: 14px;
         font-weight: 600;
         padding: 12px;
@@ -72,6 +81,7 @@ export const DiscardModalBox = styled.div`
         &:hover, &:focus {
             color: hsl(210,8%,35%);
             background-color: hsl(210,8%,97.5%);
+            cursor: pointer;
         }
 
         &:focus {

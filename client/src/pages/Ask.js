@@ -55,6 +55,18 @@ function Ask() {
         setModalOpen(false);
     };
 
+    const resetInputFields = () => {
+        setTitle("");
+        setProblemContent("");
+        setExpectedContent("");
+    };
+
+    const resetAskPage = () => {
+        setFocusedElement(null);
+        setNextClicked([false, false, false, false]);
+        resetInputFields();
+      };
+
     return (
         <AskPage>
             <AskContainer>
@@ -168,7 +180,7 @@ function Ask() {
                     </FourthTipBox>
                     )}
                 </FormContainer>
-                <DiscardModal open={modalOpen} close={closeModal} />
+                <DiscardModal open={modalOpen} close={closeModal} onDiscard={resetAskPage} />
             </AskContainer>
         </AskPage>
     )
