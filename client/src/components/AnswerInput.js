@@ -9,16 +9,18 @@ const AnswerInput = () => {
 
   const handleFormSubmit = async () => {
     console.log("Submitting form with values:", {
-      memberId: 1,
       content: `${answerContent}`,
+      memberId: 1,
+      questionId: 1,
     });
 
     try {
       const response = await axios.post(
-        "https://e6cb-58-232-110-9.ngrok-free.app/questions/ask",
+        "https://proxy.cors.sh/https://a180-58-232-110-9.ngrok-free.app/api/answers",
         {
-          memberId: 1,
           content: `${answerContent}`,
+          memberId: 1,
+          questionId: 1,
         }
       );
       console.log("POST request successful:", response.data);

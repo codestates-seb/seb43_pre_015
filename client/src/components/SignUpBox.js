@@ -100,7 +100,6 @@ const SignUpCheckbox = styled.div`
   align-items: flex-start;
 
   .checkbox-text {
-    /* width: 268px; */
     font-size: 0.8125rem;
     line-height: 16px;
     text-align: left;
