@@ -8,6 +8,6 @@ import java.util.Map;
 
 @Getter
 @AllArgsConstructor
-public class ErrorCodeView {
-    private Map<String, String> errorCodes;
+public class ExceptionCodeView {
+    private Map<String, String> exceptionCodes;
 }

@@ -12,15 +12,15 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/errors")
-public class ErrorCodeController {
+public class ExceptionCodeController {
 
     @GetMapping
-    public ResponseEntity<ErrorCodeView> getErrorCodes() {
+    public ResponseEntity<ExceptionCodeView> getErrorCodes() {
 
-        Map<String, String> errorCodes = Arrays.stream(ErrorCode.values())
-                .collect(Collectors.toMap(ErrorCode::getCode, ErrorCode::getDescription));
+        Map<String, String> errorCodes = Arrays.stream(ExceptionCode.values())
+                .collect(Collectors.toMap(ExceptionCode::getCode, ExceptionCode::getDescription));
 
-        return new ResponseEntity<>(new ErrorCodeView(errorCodes), HttpStatus.OK);
+        return new ResponseEntity<>(new ExceptionCodeView(errorCodes), HttpStatus.OK);
     }
 
 }

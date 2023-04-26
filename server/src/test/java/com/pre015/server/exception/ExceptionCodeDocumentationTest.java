@@ -10,14 +10,13 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.Arrays;
 import java.util.Map;
 
-import static jdk.internal.org.jline.keymap.KeyMap.key;
+
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.beneathPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.snippet.Attributes.attributes;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ErrorCodeDocumentationTest extends BaseControllerTest {
+public class ExceptionCodeDocumentationTest extends BaseControllerTest {
 
     @Test
     @DisplayName("ErrorCode 문서화")
@@ -34,12 +33,12 @@ public class ErrorCodeDocumentationTest extends BaseControllerTest {
         result.andDo(document("에러 코드",
                 codeResponseFields("code-response", beneathPath("error_codes"),
                         attributes(key("title").value("에러 코드")),
-                        enumConvertFieldDescriptor(ErrorCode.values())
+                        enumConvertFieldDescriptor(ExceptionCode.values())
                 )
         ));
     }
 
-    private FieldDescriptor[] enumConvertFieldDescriptor(ErrorCode[] errorCodes) {
+    private FieldDescriptor[] enumConvertFieldDescriptor(ExceptionCode[] errorCodes) {
         return Arrays.stream(errorCodes)
                 .map(enumType -> fieldWithPath(enumType.getCode()).description(enumType.getDescription()))
                 .toArray(FieldDescriptor[]::new);
