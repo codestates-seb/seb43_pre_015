@@ -5,7 +5,6 @@ import lombok.Getter;
 @Getter
 public enum ExceptionCode {
 
-
     INVALID_INPUT_VALUE(400,  "INVALID INPUT VALUE"),
     INVALID_INPUT_ATK(400, "INVALID INPUT ACCESS_TOKEN"),
 
@@ -15,7 +14,7 @@ public enum ExceptionCode {
     MEMBER_EXISTS(409, "Member exists"),
     MEMBER_RESIGNED(422, "Member resigned"),
 
-
+    QUESTION_NOT_FOUND(404, "Question not found"),
     QUESTION_SOLVED(404, "The question already has an accepted answer"),
     ANSWER_NOT_FOUND(404, "Answer not found"),
     COMMENT_NOT_FOUND(404, "COMMENT NOT FOUND"),
@@ -23,10 +22,8 @@ public enum ExceptionCode {
     /* 405 : */
     METHOD_NOT_ALLOWED(405, "METHOD NOT ALLOWED"),
 
-
     /* 500 : */
     INTERNAL_SERVER_ERROR(500,"INTERNAL SERVER ERROR");
-
 
 
     @Getter

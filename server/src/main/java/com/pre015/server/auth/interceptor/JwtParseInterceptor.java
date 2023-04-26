@@ -1,5 +1,6 @@
 package com.pre015.server.auth.interceptor;
 
+import com.pre015.server.auth.utils.ErrorResponder;
 import com.pre015.server.auth.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,12 +30,11 @@ public class JwtParseInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         try {
-            Map<String, Object> claims = jwtUtils.getJwsClaimsFromRequest(request);  // JWT 검증 및 claims 얻기
-            authenticatedMemberId.set(Long.valueOf(claims.get("memberId").toString()));  // ThreadLocal에 memberId setting
+            Map<String, Object> claims = jwtUtils.getJwsClaimsFromRequest(request);
+            authenticatedMemberId.set(Long.valueOf(claims.get("memberId").toString()));
             return true;
         } catch (Exception e) {
-            //Todo AUTHORIZE Error Response(4)
-//            ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED);
+            ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED);
             return false;
         }
     }

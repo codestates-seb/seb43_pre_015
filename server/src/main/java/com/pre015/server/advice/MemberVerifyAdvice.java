@@ -7,6 +7,8 @@ import com.pre015.server.answer.repository.AnswerRepository;
 import com.pre015.server.auth.jwt.JwtTokenizer;
 import com.pre015.server.comment.entity.Comment;
 import com.pre015.server.comment.repository.CommentRepository;
+import com.pre015.server.exception.BusinessLogicException;
+import com.pre015.server.exception.ExceptionCode;
 import com.pre015.server.question.entity.Question;
 import com.pre015.server.question.repository.QuestionRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +61,7 @@ public class MemberVerifyAdvice extends VerifyAdvice {
     public void verifyMySelfWithPointcut(){}
 
     @Before(value = "verifyMySelfWithPointcut()")
-    public void verifyMySelf2(JoinPoint joinPoint) throws IOException {
+    public void verifyMySelf(JoinPoint joinPoint) throws IOException {
         String jws = getHeader("Authorization").substring(7);
         long memberIdFromJws = getMemberIdFromJws(jws);
         long memberIdFromRequest = extractMemberId();
@@ -68,41 +70,37 @@ public class MemberVerifyAdvice extends VerifyAdvice {
 
     private long extractMemberId() throws IOException {
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
-        ContentCachingRequestWrapper wrapper = new ContentCachingRequestWrapper(request);
-//        ContentCachingRequestWrapper requestWrapper = WebUtils.getNativeRequest(request, ContentCachingRequestWrapper.class);
+        String servletPath = request.getServletPath();
 
-//        byte[] body = requestWrapper.getContentAsByteArray();
+        ContentCachingRequestWrapper wrapper = new ContentCachingRequestWrapper(request);
         byte[] body = wrapper.getContentAsByteArray();
         String bodyJson = objectMapper.readTree(body).toString();
 
-        String servletPath = request.getServletPath();
-
-
-        if (servletPath.contains("/members")) { // URI에서 extract
+        if (servletPath.contains("/members")) {
             String substr = servletPath.substring(servletPath.indexOf("/members") + 9);
             return Long.parseLong(substr);
-        } else if (bodyJson.contains("memberId")) {  // json request body에서 extract
+        } else if (bodyJson.contains("memberId")) {
             return JsonPath.parse(bodyJson).read("$.memberId", Long.class);
         } else if (servletPath.contains("/questions")) {
             String substr = servletPath.substring(servletPath.indexOf("/questions") + 11);
             Long questionId = Long.parseLong(substr);
             Optional<Question> optionalQuestion = questionRepository.findById(questionId);
-            Question question = optionalQuestion.orElseThrow(() -> new RuntimeException("question not found"));
+            Question question = optionalQuestion.orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
             return question.getMemberId();
         } else if (servletPath.contains("/answers")) {
             String substr = servletPath.substring(servletPath.indexOf("/answers") + 9);
             Long answersId = Long.parseLong(substr);
             Optional<Answer> optionalAnswer = answerRepository.findById(answersId);
-            Answer answer = optionalAnswer.orElseThrow(() -> new RuntimeException("answer not found"));
+            Answer answer = optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
             return answer.getMember().getMemberId();
         } else if (servletPath.contains("/comments")) {
             String substr = servletPath.substring(servletPath.indexOf("/comments") + 10);
             Long commentId = Long.parseLong(substr);
             Optional<Comment> optionalComment = commentRepository.findById(commentId);
-            Comment comment = optionalComment.orElseThrow(() -> new RuntimeException("comment not found"));
+            Comment comment = optionalComment.orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
             return comment.getMember().getMemberId();
         } else {
-            throw new RuntimeException("Cannot extract member id");
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
     }
 

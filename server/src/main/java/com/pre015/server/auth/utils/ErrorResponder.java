@@ -1,7 +1,8 @@
 package com.pre015.server.auth.utils;
 
-//import com.codestates.response.ErrorResponse;
+
 import com.google.gson.Gson;
+import com.pre015.server.exception.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
@@ -11,10 +12,9 @@ import java.io.IOException;
 public class ErrorResponder {
     public static void sendErrorResponse(HttpServletResponse response, HttpStatus status) throws IOException {
         Gson gson = new Gson();
-        //Todo AUTHORIZE Error Response(0)
-//        ErrorResponse errorResponse = ErrorResponse.of(status);
+        ErrorResponse errorResponse = ErrorResponse.of(status);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(status.value());
-//        response.getWriter().write(gson.toJson(errorResponse, ErrorResponse.class));
+        response.getWriter().write(gson.toJson(errorResponse, ErrorResponse.class));
     }
 }

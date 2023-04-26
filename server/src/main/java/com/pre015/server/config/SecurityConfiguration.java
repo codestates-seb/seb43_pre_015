@@ -50,10 +50,10 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .headers().frameOptions().sameOrigin() // (h2콘솔 사용할수 있도록)
+                .headers().frameOptions().sameOrigin()
                 .and()
-                .csrf().disable()        // (csrf보안설정 비활성화. 안하면 403에러)
-                .cors(withDefaults())    // (cors설정 추가.)
+                .csrf().disable()
+                .cors(withDefaults())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
@@ -67,7 +67,6 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .authorizeHttpRequests(authorize -> authorize
                                 .antMatchers(HttpMethod.POST, "/members").permitAll()
                                 .antMatchers(HttpMethod.PATCH, "/members/**").hasAnyRole("USER", "ADMIN")
-//                        .antMatchers(HttpMethod.GET, "/*/members").hasRole("ADMIN")
                                 .antMatchers(HttpMethod.GET, "/members/**").hasAnyRole("USER", "ADMIN")
                                 .antMatchers(HttpMethod.DELETE, "/members/**").hasAnyRole("USER", "ADMIN")
                                 .antMatchers(HttpMethod.POST, "/questions/**", "/questions", "/api/answers", "/api/answers/**", "/comments/**").hasAnyRole("USER", "ADMIN")

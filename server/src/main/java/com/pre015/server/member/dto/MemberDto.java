@@ -22,8 +22,8 @@ public class MemberDto {
         private String displayName;
         private String email;
         private MemberStatus memberStatus;
-        private LocalDateTime createdDate;
-        private LocalDateTime last_modified_at;
+        private LocalDateTime createdTime;
+        private LocalDateTime modifiedTime;
     }
 
     @Getter
