@@ -10,7 +10,7 @@ import axios from 'axios';
 
 
 function QuestionList() {
-  axios.get('https://b153-58-232-110-9.ngrok-free.app/questions').then((response) => {
+  axios.get('https://proxy.cors.sh/https://a180-58-232-110-9.ngrok-free.app/questions').then((response) => {
     console.log(response.data);
   }).catch((error) => {
     console.log(error);
