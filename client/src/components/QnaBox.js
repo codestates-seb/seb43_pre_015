@@ -75,7 +75,6 @@ const QnaBox = () => {
                 setVisible(!visible);
               }}
             >
-              {/* {visible ? "hide " : "Add a comment"} */}
               Add a comment
             </CommentButton>
             {visible && <CommentInput />}
