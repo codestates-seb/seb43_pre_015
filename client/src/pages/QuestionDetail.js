@@ -1,18 +1,51 @@
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+import axios from "axios";
+
 import Sidebar from "../components/Sidebar";
 import QuestionBox from "../components/QuestionBox";
 import AnswerBox from "../components/AnswerBox";
 import AnswerInput from "../components/AnswerInput";
 
 const QuestionDetail = () => {
+  const [questionTitle, setQuestionTitle] = useState("");
+  const [questionContent, setQuestionContent] = useState("");
+  const [answerContent, setAnswerContent] = useState("");
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/questions/1")
+      .then((response) => {
+        setQuestionTitle(response.data.title);
+        setQuestionContent(response.data.content);
+        console.log(questionTitle);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/answers/1")
+      .then((response) => {
+        setAnswerContent(response.data.content);
+        console.log(answerContent);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <QuestionDetailContainer>
       <Sidebar />
       <QnaContainer>
         <QuestionContainer>
-          <QuestionTitle>
+          <QuestionTitle questionTitle={questionTitle}>
             <h2>How to access the internal function?</h2>
+            <h2>{questionTitle}</h2>
             <AskQuestionButton to="/ask">Ask Question</AskQuestionButton>
           </QuestionTitle>
           <QuestionDate>
@@ -20,14 +53,14 @@ const QuestionDetail = () => {
             <div>Modified today</div>
             <div>Viewed 12 times</div>
           </QuestionDate>
-          <QuestionBox />
+          <QuestionBox questionContent={questionContent} />
         </QuestionContainer>
         <AnswerContainer>
           <AnswerTitle>
             <h3>2 Answer</h3>
             {/* <div>sorted by:</div> */}
           </AnswerTitle>
-          <AnswerBox />
+          <AnswerBox answerContent={answerContent} />
           <AnswerTitle>
             <h3>Your Answer</h3>
           </AnswerTitle>
@@ -105,7 +138,7 @@ const AskQuestionButton = styled(Link)`
   display: inline-block;
   font-size: 13px;
   font-weight: 400;
-  line-height: 1.15385;
+  line-height: 1.15385rem;
   outline: none;
   padding: 8px 0.8em;
   text-align: center;

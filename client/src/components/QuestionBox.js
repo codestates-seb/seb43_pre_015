@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import CommentInput from "./CommentInput";
+import CommentText from "./CommentText";
 
 import { AiFillCaretUp } from "react-icons/ai";
 import { AiFillCaretDown } from "react-icons/ai";
 import { GrBookmark } from "react-icons/gr";
 import { GrHistory } from "react-icons/gr";
 
-const QnaBox = () => {
+const QuestionBox = ({ questionContent }) => {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -36,6 +37,7 @@ const QnaBox = () => {
               grid. I tried hard to achieve this, but it seems to be impossible
               (for me). Fiddle:
             </p>
+            <p>{questionContent}</p>
           </article>
           <QnaTag>
             <a className="qna-tag">javascript</a>
@@ -61,15 +63,7 @@ const QnaBox = () => {
             </QnaProfile>
           </QnaEditContainer>
           <QnaComment>
-            <CommentText>
-              <span>
-                Got "undefined" console message by using
-                Game.prototype.someFunctionName.
-              </span>
-              <span> - </span>
-              <a>lain-alice</a>
-              <span className="comment-date">2 hours ago</span>
-            </CommentText>
+            <CommentText />
             <CommentButton
               onClick={() => {
                 setVisible(!visible);
@@ -197,25 +191,6 @@ const QnaProfile = styled.div`
 
 const QnaComment = styled.div``;
 
-const CommentText = styled.div`
-  padding-bottom: 10px;
-  border-bottom: 1px solid hsl(210, 8%, 90%);
-
-  span {
-    font-size: 0.8125rem;
-    color: #232629;
-  }
-  a {
-    font-size: 0.8125rem;
-    color: #0074cc;
-    cursor: pointer;
-  }
-  .comment-date {
-    margin-left: 5px;
-    color: #6a737c;
-  }
-`;
-
 const CommentButton = styled.button`
   border: none;
   background-color: rgba(255, 255, 255, 0);
@@ -229,4 +204,4 @@ const CommentButton = styled.button`
   }
 `;
 
-export default QnaBox;
+export default QuestionBox;
