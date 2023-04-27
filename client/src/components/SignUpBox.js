@@ -20,14 +20,11 @@ const SignUpBox = () => {
     });
 
     try {
-      const response = await axios.post(
-        "https://proxy.cors.sh/https://a180-58-232-110-9.ngrok-free.app/api/members",
-        {
-          email: `${signUpEmail}`,
-          password: `${signUpPassword}`,
-          displayName: `${signUpDisplayName}`,
-        }
-      );
+      const response = await axios.post("http://localhost:8080/api/members", {
+        email: `${signUpEmail}`,
+        password: `${signUpPassword}`,
+        displayName: `${signUpDisplayName}`,
+      });
       console.log("POST request successful:", response.data);
     } catch (error) {
       console.error("Error during POST request:", error);
