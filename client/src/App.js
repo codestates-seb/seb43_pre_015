@@ -8,8 +8,7 @@ import Activity from "./pages/Activity";
 import Profile from "./pages/Profile";
 import QuestionList from "./pages/QuestionList.js";
 import QuestionDetail from "./pages/QuestionDetail.js";
-import Ask from './pages/Ask';
-
+import Ask from "./pages/Ask.js";
 
 function App() {
   return (
