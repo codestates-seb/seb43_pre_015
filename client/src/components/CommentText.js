@@ -8,7 +8,9 @@ const CommentText = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/comments/1")
+      .get(
+        "http://ec2-3-36-71-89.ap-northeast-2.compute.amazonaws.com:8080/api/comments/1"
+      )
       .then((response) => {
         setCommentText(response.data.content);
         console.log(commentText);

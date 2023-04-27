@@ -14,11 +14,14 @@ const CommentInput = () => {
     });
 
     try {
-      const response = await axios.post("http://localhost:8080/api/comments", {
-        memberId: 1,
-        answerId: 1,
-        content: `${commentContent}`,
-      });
+      const response = await axios.post(
+        "http://ec2-3-36-71-89.ap-northeast-2.compute.amazonaws.com:8080/api/comments",
+        {
+          memberId: 1,
+          answerId: 1,
+          content: `${commentContent}`,
+        }
+      );
       console.log("POST request successful:", response.data);
     } catch (error) {
       console.error("Error during POST request:", error);

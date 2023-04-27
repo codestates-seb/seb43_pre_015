@@ -15,7 +15,9 @@ const QuestionDetail = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/questions/1")
+      .get(
+        "http://ec2-3-36-71-89.ap-northeast-2.compute.amazonaws.com:8080/api/questions/1"
+      )
       .then((response) => {
         setQuestionTitle(response.data.title);
         setQuestionContent(response.data.content);
@@ -28,7 +30,9 @@ const QuestionDetail = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/answers/1")
+      .get(
+        "http://ec2-3-36-71-89.ap-northeast-2.compute.amazonaws.com:8080/api/answers/1"
+      )
       .then((response) => {
         setAnswerContent(response.data.content);
         console.log(answerContent);

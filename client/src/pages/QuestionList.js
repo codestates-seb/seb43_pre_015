@@ -13,7 +13,9 @@ function QuestionList() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/questions/1")
+      .get(
+        "http://ec2-3-36-71-89.ap-northeast-2.compute.amazonaws.com:8080/api/questions/1"
+      )
       .then((response) => {
         setQuestions(response.data);
         console.log(questions);
@@ -83,6 +85,32 @@ function QuestionList() {
                   </QuestionState>
                   <QuestionContent>
                     <QuestionTitle>execution plan modification</QuestionTitle>
+                    <QuestionAbout>
+                      <QuestionTags>
+                        <QuestionTag>sql-execution-plan</QuestionTag>
+                        <QuestionTag>apache-age</QuestionTag>
+                      </QuestionTags>
+                      <QuestionCreater>
+                        <CreaterName>Umer Freak</CreaterName>
+                        <strong>1</strong>
+                        <QuestionInfo> asked 31 secs ago</QuestionInfo>
+                      </QuestionCreater>
+                    </QuestionAbout>
+                  </QuestionContent>
+                </Questions>
+              </QuestionsWrap>
+
+              <QuestionsWrap>
+                <Questions>
+                  <QuestionState>
+                    <Votes>0 votes</Votes>
+                    <Answers>0 answers</Answers>
+                    <Views>2 views</Views>
+                  </QuestionState>
+                  <QuestionContent>
+                    <QuestionTitle>
+                      <Link to="/questiondetail">to Question Detail</Link>
+                    </QuestionTitle>
                     <QuestionAbout>
                       <QuestionTags>
                         <QuestionTag>sql-execution-plan</QuestionTag>
