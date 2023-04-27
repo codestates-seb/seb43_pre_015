@@ -34,6 +34,7 @@ public class AnswerMapper {
 
     public AnswerResponseDTO entityToAnswerResponseDto(Answer answer, Member member, Question question) {
         AnswerResponseDTO answerDTO = new AnswerResponseDTO();
+        answerDTO.setAnswerId(answerDTO.getAnswerId());
         answerDTO.setContent(answer.getContent());
         answerDTO.setLikes(0);
         answerDTO.setSelectionStatus(false);
