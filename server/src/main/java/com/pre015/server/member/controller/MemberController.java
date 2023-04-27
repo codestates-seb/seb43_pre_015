@@ -18,6 +18,7 @@ import javax.validation.constraints.Positive;
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
 @Validated
+@CrossOrigin
 public class MemberController {
     private final MemberService memberService;
     private final MemberMapper mapper;

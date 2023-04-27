@@ -17,6 +17,7 @@ import java.net.URI;
 @RequestMapping("/api/questions")
 @AllArgsConstructor
 @Validated
+@CrossOrigin
 public class QuestionController {
     private final QuestionService questionService;
 
