@@ -10,13 +10,13 @@ const CommentInput = () => {
     console.log("Submitting form with values:", {
       content: `${commentContent}`,
       memberId: 1,
-      questionId: 1,
+      answerId: 1,
     });
 
     try {
       const response = await axios.post("http://localhost:8080/api/comments", {
         memberId: 1,
-        questionId: 1,
+        answerId: 1,
         content: `${commentContent}`,
       });
       console.log("POST request successful:", response.data);
