@@ -12,7 +12,7 @@ function Sidebar() {
             location.pathname === '/questionlist' ? 'selected' : ''
           }`}
         >
-          <Link to='/questionlist' activeClassName="selected">Home</Link>
+          <Link to='/questionlist' activeclassname="selected">Home</Link>
         </li>
         <li className="sidebar-public">PUBLIC</li>
         <ol className="sidebar-sub-list">
@@ -21,7 +21,7 @@ function Sidebar() {
               location.pathname === '/allquestions' ? 'selected' : ''
             }`}
           >
-            <Link activeClassName="selected"> {/* All Questions 페이지 완성 시 링크 연결 */}
+            <Link activeclassname="selected"> {/* All Questions 페이지 완성 시 링크 연결 */}
               <span className="material-symbols-outlined">public</span>
               Questions
             </Link>
@@ -31,7 +31,7 @@ function Sidebar() {
               location.pathname === '/activity' || location.pathname === '/profile' ? 'selected' : ''
             }`}
           >
-            <Link to='/activity' activeClassName="selected">User</Link>
+            <Link to='/activity' activeclassname="selected">User</Link>
           </li>
         </ol>
       </ol>

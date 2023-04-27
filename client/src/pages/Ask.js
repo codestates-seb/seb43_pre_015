@@ -58,221 +58,135 @@ function Ask() {
     setModalOpen(false);
   };
 
-  return (
-    <AskPage>
-      <AskContainer>
-        <AskGuide />
-        <FormContainer>
-          <ContentBox>
-            <div className="label-box">
-              <label className="title">Title</label>
-              <label className="description">
-                Be specific and imagine you're asking a question to another
-                person.
-              </label>
-            </div>
-            <input
-              type="text"
-              maxLength="300"
-              placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
-              onFocus={() => setFocusedElement("title")}
-              autoFocus
-              value={title}
-              onChange={handleTitleChange}
-            />
-            {!nextClicked[0] && (
-              <NextBtn onClick={() => handleNextClick(0)}>Next</NextBtn>
-            )}
-          </ContentBox>
-          {focusedElement === "title" && (
-            <FirstTipBox>
-              <div className="tip-title">Writing a good title</div>
-              <div className="tip-content">
-                <img alt="pencil" src="/img/writing-tip.png" />
-                <div className="tip-text">
-                  <p>Your title should summarize the problem.</p>
-                  <p>
-                    You might find that you have a better idea of your title
-                    after writing out the rest of the question.
-                  </p>
-                </div>
-              </div>
-            </FirstTipBox>
-          )}
-        </FormContainer>
-        <FormContainer>
-          <TextBox
-            style={{
-              opacity: nextClicked[0] ? 1 : 0.5,
-              cursor: nextClicked[0] ? "auto" : "not-allowed",
-            }}
-          >
-            <label className="title">
-              What are the details of your problem?
-            </label>
-            <label className="description">
-              Introduce the problem and expand on what you put in the title.
-              Minimum 20 characters.
-            </label>
-            <TextEditor
-              onFocus={() => setFocusedElement("problem")}
-              handleContentChange={setProblemContent}
-            />
-            {!nextClicked[1] && (
-              <NextBtn
-                onClick={() => handleNextClick(1)}
-                style={{ display: nextClicked[0] ? "block" : "none" }}
-              >
-                Next
-              </NextBtn>
-            )}
-          </TextBox>
-          {focusedElement === "problem" && (
-            <SecondTipBox>
-              <div className="tip-title">Introduce the problem</div>
-              <div className="tip-content">
-                <img alt="pencil" src="/img/writing-tip.png" />
-                <div className="tip-text">
-                  <p>
-                    Explain how you encountered the problem you’re trying to
-                    solve, and any difficulties that have prevented you from
-                    solving it yourself.
-                  </p>
-                </div>
-              </div>
-            </SecondTipBox>
-          )}
-        </FormContainer>
-        <FormContainer>
-          <TextBox
-            style={{
-              opacity: nextClicked[1] ? 1 : 0.5,
-              cursor: nextClicked[1] ? "auto" : "not-allowed",
-            }}
-          >
-            <label className="title">
-              What did you try and what were you expecting?
-            </label>
-            <label className="description">
-              Describe what you tried, what you expected to happen, and what
-              actually resulted. Minimum 20 characters.
-            </label>
-            <TextEditor
-              onFocus={() => setFocusedElement("expect")}
-              handleContentChange={setExpectedContent}
-            />
-            {!nextClicked[2] && (
-              <NextBtn
-                onClick={() => handleNextClick(2)}
-                style={{ display: nextClicked[1] ? "block" : "none" }}
-              >
-                Next
-              </NextBtn>
-            )}
-          </TextBox>
-          {focusedElement === "expect" && (
-            <ThirdTipBox>
-              <div className="tip-title">Expand on the problem</div>
-              <div className="tip-content">
-                <img alt="pencil" src="/img/writing-tip.png" />
-                <div className="tip-text">
-                  <p>
-                    Show what you’ve tried, tell us what happened, and why it
-                    didn’t meet your needs.
-                  </p>
-                  <p>
-                    Not all questions benefit from including code, but if your
-                    problem is better understood with code you’ve written, you
-                    should include{" "}
-                    <a href="https://stackoverflow.com/help/minimal-reproducible-example">
-                      minimal, reproducible example
-                    </a>
-                    .
-                  </p>
-                  <p>
-                    Please make sure to post code and errors as text directly to
-                    the question (and{" "}
-                    <a href="https://meta.stackoverflow.com/questions/285551">
-                      not as images
-                    </a>
-                    ), and{" "}
-                    <a href="https://stackoverflow.com/help/formatting">
-                      format them appropriately
-                    </a>
-                    .
-                  </p>
-                </div>
-              </div>
-            </ThirdTipBox>
-          )}
-        </FormContainer>
-        <FormContainer>
-          <LastBox>
-            <TagContentBox
-              style={{
-                opacity: nextClicked[2] ? 1 : 0.5,
-                cursor: nextClicked[2] ? "auto" : "not-allowed",
-              }}
-            >
-              <div className="label-box">
-                <label className="title">Tags</label>
-                <label className="description">
-                  Add up to 5 tags to describe what your question is about.
-                  Start typing to see suggestions.
-                </label>
-              </div>
-              <Tag onFocus={() => setFocusedElement("tags")} />
-              {!nextClicked[3] && (
-                <NextBtn
-                  onClick={() => handleNextClick(3)}
-                  style={{ display: nextClicked[2] ? "block" : "none" }}
-                >
-                  Next
-                </NextBtn>
-              )}
-            </TagContentBox>
-            <ButtonBox
-              style={{
-                opacity: nextClicked[3] ? 1 : 0.5,
-                cursor: nextClicked[3] ? "auto" : "not-allowed",
-                display: nextClicked[3] ? "block" : "none",
-              }}
-            >
-              <PostBtn onClick={() => handleFormSubmit()}>
-                Post your question
-              </PostBtn>
-              <DiscardBtn onClick={openModal}>Discard draft</DiscardBtn>
-            </ButtonBox>
-          </LastBox>
-          {focusedElement === "tags" && (
-            <FourthTipBox>
-              <div className="tip-title">Adding tags</div>
-              <div className="tip-content">
-                <img alt="pencil" src="/img/writing-tip.png" />
-                <div className="tip-text">
-                  <p>
-                    Tags help ensure that your question will get attention from
-                    the right people.
-                  </p>
-                  <p>
-                    Tag things in more than one way so people can find them more
-                    easily. Add tags for product lines, projects, teams, and the
-                    specific technologies or languages used.
-                  </p>
-                  <p>
-                    <a href="https://stackoverflow.com/help/tagging">
-                      Learn more about tagging
-                    </a>
-                  </p>
-                </div>
-              </div>
-            </FourthTipBox>
-          )}
-        </FormContainer>
-        <DiscardModal open={modalOpen} close={closeModal} />
-      </AskContainer>
-    </AskPage>
-  );
+  const resetInputFields = () => {
+    setTitle("");
+    setProblemContent("");
+    setExpectedContent("");
+  };
+
+  const resetAskPage = () => {
+    setFocusedElement(null);
+    setNextClicked([false, false, false, false]);
+    resetInputFields();
+    };
+
+    return (
+        <AskPage>
+            <AskContainer>
+                <AskGuide />
+                <FormContainer>
+                    <ContentBox>
+                        <div className='label-box'>
+                            <label className='title'>Title</label>
+                            <label className='description'>Be specific and imagine you're asking a question to another person.</label>
+                        </div>
+                        <input 
+                            type='text'
+                            maxLength='300'
+                            placeholder='e.g. Is there an R function for finding the index of an element in a vector?'
+                            onFocus={() => setFocusedElement('title')}
+                            autoFocus
+                            value={title}
+                            onChange={handleTitleChange}
+                        />
+                        {!nextClicked[0] && <NextBtn onClick={() => handleNextClick(0)}>Next</NextBtn>}
+                    </ContentBox>
+                    {focusedElement === 'title' && (
+                    <FirstTipBox>
+                        <div className='tip-title'>Writing a good title</div>
+                        <div className='tip-content'>
+                            <img alt='pencil' src='/img/writing-tip.png' />
+                            <div className='tip-text'>
+                                <p>Your title should summarize the problem.</p>
+                                <p>You might find that you have a better idea of your title after writing out the rest of the question.</p>
+                            </div>
+                        </div>
+                    </FirstTipBox>
+                    )}
+                </FormContainer>
+                <FormContainer>
+                    <TextBox style={{ opacity: nextClicked[0] ? 1 : 0.5, cursor: nextClicked[0] ? 'auto' : 'not-allowed' }}>
+                        <label className='title'>What are the details of your problem?</label>
+                        <label className='description'>Introduce the problem and expand on what you put in the title. Minimum 20 characters.</label>
+                        <TextEditor 
+                            onFocus={() => setFocusedElement('problem')}
+                            handleContentChange={setProblemContent}
+                        />
+                        {!nextClicked[1] && <NextBtn onClick={() => handleNextClick(1)} style={{ display: nextClicked[0] ? 'block' : 'none' }}>Next</NextBtn>}
+                    </TextBox>
+                    {focusedElement === 'problem' && (
+                    <SecondTipBox>
+                        <div className='tip-title'>Introduce the problem</div>
+                        <div className='tip-content'>
+                            <img alt='pencil' src='/img/writing-tip.png' />
+                            <div className='tip-text'>
+                                <p>Explain how you encountered the problem you’re trying to solve, and any difficulties that have prevented you from solving it yourself.</p>
+                            </div>
+                        </div>
+                    </SecondTipBox>
+                     )}
+                </FormContainer>
+                <FormContainer>
+                    <TextBox 
+                        style={{ opacity: nextClicked[1] ? 1 : 0.5, 
+                        cursor: nextClicked[1] ? 'auto' : 'not-allowed' }}
+                    >
+                        <label className='title'>What did you try and what were you expecting?</label>
+                        <label className='description'>Describe what you tried, what you expected to happen, and what actually resulted. Minimum 20 characters.</label>
+                        <TextEditor 
+                            onFocus={() => setFocusedElement('expect')}
+                            handleContentChange={setExpectedContent}
+                        />
+                        { !nextClicked[2] && 
+                            <NextBtn onClick={() => handleNextClick(2)} style={{ display: nextClicked[1] ? 'block' : 'none' }}>Next</NextBtn>}
+                    </TextBox>
+                    {focusedElement === 'expect' && (
+                    <ThirdTipBox>
+                        <div className='tip-title'>Expand on the problem</div>
+                        <div className='tip-content'>
+                            <img alt='pencil' src='/img/writing-tip.png' />
+                            <div className='tip-text'>
+                                <p>Show what you’ve tried, tell us what happened, and why it didn’t meet your needs.</p>
+                                <p>Not all questions benefit from including code, but if your problem is better understood with code you’ve written, you should include <a href="https://stackoverflow.com/help/minimal-reproducible-example">minimal, reproducible example</a>.</p>
+                                <p>Please make sure to post code and errors as text directly to the question (and <a href="https://meta.stackoverflow.com/questions/285551">not as images</a>), and <a href="https://stackoverflow.com/help/formatting">format them appropriately</a>.</p>
+                            </div>
+                        </div>
+                    </ThirdTipBox>
+                     )}
+                </FormContainer>
+                <FormContainer>
+                    <LastBox>
+                        <TagContentBox style={{ opacity: nextClicked[2] ? 1 : 0.5, cursor: nextClicked[2] ? 'auto' : 'not-allowed' }}>
+                            <div className='label-box'>
+                                <label className='title'>Tags</label>
+                                <label className='description'>Add up to 5 tags to describe what your question is about. Start typing to see suggestions.</label>
+                            </div>
+                            <Tag onFocus={() => setFocusedElement('tags')} />
+                            {!nextClicked[3] && <NextBtn onClick={() => handleNextClick(3)} style={{ display: nextClicked[2] ? 'block' : 'none' }}>Next</NextBtn>}
+                        </TagContentBox>
+                        <ButtonBox style={{ opacity: nextClicked[3] ? 1 : 0.5, cursor: nextClicked[3] ? 'auto' : 'not-allowed', display: nextClicked[3] ? 'block' : 'none' }}>
+                            <PostBtn onClick={() => handleFormSubmit()}>Post your question</PostBtn>
+                            <DiscardBtn onClick={openModal}>Discard draft</DiscardBtn>
+                        </ButtonBox>
+                    </LastBox>
+                    {focusedElement === 'tags' && (
+                    <FourthTipBox>
+                        <div className='tip-title'>Adding tags</div>
+                        <div className='tip-content'>
+                            <img alt='pencil' src='/img/writing-tip.png' />
+                            <div className='tip-text'>
+                                <p>Tags help ensure that your question will get attention from the right people.</p>
+                                <p>Tag things in more than one way so people can find them more easily. Add tags for product lines, projects, teams, and the specific technologies or languages used.</p>
+                                <p><a href="https://stackoverflow.com/help/tagging">Learn more about tagging</a></p>
+                            </div>
+                        </div>
+                    </FourthTipBox>
+                    )}
+                </FormContainer>
+                <DiscardModal open={modalOpen} close={closeModal} onDiscard={resetAskPage} />
+            </AskContainer>
+        </AskPage>
+    )
 }
 
 export default Ask;

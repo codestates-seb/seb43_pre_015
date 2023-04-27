@@ -1,31 +1,101 @@
 import styled from 'styled-components';
 import UserProfile from '../components/UserProfile';
 import Sidebar from '../components/Sidebar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Profile = () => {
     const [isChecked, setIsChecked] = useState(false);
+    const [displayName, setDisplayName] = useState('');
+    const [profileData, setProfileData] = useState(null);
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
+    useEffect(() => {
+        axios.get('https://e6cb-58-232-110-9.ngrok-free.app/api/members/1')
+        .then(response => {
+            console.log(response.data);
+            setProfileData(response.data);
+            setDisplayName(response.data.displayName);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+      }, []);
+
+    const handleProfileSave = () => {
+        const data = {
+            memberId: profileData.memberId,
+            displayName: displayName,
+        };
+          
+        axios.patch('https://e6cb-58-232-110-9.ngrok-free.app/api/members/1', data)
+        .then(response => {
+            console.log(response.data);
+            setProfileData(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    };
+
+    const handleChangePassword = () => {
+        const data = {
+          password: profileData.password,
+          newPassword: newPassword,
+        };
+        
+        axios.patch(`https://e6cb-58-232-110-9.ngrok-free.app/api/members/${profileData?.memberId}/password`, data)
+        .then(response => {
+        console.log(response.data);
+        })
+        .catch(error => {
+        console.error(error);
+        });
+    };
+    
+    const handleDeleteProfile = () => {
+        axios.delete(`https://e6cb-58-232-110-9.ngrok-free.app/api/members/${profileData?.memberId}`)
+        .then(response => {
+        console.log(response.data);
+        })
+        .catch(error => {
+        console.error(error);
+        });
+    };
 
     return (
         <ProfilePageContainer>
             <Sidebar />
             <ProfileContainer>
-                <UserProfile />
+                <UserProfile displayName={displayName} />
                 <span className='main-title'>Your Profile</span>
                 <div className='sub-title'>Edit your profile</div>
                 <div className='divider-box'>
                     <label>Display name</label>
-                    <input type='text' value='Nyang'></input>
-                    <button className='default-btn profile-btn'>Save profile</button>
+                    <input 
+                        type='text' 
+                        value={displayName}
+                        onChange={(event) => setDisplayName(event.target.value)}
+                    />
+                    <button className='default-btn profile-btn' onClick={handleProfileSave}>Save profile</button>
                 </div>
                 <div className='sub-title'>Change password</div>
                 <div className='divider-box'>
                     <label>New password</label>
-                    <input type='text' value=''></input>
+                    <input 
+                        type='password' 
+                        value={newPassword}
+                        onChange={(event) => setNewPassword(event.target.value)}
+                    />
                     <label>New password (again)</label>
-                    <input type='text' value=''></input>
+                    <input 
+                        type='password' 
+                        value={confirmPassword}
+                        onChange={(event) => setConfirmPassword(event.target.value)}
+                    />
                     <p className='password-condition'>Passwords must contain at least eight characters, including at least 1 letter and 1 number.</p>
-                    <button className='default-btn password-btn'>Change Password</button>
+                    <button className='default-btn password-btn' onClick={handleChangePassword}>Change Password</button>
                 </div>
                 <div className='sub-title'>Delete profile</div>
                 <div className='divider-box delete-profile'>
@@ -37,11 +107,21 @@ const Profile = () => {
                     <p>Confirming deletion will only delete your profile on Stack Overflow - it will not affect any of your other profiles on the Stack Exchange network. If you want to delete multiple profiles, you'll need to visit each site separately and request deletion of those individual profiles.</p>
                     <div className='consent-container'>
                         <div className='checkbox-box'>
-                            <input className='delete-checkbox' type='checkbox' onChange={() => setIsChecked(!isChecked)}></input>
+                            <input 
+                                className='delete-checkbox' 
+                                type='checkbox'
+                                checked={isChecked} 
+                                onChange={(event) => setIsChecked(event.target.checked)}></input>
                         </div>
                         <label className='checkbox-label'>I have read the information stated above and understand the implications of having my profile deleted. I wish to proceed with the deletion of my profile.</label>
                     </div>
-                    <button className={`delete-btn ${!isChecked && 'disabled-btn'}`} disabled={!isChecked}>Delete profile</button>
+                    <button 
+                        className={`delete-btn ${!isChecked && 'disabled-btn'}`} 
+                        disabled={!isChecked}
+                        onClick={handleDeleteProfile}
+                    >
+                        Delete profile
+                    </button>
                 </div>
             </ProfileContainer>
         </ProfilePageContainer>
