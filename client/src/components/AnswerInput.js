@@ -15,14 +15,11 @@ const AnswerInput = () => {
     });
 
     try {
-      const response = await axios.post(
-        "https://proxy.cors.sh/https://a180-58-232-110-9.ngrok-free.app/api/answers",
-        {
-          content: `${answerContent}`,
-          memberId: 1,
-          questionId: 1,
-        }
-      );
+      const response = await axios.post("http://localhost:8080/api/answers", {
+        content: `${answerContent}`,
+        memberId: 1,
+        questionId: 1,
+      });
       console.log("POST request successful:", response.data);
     } catch (error) {
       console.error("Error during POST request:", error);

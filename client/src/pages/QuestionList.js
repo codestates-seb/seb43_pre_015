@@ -13,9 +13,7 @@ function QuestionList() {
 
   useEffect(() => {
     axios
-      .get(
-        "https://proxy.cors.sh/https://a180-58-232-110-9.ngrok-free.app/api/questions/1"
-      )
+      .get("http://localhost:8080/api/questions/1")
       .then((response) => {
         setQuestions(response.data);
         console.log(questions);
