@@ -21,6 +21,12 @@ const CommentText = () => {
   return (
     <>
       <CommentTextContainer>
+        <span>{commentText}</span>
+        <span> - </span>
+        <a>lain-alice</a>
+        <span className="comment-date">2 hours ago</span>
+      </CommentTextContainer>
+      <CommentTextContainer>
         <span>
           Got "undefined" console message by using
           Game.prototype.someFunctionName.

@@ -14,14 +14,11 @@ const CommentInput = () => {
     });
 
     try {
-      const response = await axios.post(
-        "https://a180-58-232-110-9.ngrok-free.app/api/comments",
-        {
-          memberId: 1,
-          questionId: 1,
-          content: `${commentContent}`,
-        }
-      );
+      const response = await axios.post("http://localhost:8080/api/comments", {
+        memberId: 1,
+        questionId: 1,
+        content: `${commentContent}`,
+      });
       console.log("POST request successful:", response.data);
     } catch (error) {
       console.error("Error during POST request:", error);
