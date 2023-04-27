@@ -1,5 +1,6 @@
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { ImPencil } from "react-icons/im";
 import { HiAnnotation } from "react-icons/hi";
 import { BsStackOverflow } from "react-icons/bs";
@@ -8,16 +9,19 @@ import Sidebar from "../components/Sidebar.js";
 import axios from "axios";
 
 function QuestionList() {
-  axios
-    .get(
-      "https://proxy.cors.sh/https://a180-58-232-110-9.ngrok-free.app/questions/1"
-    )
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  const [questions, setQuestions] = useState([]);
+
+  useEffect(() => {
+    axios.get('https://proxy.cors.sh/https://a180-58-232-110-9.ngrok-free.app/api/questions/1')
+      .then((response) => {
+        setQuestions(response.data)
+        console.log(questions);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }, []);
+
 
   return (
     <QuestionListPage>
@@ -61,7 +65,7 @@ function QuestionList() {
                         <QuestionTag>apache-age</QuestionTag>
                       </QuestionTags>
                       <QuestionCreater>
-                        <CreaterName>Umer Freak</CreaterName>
+                        <CreaterName>{questions.displayName}</CreaterName>
                         <strong>1</strong>
                         <QuestionInfo> asked 31 secs ago</QuestionInfo>
                       </QuestionCreater>
