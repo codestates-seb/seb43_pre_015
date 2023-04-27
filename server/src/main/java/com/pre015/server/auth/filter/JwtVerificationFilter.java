@@ -1,6 +1,5 @@
 package com.pre015.server.auth.filter;
 
-import com.pre015.server.auth.jwt.JwtTokenizer;
 import com.pre015.server.auth.utils.CustomAuthorityUtils;
 import com.pre015.server.auth.utils.JwtUtils;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -50,14 +49,6 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
         return authorization == null || !authorization.startsWith("Bearer");
     }
-
-//    private Map<String, Object> verifyJws(HttpServletRequest request) {
-//        String jws = request.getHeader("Authorization").replace("Bearer ", "");
-//        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
-//        Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();
-//
-//        return claims;
-//    }
 
     private void setAuthenticationToContext(Map<String, Object> claims) {
         String username = (String) claims.get("username");

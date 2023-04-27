@@ -22,7 +22,7 @@ request-fields
 |:--------:|:--------:|:---------------:|
 | memberId |  Number  |      회원 id      |
 |  title   |  String  |      질문 제목      |
-| content  |  String  |      질문 목록      |
+| content  |  String  |      질문 내용      |
 
 request ex)
 ```ts

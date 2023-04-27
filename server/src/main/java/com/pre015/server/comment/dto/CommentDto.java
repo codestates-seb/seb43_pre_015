@@ -53,8 +53,8 @@ public class CommentDto {
         private String content;
         private Long memberId;
         private Long answerId;
-        private LocalDateTime created_at;
-        private LocalDateTime last_modified_at;
+        private LocalDateTime createdTime;
+        private LocalDateTime modifiedTime;
     }
 
     @Setter

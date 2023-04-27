@@ -5,6 +5,8 @@ import com.pre015.server.answer.dto.AnswerResponseDTO;
 import com.pre015.server.answer.entity.Answer;
 import com.pre015.server.answer.mapper.AnswerMapper;
 import com.pre015.server.answer.repository.AnswerRepository;
+import com.pre015.server.exception.BusinessLogicException;
+import com.pre015.server.exception.ExceptionCode;
 import com.pre015.server.member.entity.Member;
 import com.pre015.server.member.service.MemberService;
 import com.pre015.server.question.entity.Question;
@@ -43,7 +45,7 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public AnswerResponseDTO updateAnswer(Long answerId, String content) {
         Answer answer = answerRepository.findById(answerId)
-                .orElseThrow(() -> new RuntimeException("Answer not found"));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
         answer.setContent(content);
         return answerMapper.toResponseDTO(answerRepository.save(answer));
     }
@@ -56,7 +58,7 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public AnswerResponseDTO findAnswer(Long answerId) {
         Answer answer = answerRepository.findById(answerId)
-                .orElseThrow(() -> new RuntimeException("Answer not found"));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
         return answerMapper.toResponseDTO(answer);
     }
 
@@ -90,7 +92,7 @@ public class AnswerServiceImpl implements AnswerService {
         Answer answer = answerMapper.responseDtoToEntity(answerDTO, memberForMember, questionForAnswer);
 
         if (question.getQuestionStatus() == Question.QuestionStatus.QUESTION_SOLVED) {
-            throw new RuntimeException("The question already has an accepted answer");
+            throw new BusinessLogicException(ExceptionCode.QUESTION_ALREADY_SOLVED);
         }
 
         answer.setSelectionStatus(true);

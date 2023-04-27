@@ -1,6 +1,8 @@
 package com.pre015.server.question.service;
 
 import com.pre015.server.auth.interceptor.JwtParseInterceptor;
+import com.pre015.server.exception.BusinessLogicException;
+import com.pre015.server.exception.ExceptionCode;
 import com.pre015.server.member.entity.Member;
 import com.pre015.server.member.service.MemberService;
 import com.pre015.server.question.dto.QuestionDto;
@@ -31,7 +33,7 @@ public class QuestionService {
         Question question = mapper.questionPostDtoToQuestion(postDto);
         long authenticatedMemberId = JwtParseInterceptor.getAuthenticatedMemberId();
         if (question.getMemberId() != authenticatedMemberId) {
-            throw new RuntimeException("This question was written by another member!");
+            throw new BusinessLogicException(ExceptionCode.MEMBER_ID_DIFFERENT);
         }
         Member member = memberService.findVerifiedMember(authenticatedMemberId);
         question.setMember(member);
@@ -90,7 +92,7 @@ public class QuestionService {
     public Question findVerifiedQuestion(Long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
 
-        return optionalQuestion.orElseThrow(() -> new RuntimeException("question not found"));
+        return optionalQuestion.orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
     }
 
     public void updateQuestion(Question question) {
