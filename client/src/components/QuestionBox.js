@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import CommentInput from "../components/CommentInput";
+import CommentInput from "./CommentInput";
 
 import { AiFillCaretUp } from "react-icons/ai";
 import { AiFillCaretDown } from "react-icons/ai";
@@ -13,7 +13,7 @@ const QnaBox = () => {
 
   return (
     <>
-      <QnaBoxContainer>
+      <QuestionBoxContainer>
         <QnaLike>
           <a className="like-icon">
             <AiFillCaretUp size="36" color="#babfc4" />
@@ -75,18 +75,17 @@ const QnaBox = () => {
                 setVisible(!visible);
               }}
             >
-              {/* {visible ? "hide " : "Add a comment"} */}
               Add a comment
             </CommentButton>
             {visible && <CommentInput />}
           </QnaComment>
         </QnaMain>
-      </QnaBoxContainer>
+      </QuestionBoxContainer>
     </>
   );
 };
 
-const QnaBoxContainer = styled.div`
+const QuestionBoxContainer = styled.div`
   width: 1100px;
   display: flex;
   justify-content: flex-start;

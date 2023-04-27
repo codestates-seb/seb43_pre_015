@@ -1,71 +1,74 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import TextEditor from '../components/TextEditor';
-import { RegistLink } from '../components/Navbar';
-import AskGuide from '../components/AskGuide';
-import Tag from '../components/Tag';
-import DiscardModal from '../components/DiscardModal';
-import axios from 'axios';
+import React, { useState } from "react";
+import styled from "styled-components";
+import TextEditor from "../components/TextEditor";
+import { RegistLink } from "../components/Navbar";
+import AskGuide from "../components/AskGuide";
+import Tag from "../components/Tag";
+import DiscardModal from "../components/DiscardModal";
+import axios from "axios";
 
 function Ask() {
-    // 서버 연결
-    const [title, setTitle] = useState('');
-    const [problemContent, setProblemContent] = useState('');
-    const [expectedContent, setExpectedContent] = useState('');
-    
-    const handleFormSubmit = async () => {
-        console.log('Submitting form with values:', {
-            memberId: 1,
-            title: title,
-            content: `${problemContent} ${expectedContent}`,
-        });
-    
-        try {
-            const response = await axios.post('https://e6cb-58-232-110-9.ngrok-free.app/questions/ask', {
-                memberId: 1,
-                title: title,
-                content: `${problemContent} ${expectedContent}`,
-            });
-            console.log('POST request successful:', response.data);
-        } catch (error) {
-            console.error('Error during POST request:', error);
+  // 서버 연결
+  const [title, setTitle] = useState("");
+  const [problemContent, setProblemContent] = useState("");
+  const [expectedContent, setExpectedContent] = useState("");
+
+  const handleFormSubmit = async () => {
+    console.log("Submitting form with values:", {
+      memberId: 1,
+      title: title,
+      content: `${problemContent} ${expectedContent}`,
+    });
+
+    try {
+      const response = await axios.post(
+        "https://proxy.cors.sh/https://a180-58-232-110-9.ngrok-free.app/questions/ask",
+        {
+          memberId: 1,
+          title: title,
+          content: `${problemContent} ${expectedContent}`,
         }
-    };
+      );
+      console.log("POST request successful:", response.data);
+    } catch (error) {
+      console.error("Error during POST request:", error);
+    }
+  };
 
-    const handleTitleChange = (event) => {
-        setTitle(event.target.value);
-        console.log('Title:', event.target.value);
-    };
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+    console.log("Title:", event.target.value);
+  };
 
-    // 컴포넌트
-    const [focusedElement, setFocusedElement] = useState(null);
-    const [nextClicked, setNextClicked] = useState([false, false, false, false]);
-    const [modalOpen, setModalOpen] = useState(false);
-    
-    const handleNextClick = (index) => {
-        const nextClickedCopy = [...nextClicked];
-        nextClickedCopy[index] = true;
-        setNextClicked(nextClickedCopy);
-    };
+  // 컴포넌트
+  const [focusedElement, setFocusedElement] = useState(null);
+  const [nextClicked, setNextClicked] = useState([false, false, false, false]);
+  const [modalOpen, setModalOpen] = useState(false);
 
-    const openModal = () => {
-        setModalOpen(true);
-    };
-    const closeModal = () => {
-        setModalOpen(false);
-    };
+  const handleNextClick = (index) => {
+    const nextClickedCopy = [...nextClicked];
+    nextClickedCopy[index] = true;
+    setNextClicked(nextClickedCopy);
+  };
 
-    const resetInputFields = () => {
-        setTitle("");
-        setProblemContent("");
-        setExpectedContent("");
-    };
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
-    const resetAskPage = () => {
-        setFocusedElement(null);
-        setNextClicked([false, false, false, false]);
-        resetInputFields();
-      };
+  const resetInputFields = () => {
+    setTitle("");
+    setProblemContent("");
+    setExpectedContent("");
+  };
+
+  const resetAskPage = () => {
+    setFocusedElement(null);
+    setNextClicked([false, false, false, false]);
+    resetInputFields();
+    };
 
     return (
         <AskPage>
@@ -185,179 +188,179 @@ function Ask() {
         </AskPage>
     )
 }
-  
+
 export default Ask;
 
-export  const AskPage = styled.div`
-    display: flex;
-    justify-content: center;
-    background-color: #F8F9F9;
-    height: 100%;
-    width: 100%;
+export const AskPage = styled.div`
+  display: flex;
+  justify-content: center;
+  background-color: #f8f9f9;
+  height: 100%;
+  width: 100%;
 `;
 
-export  const AskContainer = styled.div`
-    width: 1264px;
-    padding: 0 24px 24px;
-    margin-bottom: 300px;
+export const AskContainer = styled.div`
+  width: 1264px;
+  padding: 0 24px 24px;
+  margin-bottom: 300px;
 `;
 
-
-export  const FormContainer = styled.div`
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    margin-bottom: 12px;
+export const FormContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 12px;
 `;
 
-export  const ContentBox = styled.div`
-    width: 70%;
-    border: 1px solid hsl(210,8%,85%);
-    border-radius: 3px;
-    background-color: white;
+export const ContentBox = styled.div`
+  width: 70%;
+  border: 1px solid hsl(210, 8%, 85%);
+  border-radius: 3px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+
+  .label-box {
     display: flex;
     flex-direction: column;
-    padding: 24px;
+    padding: 0 2px;
+  }
 
-    .label-box {
-        display: flex;
-        flex-direction: column;
-        padding: 0 2px;
-    }
+  .title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
 
-    .title {
-        font-size: 15px;
-        font-weight: 600;
-        margin-bottom: 3px;
-    }
+  .description {
+    font-size: 12px;
+    margin: 2px 0 6px;
+  }
 
-    .description {
-        font-size: 12px;
-        margin: 2px 0 6px;
-    }
+  input {
+    padding: 8px 9px;
+    height: 33px;
+    border: 1px solid hsl(210, 8%, 75%);
+    border-radius: 3px;
+    font-size: 13px;
+  }
 
-    input {
-        padding: 8px 9px;
-        height: 33px;
-        border: 1px solid hsl(210,8%,75%);
-        border-radius: 3px;
-        font-size: 13px;
-    }
-
-    input:focus {
-        box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
-        border: 1px solid #59a4de;
-        outline: none;
-    }
+  input:focus {
+    box-shadow: 0 0 0 4px rgba(0, 149, 255, 0.15);
+    border: 1px solid #59a4de;
+    outline: none;
+  }
 `;
 
 const NextBtn = styled(RegistLink)`
-    width: 51px;
-    padding: 10px;
-    margin-top: 8px;
-`
+  width: 51px;
+  padding: 10px;
+  margin-top: 8px;
+`;
 
-export  const FirstTipBox = styled.div`
-    width: 348px;
-    height: 165px;
-    border: 1px solid hsl(210,8%,85%);
-    box-shadow: 0 1px 2px hsla(0,0%,0%,0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05), 0 2px 8px hsla(0, 0%, 0%, 0.05);
-    background-color: white;
+export const FirstTipBox = styled.div`
+  width: 348px;
+  height: 165px;
+  border: 1px solid hsl(210, 8%, 85%);
+  box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05),
+    0 2px 8px hsla(0, 0%, 0%, 0.05);
+  background-color: white;
 
-    .tip-title {
-        width: 100%;
-        padding: 12px;
-        font-size: 15px;
-        background-color: #F8F9F9;
-        border-bottom: 1px solid hsl(210,8%,85%);
-    }
+  .tip-title {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    background-color: #f8f9f9;
+    border-bottom: 1px solid hsl(210, 8%, 85%);
+  }
 
-    .tip-content {
-        width: 100%;
-        margin: 16px;
-        display: flex;
-    }
+  .tip-content {
+    width: 100%;
+    margin: 16px;
+    display: flex;
+  }
 
-    img {
-        width: 38px;
-        height: 44px;
-        margin: 0 8px;
-    }
-    
-    .tip-text {
-        display: block;
-        font-size: 12px;
-        margin: 0 8px;
-        width: 235px;
-        word-break: normal;
-    }
+  img {
+    width: 38px;
+    height: 44px;
+    margin: 0 8px;
+  }
 
-    p {
-        margin: 0 0 12px;
-    }
+  .tip-text {
+    display: block;
+    font-size: 12px;
+    margin: 0 8px;
+    width: 235px;
+    word-break: normal;
+  }
 
-    a {
-        color: #0074CC !important;
-        text-decoration: none;
-        cursor: pointer;
-    }
+  p {
+    margin: 0 0 12px;
+  }
+
+  a {
+    color: #0074cc !important;
+    text-decoration: none;
+    cursor: pointer;
+  }
 `;
 
 const TextBox = styled(ContentBox)`
-
-    .description {
-        margin: 2px 0 6px;
-    }
-`
+  .description {
+    margin: 2px 0 6px;
+  }
+`;
 
 const SecondTipBox = styled(FirstTipBox)`
-    height: 153px;
+  height: 153px;
 
-    .tip-text{
-        width: 250px;
-    } 
-`
+  .tip-text {
+    width: 250px;
+  }
+`;
 
 const ThirdTipBox = styled(FirstTipBox)`
-    height: 287px;
+  height: 287px;
 
-    .tip-text{
-        width: 250px;
-    } 
-`
+  .tip-text {
+    width: 250px;
+  }
+`;
 
 const FourthTipBox = styled(FirstTipBox)`
-    height: 224px;
+  height: 224px;
 
-    .tip-text{
-        width: 250px;
-    } 
-`
+  .tip-text {
+    width: 250px;
+  }
+`;
 
 const PostBtn = styled(RegistLink)`
-    width: 135px;
-    height: 38px;
-    padding: 10px;
-    margin-right: 8px;
-`
+  width: 135px;
+  height: 38px;
+  padding: 10px;
+  margin-right: 8px;
+`;
 
 export const DiscardBtn = styled.button`
   height: 38px;
   background-color: transparent;
   border: none;
   border-radius: 3px;
-  box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+  box-shadow: rgba(255, 255, 255, 0.4) 0 1px 0 0 inset;
   box-sizing: border-box;
-  color: hsl(358,62%,47%);
+  color: hsl(358, 62%, 47%);
   cursor: pointer;
   display: inline-block;
-  font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", "Liberation Sans",
+    sans-serif;
   font-size: 13px;
   font-weight: 400;
   line-height: 1.15385;
   margin: 0;
   outline: none;
-  padding: 8px .8em;
+  padding: 8px 0.8em;
   position: relative;
   text-align: center;
   text-decoration: none;
@@ -367,47 +370,48 @@ export const DiscardBtn = styled.button`
   vertical-align: baseline;
   white-space: nowrap;
 
-  &:hover,&:focus {
-    color: hsl(358,64%,41%);
-    background-color: hsl(358,75%,97%);
+  &:hover,
+  &:focus {
+    color: hsl(358, 64%, 41%);
+    background-color: hsl(358, 75%, 97%);
   }
 
   &:focus {
-  box-shadow: 0 0 0 4px rgba(171, 38, 42, .15);
-  background-color: #F8D2D3;
+    box-shadow: 0 0 0 4px rgba(171, 38, 42, 0.15);
+    background-color: #f8d2d3;
   }
 
   &:active {
-   background-color: hsl(358,76%,90%);
-   box-shadow: none;
+    background-color: hsl(358, 76%, 90%);
+    box-shadow: none;
   }
-`
+`;
 
 const TagContentBox = styled(ContentBox)`
-    width: 100%;
+  width: 100%;
 
-    input {
-        border: none;
-        background-color: transparent;
-        padding: 0;
-        height: auto;
-        font-size: 13px;
-    }
+  input {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    height: auto;
+    font-size: 13px;
+  }
 
-    input:focus {
-        box-shadow: none;
-        border: none;
-        outline: none;
-    }
+  input:focus {
+    box-shadow: none;
+    border: none;
+    outline: none;
+  }
 `;
 
 const LastBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 70%;
+  display: flex;
+  flex-direction: column;
+  width: 70%;
 `;
 
 export const ButtonBox = styled.div`
-    display: flex;
-    margin-top: 12px;
+  display: flex;
+  margin-top: 12px;
 `;
