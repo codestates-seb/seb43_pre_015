@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import UserProfile from '../components/UserProfile';
 import Sidebar from '../components/Sidebar';
+import MyAnswers from '../components/MyAnswers';
 
 const Activity = () => {
 
@@ -9,14 +10,19 @@ const Activity = () => {
             <Sidebar />
             <ActivityContainer>
                 <UserProfile />
-                <div className='activity-box'>
-                    <span className='activity-title'>0 Answers</span>
-                    <div className='item-box'><span className='empty-text'>You have not <span className='blue'>answered</span> any questions</span></div>
-                </div>
-                <div className='activity-box'>
-                    <span className='activity-title'>0 Quesetions</span>
+                <AnswerBox>
+                    <Title>0 Answers</Title>
+                    <ItemBox>
+                        <MyAnswers />
+                        <span className='empty-text'>You have not <span className='blue'>answered</span> any questions</span>
+                    </ItemBox>
+                </AnswerBox>
+                <AnswerBox>
+                    <Title>0 Quesetions</Title>
+                    <ItemBox>
                     <div className='item-box'><span className='empty-text'>You have not <span className='blue'>asked</span> any questions</span></div>
-                </div>
+                    </ItemBox>
+                </AnswerBox>
             </ActivityContainer>
         </ActivityPageContainer>
     )
@@ -36,28 +42,29 @@ export const ActivityContainer = styled.div`
     width: 1100px;
     display: flex;
     flex-direction: column;
+`;
 
-    .activity-box {
-        margin-bottom: 16px;
-        display: flex;
-        flex-direction: column;
-    }
+export const AnswerBox = styled.div`
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+`;
 
-    .activity-title {
-        color: #232629;
-        font-size: 21px;
-        margin-bottom: 8px;
-    }
+export const Title = styled.div`
+    color: #232629;
+    font-size: 21px;
+    margin-bottom: 8px;
+`;
 
-    .item-box {
-        width: 100%;
-        border: 1px solid hsl(210,8%,85%);
-        border-radius: 5px;
-        height: 165px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+export const ItemBox = styled.div`
+    width: 100%;
+    border: 1px solid hsl(210,8%,85%);
+    border-radius: 5px;
+    height: 165px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     .empty-text {
         font-size: 13px;
