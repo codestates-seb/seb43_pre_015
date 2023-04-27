@@ -48,11 +48,11 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors().configurationSource(corsConfigurationSource());
+        http
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .csrf().disable()
-                .cors().configurationSource(corsConfigurationSource())
-                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
@@ -87,9 +87,11 @@ public class SecurityConfiguration implements WebMvcConfigurer {
         CorsConfiguration configuration = new CorsConfiguration();
         // 프론트엔드 출처에 대해 스크립트 기반 HTTP 통신 허용
         configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedHeader("*");
         //파라미터로 지정한 HTTP Method에 대한 통신 허용
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
         configuration.setAllowCredentials(true);
+
         // UrlBasedCorsConfigurationSource 객체 생성
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         //모든 URL에 CORS정책 적용
