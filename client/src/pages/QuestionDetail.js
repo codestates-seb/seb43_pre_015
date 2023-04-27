@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import QnaBox from "../components/QnaBox";
+import QuestionBox from "../components/QuestionBox";
+import AnswerBox from "../components/AnswerBox";
 import AnswerInput from "../components/AnswerInput";
 
 const QuestionDetail = () => {
@@ -19,14 +20,14 @@ const QuestionDetail = () => {
             <div>Modified today</div>
             <div>Viewed 12 times</div>
           </QuestionDate>
-          <QnaBox />
+          <QuestionBox />
         </QuestionContainer>
         <AnswerContainer>
           <AnswerTitle>
             <h3>2 Answer</h3>
             {/* <div>sorted by:</div> */}
           </AnswerTitle>
-          <QnaBox />
+          <AnswerBox />
           <AnswerTitle>
             <h3>Your Answer</h3>
           </AnswerTitle>
