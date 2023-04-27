@@ -25,6 +25,7 @@ import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationF
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -53,7 +54,8 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .csrf().disable()
-                .cors(withDefaults())
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
@@ -87,10 +89,12 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         //모든 출처에 대해 스크립트 기반 HTTP 통신 허용
-        configuration.setAllowedOrigins(Arrays.asList("*"));
+
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","*"));
         //파라미터로 지정한 HTTP Method에 대한 통신 허용
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
-
+        configuration.addAllowedHeader("*");
+        configuration.setAllowCredentials(true);
         // UrlBasedCorsConfigurationSource 객체 생성
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         //모든 URL에 CORS정책 적용
